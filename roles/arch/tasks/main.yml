@@ -1,0 +1,11 @@
+---
+
+- name: upgrade the whole system
+  pacman:
+    update_cache: yes
+    upgrade: yes
+
+- name: install pacman packages
+  pacman:
+    name: "{{ pacman_packages }}"
+    state: present

@@ -1,0 +1,9 @@
+---
+
+- hosts: root
+  roles: 
+    - { role: weareinteractive.sudo, become: yes }
+
+- hosts: dev
+  roles: 
+    - { role: arch, become: yes }

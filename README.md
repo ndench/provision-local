@@ -1,2 +1,2 @@
 # provision-local
-Scripts to provision my PCs
+Scripts to provision my PCs in the "one true way".
