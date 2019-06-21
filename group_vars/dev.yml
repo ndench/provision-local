@@ -42,7 +42,6 @@ pacman_packages:
   - playerctl
   - powertop
   - pv
-  - pycharm-community-edition
   - redshift
   - reflector
   - rofi
@@ -50,7 +49,6 @@ pacman_packages:
   - scrot
   - simplescreenrecorder
   - sudo
-  - systat
   - terraform
   - the_silver_searcher
   - thefuck
@@ -59,7 +57,7 @@ pacman_packages:
   - tpacpi-bat
   - transmission-gtk
   - tree
-  - urxvt
+  - rxvt-unicode
   - urxvt-perls
   - util-linux
   - vagrant

@@ -4,4 +4,4 @@ galaxy-install:
 
 .PHONY: install
 install: galaxy-install
-	ansible-playbook -i hosts playbook.yml -vv
+	ansible-playbook --ask-become-pass -i hosts playbook.yml -vv
