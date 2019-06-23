@@ -1,44 +1,44 @@
 ---
 
 pacman_packages:
-  - acpi
-  - acpi_call
-  - acpilight
-  - alsa-utils
-  - arandr
-  - arc-gtk-theme
-  - arc-icon-theme
+  #  - acpi
+  #  - acpi_call
+  #  - acpilight
+  #  - alsa-utils
+  #  - arandr
+  #  - arc-gtk-theme
+  #  - arc-icon-theme
   - aws-cli
-  - compton
-  - dconf-editor
+  #  - compton
+  #  - dconf-editor
   - diff-so-fancy
-  - dnsutils
+  #  - dnsutils
   - docker
   - espeak
   - feh
   - firefox
-  - fish
+  #  - fish
   - fortune-mod
   - git
-  - gparted
+  #  - gparted
   - htop
   - hub
-  - i3-wm
-  - i3blocks
-  - i3status
+  #  - i3-wm
+  #  - i3blocks
+  #  - i3status
   - jq
   - libreoffice-fresh
-  - lxappearance
-  - mlocate
+  #  - lxappearance
+  #  - mlocate
   - neovim
-  - network-manager-applet
-  - networkmanager
+  #  - network-manager-applet
+  #  - networkmanager
   - nfs-utils
   - openssh
   - pavucontrol
   - peek
-  - pkgfile
-  - pkgstats
+  #  - pkgfile
+  #  - pkgstats
   - playerctl
   - powertop
   - pv
@@ -46,15 +46,15 @@ pacman_packages:
   - reflector
   - rofi
   - samba
-  - scrot
+  #  - scrot
   - simplescreenrecorder
   - sudo
   - terraform
   - the_silver_searcher
   - thefuck
   - time
-  - tlp
-  - tpacpi-bat
+  # - tlp
+  # - tpacpi-bat
   - transmission-gtk
   - tree
   - rxvt-unicode
