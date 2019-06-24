@@ -11,6 +11,12 @@
     dest: /etc/systemd/reflector.service
     mode: 0644
 
+- name: create pacman hooks directory
+  file:
+    path: /etc/pacman.d/hooks
+    state: directory
+    mode: 0755
+
 - name: configure reflector pacman hook
   copy:
     src: mirrorupgrade.hook
