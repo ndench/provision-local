@@ -1,5 +1,27 @@
 ---
 
+- name: install reflector
+  pacman:
+    name: reflector
+    state: present
+
+- name: configure reflector unit file
+  copy:
+    src: reflector.service
+    dest: /etc/systemd/reflector.service
+    mode: 0644
+
+- name: configure reflector pacman hook
+  copy:
+    src: mirrorupgrade.hook
+    dest: /etc/pacman.d/hooks/mirrorupgrade.hook
+    mode: 0644
+
+- name: run reflector
+  systemd:
+    name: reflector
+    state: started
+
 - name: install pacman packages
   pacman:
     name: "{{ pacman_packages }}"

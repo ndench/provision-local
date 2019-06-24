@@ -43,7 +43,7 @@ pacman_packages:
   - powertop
   - pv
   - redshift
-  - reflector
+  #  - reflector
   - rofi
   - samba
   #  - scrot

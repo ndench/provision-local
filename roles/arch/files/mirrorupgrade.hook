@@ -1,0 +1,12 @@
+# Modified from https://wiki.archlinux.org/index.php/Reflector
+[Trigger]
+Operation = Upgrade
+Type = Package
+Target = pacman-mirrorlist
+
+[Action]
+Description = Updating pacman-mirrorlist with reflector and removing pacnew...
+When = PostTransaction
+Depends = reflector
+Exec = /bin/sh -C "reflector --country 'Australia' --latest 100 --age 24 --sort rate --fastest 10 --save /etc/pacman.d/mirrorlist; rm -f /etc/pacman.d/mirrorlist.pacnew"
+
