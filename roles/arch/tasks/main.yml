@@ -8,7 +8,7 @@
 - name: configure reflector unit file
   copy:
     src: reflector.service
-    dest: /etc/systemd/reflector.service
+    dest: /etc/systemd/system/reflector.service
     mode: 0644
 
 - name: create pacman hooks directory
