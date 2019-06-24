@@ -8,5 +8,5 @@ Target = pacman-mirrorlist
 Description = Updating pacman-mirrorlist with reflector and removing pacnew...
 When = PostTransaction
 Depends = reflector
-Exec = /bin/sh -C "reflector --protocol http --protocol https --country 'Australia' --latest 100 --age 24 --sort rate --fastest 10 --save /etc/pacman.d/mirrorlist; rm -f /etc/pacman.d/mirrorlist.pacnew"
+Exec = /bin/sh -C "reflector --protocol http --protocol https --country 'Australia' --country 'New Zealand' --country 'Singapore' --latest 100 --age 24 --sort rate --fastest 10 --save /etc/pacman.d/mirrorlist; rm -f /etc/pacman.d/mirrorlist.pacnew"
 
