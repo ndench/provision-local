@@ -5,11 +5,6 @@
     name: reflector
     state: present
 
-- name: install rsync
-  pacman:
-    name: rsync
-    state: present
-
 - name: configure reflector unit file
   copy:
     src: reflector.service
