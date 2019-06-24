@@ -6,8 +6,7 @@ After=network-online.target
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/reflector --protocol https --latest 30 --number 20 --sort rate --save /etc/pacman.d/mirrorlist
-ExecStart=/usr/bin/reflector --country 'Australia' --latest 100 --age 24 --fastest 10 --sort rate --save /etc/pacman.d/mirrorlist
+ExecStart=/usr/bin/reflector --protocol https --country 'Australia' --latest 100 --age 24 --fastest 10 --sort rate --save /etc/pacman.d/mirrorlist
 
 
 [Install]
