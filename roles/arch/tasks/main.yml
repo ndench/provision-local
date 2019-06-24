@@ -1,5 +1,11 @@
 ---
 
+- name: run system upgrade
+  pacman:
+    update_cache: yes
+    upgrade: yes
+
+
 - name: install reflector
   pacman:
     name: reflector
