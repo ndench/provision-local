@@ -1,8 +1,0 @@
----
-
-sudo_defaults:
-  defaults: 'insults,timestamp_timeout=30'
-sudo_users:
-  - name: '%wheel'
-    nopasswd: yes
-
