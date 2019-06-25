@@ -39,3 +39,15 @@
   pacman:
     name: "{{ pacman_packages }}"
     state: present
+
+- name: install yay
+  aur: 
+    name: yay
+    skip_installed: yes
+    aur_only: yes
+
+- name: install aur packages
+  aur:
+    name: "{{ aur_packages }}"
+    skip_installed: yes
+    aur_only: yes

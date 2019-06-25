@@ -14,6 +14,7 @@ pacman_packages:
   - diff-so-fancy
   #  - dnsutils
   - docker
+  - docker-composer
   - espeak
   - feh
   - firefox
@@ -23,18 +24,23 @@ pacman_packages:
   #  - gparted
   - htop
   - hub
+  - intel-ucode
   #  - i3-wm
   #  - i3blocks
   #  - i3status
   - jq
   - libreoffice-fresh
   #  - lxappearance
-  #  - mlocate
+  - mlocate
   - neovim
+  - nethogs
   #  - network-manager-applet
   #  - networkmanager
   - nfs-utils
+  - nginx
+  - nodejs
   - openssh
+  - packer
   - pavucontrol
   - peek
   #  - pkgfile
@@ -55,6 +61,7 @@ pacman_packages:
   - time
   # - tlp
   # - tpacpi-bat
+  - tmux
   - transmission-gtk
   - tree
   - rxvt-unicode
@@ -65,10 +72,24 @@ pacman_packages:
   - virtualbox-guest-iso
   - virtualbox-host-modules-arch
   - vlc
-  - wget
+  - wpa_supplicant
   - xf86-video-nouveau
   - xorg-xev
   - xorg-xmodmap
-  - xscreensaver
+  # - xscreensaver
   - xsel
   - zip
+  # - zsh
+
+aur_packages:
+  - amazon-ecr-credential-helper
+  - google-chrome
+  - icdiff
+  # - nerd-fonts-complete
+  # - otf-san-francisco
+  - phpstorm
+  - phpstorm-jre
+  - postman-bin
+  - pycharm-professional
+  - urxvt-resize-font-git
+  - zoom
