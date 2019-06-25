@@ -14,7 +14,7 @@ pacman_packages:
   - diff-so-fancy
   #  - dnsutils
   - docker
-  - docker-composer
+  - docker-compose
   - espeak
   - feh
   - firefox
