@@ -2,10 +2,6 @@
 
 sudo_defaults:
   - defaults: 'insults,timestamp_timeout=30'
-sudo_users:
-  - name: aur_builder
-    commands: /usr/bin/pacman
-    nopasswd: yes
 
 pacman_packages:
   #  - acpi
