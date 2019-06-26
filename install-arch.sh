@@ -22,6 +22,6 @@ if [[ ! -f /usr/share/ansible/plugins/modules/aur.py ]]; then
 
   # Go back to where we were
   cd ~2
-if
+fi
 
-make intall
+make install
