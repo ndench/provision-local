@@ -1,9 +1,18 @@
 ANSIBLE = /usr/bin/ansible
 AUR_HELPER = /usr/share/ansible/plugins/modules/aur.py
+ANSIBLE_ARGS =
+
+ifdef tags
+ANSIBLE_ARGS += --tags $(tags)
+endif
+
+ifdef skip-tags
+ANSIBLE_ARGS += --skip-tags $(skip-tags)
+endif
 
 .PHONY: install
 install: $(ANSIBLE) $(AUR_HELPER) .imported_roles
-	ansible-playbook --ask-become-pass -i hosts playbook.yml -vv
+	ansible-playbook --ask-become-pass -i hosts playbook.yml -vv $(ANSIBLE_ARGS)
 
 .imported_roles: $(ANSIBLE) requirements.yml
 	ansible-galaxy install -r requirements.yml

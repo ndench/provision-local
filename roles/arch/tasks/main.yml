@@ -5,6 +5,12 @@
 #    update_cache: yes
 #    upgrade: yes
 
+- name: enable parallel builds in makepkg
+  lineinfile:
+    path: /etc/makepkg.conf
+    regexp: '^#?MAKEFLAGS="-j2"'
+    line: 'MAKEFLAGS="-j2"'
+
 - name: install reflector
   pacman:
     name: reflector

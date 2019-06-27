@@ -39,8 +39,8 @@ pacman_packages:
   #  - network-manager-applet
   #  - networkmanager
   - nfs-utils
-  - nginx
-  - nodejs
+  # - nginx
+  # - nodejs
   - openssh
   - packer
   - pavucontrol
@@ -94,3 +94,4 @@ aur_packages:
   - pycharm-professional
   - urxvt-resize-font-git
   - zoom
+  - rcm

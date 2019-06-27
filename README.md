@@ -1,18 +1,35 @@
 # provision-local
 Scripts to provision my PCs in the "one true way".
 
+## Setup from scratch
+
+Run the following one liner on a newly installed [ArchLabs Linux](https://archlabslinux.com/):
+
 ```sh
-bash <( curl -s https://raw.githubusercontent.com/ndench/provision-local/master/bootstrap.sh )
+$ bash <( curl -s https://raw.githubusercontent.com/ndench/provision-local/master/bootstrap.sh )
+```
+
+## Running on an existing machine
+
+Just run:
+
+```sh
+$ make
+```
+
+You can speed up ansible execution by passing in `tags` and `skip-tags`
+
+```sh
+$ make tags=foo,bar skip-tags=baz
+# Will pass --tags foo,bar --skip-tags baz to ansible-playbook
 ```
 
 ## TODO:
-- add -j2 to MAKEFLAGS in /etc/makeflags.conf
-- pass ansible tags flags through make
-- check config https://github.com/teleshoes/tpacpi-bat
 - install docd https://wiki.archlinux.org/index.php/ThinkPad_docks
 - check other thinkpad things https://wiki.archlinux.org/index.php/Lenovo_ThinkPad_T470
 - check other laptop things https://wiki.archlinux.org/index.php/Laptop
 - check power management https://wiki.archlinux.org/index.php/Power_management
+- use nvm instead of nodejs https://wiki.archlinux.org/index.php/Node.js_
 
 
 ## Things archlabs does
