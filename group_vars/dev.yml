@@ -5,8 +5,7 @@ sudo_defaults:
 
 pacman_packages:
   #  - acpi
-  #  - acpi_call
-  #  - acpilight
+   - acpilight
   #  - alsa-utils
   #  - arandr
   #  - arc-gtk-theme
@@ -52,7 +51,6 @@ pacman_packages:
   - powertop
   - pv
   - redshift
-  #  - reflector
   - rofi
   - samba
   #  - scrot
@@ -62,8 +60,8 @@ pacman_packages:
   - the_silver_searcher
   - thefuck
   - time
-  # - tlp
-  # - tpacpi-bat
+  - tlp
+  - tpacpi-bat
   - tmux
   - transmission-gtk
   - tree

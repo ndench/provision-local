@@ -7,6 +7,12 @@ bash <( curl -s https://raw.githubusercontent.com/ndench/provision-local/master/
 
 ## TODO:
 - add -j2 to MAKEFLAGS in /etc/makeflags.conf
+- pass ansible tags flags through make
+- check config https://github.com/teleshoes/tpacpi-bat
+- install docd https://wiki.archlinux.org/index.php/ThinkPad_docks
+- check other thinkpad things https://wiki.archlinux.org/index.php/Lenovo_ThinkPad_T470
+- check other laptop things https://wiki.archlinux.org/index.php/Laptop
+- check power management https://wiki.archlinux.org/index.php/Power_management
 
 
 ## Things archlabs does

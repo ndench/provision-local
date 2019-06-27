@@ -6,3 +6,22 @@
     state: started
     daemon_reload: yes
 
+- name: enable tlp
+  systemd:
+    name: "{{ item }}"
+    enabled: yes
+    state: started
+  loop:
+    - tlp
+    - tlp-sleep
+
+# systemd-rfkill conflicts with tlp
+# https://wiki.archlinux.org/index.php/TLP
+- name: mask systemd-rfkill
+  systemd:
+    name: "{{ item }}"
+    masked: yes
+    state: stopped
+  loop:
+    - systemd-rfkill.service
+    - systemd-rfkill.socket

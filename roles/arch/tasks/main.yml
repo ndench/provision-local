@@ -12,7 +12,7 @@
 
 - name: configure reflector unit file
   copy:
-    src: reflector.service
+    src: etc/systemd/system/reflector.service
     dest: /etc/systemd/system/reflector.service
     mode: 0644
   notify: run reflector
@@ -27,7 +27,7 @@
 
 - name: configure reflector pacman hook
   copy:
-    src: mirrorupgrade.hook
+    src: etc/pacman.d/hooks/mirrorupgrade.hook
     dest: /etc/pacman.d/hooks/mirrorupgrade.hook
     mode: 0644
 
@@ -35,6 +35,9 @@
   pacman:
     name: "{{ pacman_packages }}"
     state: present
+  notify:
+    - enable tlp
+    - mask systemd-rfkill
 
 - name: create aur_builder user
   user:

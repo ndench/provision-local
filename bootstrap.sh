@@ -15,4 +15,5 @@ cd ~/git/ndench/provision-local
 
 make
 
-git remote set-url origin git@github.com:ndench/provision-local.git
+# TODO: Uncomment this once github ssh keys are being added
+#git remote set-url origin git@github.com:ndench/provision-local.git

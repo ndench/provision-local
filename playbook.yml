@@ -4,3 +4,4 @@
   roles: 
     - { role: weareinteractive.sudo, become: yes }
     - { role: arch, become: yes }
+    - { role: config, become: yes }
