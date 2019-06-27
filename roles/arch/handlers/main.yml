@@ -21,6 +21,7 @@
   systemd:
     name: "{{ item }}"
     masked: yes
+    enabled: no
     state: stopped
   loop:
     - systemd-rfkill.service
