@@ -5,7 +5,7 @@ sudo_defaults:
 
 pacman_packages:
   #  - acpi
-   - acpilight
+  - acpilight
   #  - alsa-utils
   #  - arandr
   #  - arc-gtk-theme
