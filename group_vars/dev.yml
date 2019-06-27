@@ -5,7 +5,7 @@ sudo_defaults:
 
 pacman_packages:
   #  - acpi
-  - acpilight
+  #  - acpilight
   #  - alsa-utils
   #  - arandr
   #  - arc-gtk-theme
@@ -74,7 +74,7 @@ pacman_packages:
   - virtualbox-host-modules-arch
   - vlc
   - wpa_supplicant
-  - xf86-video-nouveau
+  - xf86-video-intel
   - xorg-xev
   - xorg-xmodmap
   # - xscreensaver
