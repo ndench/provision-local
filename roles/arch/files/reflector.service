@@ -8,6 +8,5 @@ After=network-online.target
 Type=oneshot
 ExecStart=/usr/bin/reflector --protocol http --protocol https --country 'Australia' --country 'New Zealand' --country 'Singapore' --latest 100 --age 24 --fastest 10 --sort rate --save /etc/pacman.d/mirrorlist
 
-
 [Install]
 RequiredBy=multi-user.target

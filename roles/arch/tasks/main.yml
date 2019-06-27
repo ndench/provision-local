@@ -15,6 +15,9 @@
     src: reflector.service
     dest: /etc/systemd/system/reflector.service
     mode: 0644
+  notify: run reflector
+
+- meta: flush_handlers
 
 - name: create pacman hooks directory
   file:
@@ -27,12 +30,6 @@
     src: mirrorupgrade.hook
     dest: /etc/pacman.d/hooks/mirrorupgrade.hook
     mode: 0644
-
-- name: run reflector
-  systemd:
-    name: reflector
-    state: started
-    daemon_reload: yes
 
 - name: install pacman packages
   pacman:

@@ -1,0 +1,8 @@
+---
+
+- name: run reflector
+  systemd:
+    name: reflector
+    state: started
+    daemon_reload: yes
+

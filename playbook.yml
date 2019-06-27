@@ -2,5 +2,5 @@
 
 - hosts: dev
   roles: 
-    - weareinteractive.sudo
-    - arch
+    - { role: weareinteractive.sudo, become: yes }
+    - { role: arch, become: yes }
