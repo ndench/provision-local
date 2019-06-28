@@ -5,13 +5,14 @@ set -eux
 # Ask for sudo upfront
 sudo -v
 
+clone_path=~/git/ndench/provision-local
 
 # Clone this repo
-if [[ ! -f ~/git/ndench/provision-local ]]; then
-  git clone https://github.com/ndench/provision-local.git ~/git/ndench/provision-local
+if [[ ! -d ${clone_path} ]]; then
+  git clone https://github.com/ndench/provision-local.git ${clone_path}
 fi
 
-cd ~/git/ndench/provision-local
+cd ${clone_path}
 
 make
 
