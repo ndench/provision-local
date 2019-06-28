@@ -96,5 +96,7 @@ aur_packages:
   - zoom
   - rcm
 
+github_token: "{{ vault_github_token }}"
+
 # TODO: use ssh origin
 dotfiles_repo: https://github.com/ndench/dotfiles.git
