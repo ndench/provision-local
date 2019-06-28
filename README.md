@@ -31,6 +31,12 @@ $ make tags=foo,bar skip-tags=baz
 - check power management https://wiki.archlinux.org/index.php/Power_management
 - use nvm instead of nodejs https://wiki.archlinux.org/index.php/Node.js_
 
+## Secret files to put in syncret
+
+- ~/.docker/config.json
+- ~/.ssh
+- ~/.wakatime.cfg
+
 
 ## Things archlabs does
 - reflector --score 100 -l 50 -f 5 --sort rate --verbose
