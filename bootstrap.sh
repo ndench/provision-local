@@ -2,7 +2,11 @@
 
 set -eux
 
-# Ask for sudo upfront
+read -sp "Enter vault password: " vault_password
+
+echo ${vault_password} > .ansible_vault.pass
+
+echo "Asking for sudo password upfront so that it's cached"
 sudo -v
 
 clone_path=~/git/ndench/provision-local
