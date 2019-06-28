@@ -95,3 +95,9 @@ aur_packages:
   - urxvt-resize-font-git
   - zoom
   - rcm
+
+rcm_user: "{{ ansible_env.USER }}"
+rcm_repos:
+  # TODO: use ssh origin
+  - repo: https://github.com/ndench/dotfiles.git
+    dest: "{{ ansible_env.HOME }}/.dotfiles"

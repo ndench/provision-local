@@ -5,12 +5,19 @@
     - role: weareinteractive.sudo
       become: yes
       tags: 
+        - system
         - sudo
     - role: arch
       become: yes
       tags: 
+        - system
         - arch
-    - role: config
+    - role: system-config
       become: yes
       tags: 
+        - system
         - config
+    - role: karlmdavis.rcm-dotfiles
+      tags: 
+        - used
+        - rcm
