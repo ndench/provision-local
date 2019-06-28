@@ -1,5 +1,20 @@
 ---
 
+- name: read ssh public key for github
+  shell: cat "{{ ansible_env.HOME }}/.ssh/id_rsa.pub"
+  register: ssh_pub_key
+
+- name: add ssh public key to github
+  github_key:
+    name: "{{ ansible_hostname }}"
+    token: "{{ github_token }}"
+    pubkey: "{{ ssh_pub_key.stdout }}"
+
+- name: copy rcm config
+  copy:
+    src: rcrc
+    dest: "{{ ansible_env.HOME }}/.rcrc"
+
 - name: clone dotfiles repo
   git:
     repo: "{{ dotfiles_repo }}"

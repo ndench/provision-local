@@ -98,5 +98,4 @@ aur_packages:
 
 github_token: "{{ vault_github_token }}"
 
-# TODO: use ssh origin
-dotfiles_repo: https://github.com/ndench/dotfiles.git
+dotfiles_repo: git@github.com:ndench/dotfiles.git
