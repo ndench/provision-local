@@ -1,0 +1,9 @@
+---
+
+- name: clone dotfiles repo
+  git:
+    repo: "{{ dotfiles_repo }}"
+    dest: "{{ ansible_env.HOME }}/.dotfiles"
+
+- name: run rcup
+  command: lsrc
