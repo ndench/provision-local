@@ -1,0 +1,55 @@
+---
+
+- name: run system upgrade
+  pacman:
+    update_cache: yes
+    upgrade: yes
+
+- name: install pacman packages
+  pacman:
+    name: 
+      # AL_BASE_PKGS
+      - archlabs-skel-base 
+      - archlabs-fonts 
+      - archlabs-themes 
+      - archlabs-dARK 
+      - archlabs-icons 
+      - archlabs-wallpapers 
+      - archlabs-scripts
+      # WM_BASE_PKGS
+      - i3-gaps
+      - arandr 
+      - archlabs-networkmanager-dmenu 
+      - xdg-user-dirs 
+      - nitrogen 
+      - polkit-gnome 
+      - volumeicon 
+      - xclip 
+      - exo
+      - xdotool 
+      - compton 
+      - wmctrl 
+      - gnome-keyring 
+      - dunst 
+      - feh 
+      - gsimplecal 
+      - xfce4-power-manager 
+      - xfce4-settings 
+      - laptop-detect
+      # WM_EXT
+      - i3status 
+      - perl-anyevent-i3 
+      - archlabs-skel-i3-gaps 
+      - rofi 
+      - archlabs-polybar
+      # LOGIN_PKGS
+      - lightdm 
+      - lightdm-gtk-greeter 
+      - lightdm-gtk-greeter-settings 
+      - accountsservice
+    state: present
+
+- name: configure lightdm-greeter
+  copy:
+    src: etc/lightdm/light-gtk-greeter.conf
+    dest: /etc/lightdm/light-gtk-greeter.conf

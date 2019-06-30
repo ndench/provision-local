@@ -30,6 +30,22 @@ $ make tags=foo,bar skip-tags=baz
 - check other laptop things https://wiki.archlinux.org/index.php/Laptop
 - check power management https://wiki.archlinux.org/index.php/Power_management
 - use nvm instead of nodejs https://wiki.archlinux.org/index.php/Node.js_
+- check the following files:
+    - /etc/default/keyboard
+    - /etc/vconsole.conf
+    - /etc/locale.conf
+    - /etc/default/locale
+    - /etc/pacman.conf
+    - ~/.zprofile
+    - /etc/lightdm/lightdm.conf
+    - /etc/lightdm/lightdm-gtk-greeter.conf
+    - files in /etc/X11/xorg.conf.d
+    - /etc/resolv.conf
+    - /etc/NetworkManager/system-connections
+    - files in /etc/pacman.d/hooks
+    - /boot/syslinux/syslinux.cfg
+    - files in /boot
+
 
 ## Secret files to put in syncret
 

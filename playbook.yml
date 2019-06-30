@@ -21,3 +21,8 @@
       tags: 
         - user
         - config
+
+- hosts: base
+  roles:
+    - role: setup
+      become: yes

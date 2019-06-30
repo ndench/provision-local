@@ -1,2 +1,2 @@
-[dev]
+[base]
 localhost ansible_connection=local
