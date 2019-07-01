@@ -7,10 +7,12 @@
 
 - name: install pacman packages
   pacman:
+    state: present
     name: 
       # AL_BASE_PKGS
       - archlabs-skel-base 
-      - archlabs-fonts 
+      # Conflicts with existing files
+      #- archlabs-fonts
       - archlabs-themes 
       - archlabs-dARK 
       - archlabs-icons 
@@ -47,7 +49,6 @@
       - lightdm-gtk-greeter 
       - lightdm-gtk-greeter-settings 
       - accountsservice
-    state: present
 
 - name: check default target
   command: systemctl get-default
@@ -59,8 +60,8 @@
 
 - name: configure lightdm-greeter
   copy:
-    src: etc/lightdm/light-gtk-greeter.conf
-    dest: /etc/lightdm/light-gtk-greeter.conf
+    src: etc/lightdm/lightdm-gtk-greeter.conf
+    dest: /etc/lightdm/lightdm-gtk-greeter.conf
 
 - name: enable lightdm
   systemd:

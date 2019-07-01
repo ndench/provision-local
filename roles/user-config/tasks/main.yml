@@ -21,4 +21,4 @@
     dest: "{{ ansible_env.HOME }}/.dotfiles"
 
 - name: run rcup
-  command: lsrc
+  command: rcup -t new-dotfiles
