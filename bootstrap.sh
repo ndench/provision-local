@@ -4,8 +4,6 @@ set -eux
 
 read -sp "Enter vault password: " vault_password
 
-echo ${vault_password} > .ansible_vault.pass
-
 echo "Asking for sudo password upfront so that it's cached"
 sudo -v
 
@@ -17,6 +15,7 @@ if [[ ! -d ${clone_path} ]]; then
 fi
 
 cd ${clone_path}
+echo ${vault_password} > .ansible_vault.pass
 
 make
 
