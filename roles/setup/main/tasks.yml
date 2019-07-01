@@ -49,7 +49,20 @@
       - accountsservice
     state: present
 
+- name: check default target
+  command: systemctl get-default
+  register: default_target
+
+- name: set default target
+  command: systemctl set-default graphical.target
+  when: default_target.stdout != "graphical.target"
+
 - name: configure lightdm-greeter
   copy:
     src: etc/lightdm/light-gtk-greeter.conf
     dest: /etc/lightdm/light-gtk-greeter.conf
+
+- name: enable lightdm
+  systemd:
+    name: lightdm
+    enabled: yes
