@@ -19,6 +19,7 @@
   git:
     repo: "{{ dotfiles_repo }}"
     dest: "{{ ansible_env.HOME }}/.dotfiles"
+    accept_hostkey: yes
 
 - name: run rcup
   command: rcup -t new-dotfiles
