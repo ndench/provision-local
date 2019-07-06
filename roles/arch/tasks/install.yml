@@ -1,0 +1,71 @@
+---
+
+- name: run system upgrade
+  pacman:
+    update_cache: yes
+    upgrade: yes
+
+- name: enable parallel builds in makepkg
+  lineinfile:
+    path: /etc/makepkg.conf
+    regexp: '^#?MAKEFLAGS="-j2"'
+    line: 'MAKEFLAGS="-j2"'
+
+- name: install reflector
+  pacman:
+    name: reflector
+    state: present
+
+- name: configure reflector unit file
+  copy:
+    src: etc/systemd/system/reflector.service
+    dest: /etc/systemd/system/reflector.service
+    mode: 0644
+  notify: run reflector
+
+- meta: flush_handlers
+
+- name: create pacman hooks directory
+  file:
+    path: /etc/pacman.d/hooks
+    state: directory
+    mode: 0755
+
+- name: configure reflector pacman hook
+  copy:
+    src: etc/pacman.d/hooks/mirrorupgrade.hook
+    dest: /etc/pacman.d/hooks/mirrorupgrade.hook
+    mode: 0644
+
+- name: install pacman packages
+  pacman:
+    name: "{{ pacman_packages }}"
+    state: present
+  notify:
+    - enable tlp
+    - mask systemd-rfkill
+
+- name: create aur_builder user
+  user:
+    name: aur_builder
+    group: wheel
+    system: yes
+    password_lock: yes
+
+- name: install yay
+  aur: 
+    name: yay
+    skip_installed: yes
+    aur_only: yes
+    use: makepkg
+  become: yes
+  become_user: aur_builder
+
+- name: install aur packages
+  aur:
+    name: "{{ aur_packages }}"
+    skip_installed: yes
+    aur_only: yes
+    use: yay
+  become: yes
+  become_user: aur_builder

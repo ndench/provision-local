@@ -2,8 +2,6 @@
 
 - hosts: dev
   roles: 
-    - role: setup
-      become: yes
     - role: weareinteractive.sudo
       become: yes
       tags: 

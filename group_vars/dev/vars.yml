@@ -4,56 +4,97 @@ sudo_defaults:
   - defaults: 'insults,timestamp_timeout=30'
 
 pacman_packages:
-  #  - acpi
-  #  - acpilight
-  #  - alsa-utils
-  #  - arandr
-  #  - arc-gtk-theme
-  #  - arc-icon-theme
+  # Packages installed by archlabs installed
+  - archlabs-skel-base 
+  # Conflicts with existing files
+  #- archlabs-fonts
+  - archlabs-themes 
+  - archlabs-dARK 
+  - archlabs-icons 
+  - archlabs-wallpapers 
+  - archlabs-scripts
+  # WM_BASE_PKGS
+  - i3-gaps
+  - arandr 
+  - archlabs-networkmanager-dmenu 
+  - xdg-user-dirs 
+  - nitrogen 
+  - polkit-gnome 
+  - volumeicon 
+  - xclip 
+  - exo
+  - xdotool 
+  - compton 
+  - wmctrl 
+  - gnome-keyring 
+  - dunst 
+  - feh 
+  - gsimplecal 
+  - xfce4-power-manager 
+  - xfce4-settings 
+  - laptop-detect
+  # WM_EXT
+  - i3status 
+  - perl-anyevent-i3 
+  - archlabs-skel-i3-gaps 
+  - rofi 
+  - archlabs-polybar
+  # LOGIN_PKGS
+  - lightdm 
+  - lightdm-gtk-greeter 
+  - lightdm-gtk-greeter-settings 
+  - accountsservice
+  # Packages from old install
+  #- acpi
+  #- acpilight
+  #- alsa-utils
+  #- arandr
+  #- arc-gtk-theme
+  #- arc-icon-theme
   - aws-cli
-  #  - compton
-  #  - dconf-editor
+  #- compton
+  #- dconf-editor
   - diff-so-fancy
-  #  - dnsutils
+  #- dnsutils
   - docker
   - docker-compose
   - espeak
   - feh
   - firefox
-  #  - fish
+  #- fish
   - fortune-mod
   - git
-  #  - gparted
+  #- gparted
   - htop
   - hub
-  - intel-ucode
-  #  - i3-wm
-  #  - i3blocks
-  #  - i3status
+  #- intel-ucode
+  #- i3-wm
+  #- i3blocks
+  #- i3status
   - jq
   - libreoffice-fresh
-  #  - lxappearance
+  #- lxappearance
   - mlocate
   - neovim
   - nethogs
-  #  - network-manager-applet
-  #  - networkmanager
+  #- network-manager-applet
+  #- networkmanager
   - nfs-utils
-  # - nginx
-  # - nodejs
+  #- nginx
+  #- nodejs
   - openssh
   - packer
-  - pavucontrol
+  #- pavucontrol
   - peek
-  #  - pkgfile
-  #  - pkgstats
+  #- pkgfile
+  #- pkgstats
   - playerctl
   - powertop
   - pv
   - redshift
   - rofi
   - samba
-  #  - scrot
+  #- scrot
   - simplescreenrecorder
   - sudo
   - terraform
@@ -73,21 +114,21 @@ pacman_packages:
   - virtualbox-guest-iso
   - virtualbox-host-modules-arch
   - vlc
-  - wpa_supplicant
-  - xf86-video-intel
-  - xorg-xev
-  - xorg-xmodmap
-  # - xscreensaver
+  #- wpa_supplicant
+  #- xf86-video-intel
+  #- xorg-xev
+  #- xorg-xmodmap
+  #- xscreensaver
   - xsel
   - zip
-  # - zsh
+  #- zsh
 
 aur_packages:
   - amazon-ecr-credential-helper
   - google-chrome
   - icdiff
-  # - nerd-fonts-complete
-  # - otf-san-francisco
+  #- nerd-fonts-complete
+  #- otf-san-francisco
   - phpstorm
   - phpstorm-jre
   - postman-bin
