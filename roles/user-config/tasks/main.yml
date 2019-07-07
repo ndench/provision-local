@@ -26,36 +26,36 @@
 
 - name: create .aws directory
   file:
-    dest: "{{ ansible_env.HOME }}"/.aws
+    dest: "{{ ansible_env.HOME }}/.aws"
     state: directory
     mode: 0700
 
 - name: copy aws config
   copy:
     src: home/aws/config
-    dest: "{{ ansible_env.HOME }}"/.aws/config
+    dest: "{{ ansible_env.HOME }}/.aws/config"
     mode: 0600
 
 - name: copy aws credentials
   copy:
     src: home/aws/credentials
-    dest: "{{ ansible_env.HOME }}"/.aws/credentials
+    dest: "{{ ansible_env.HOME }}/.aws/credentials"
     mode: 0600
 
 - name: copy wakatime config
   copy:
     src: home/wakatime.cfg
-    dest: "{{ ansible_env.HOME }}"/.wakatime.cfg
+    dest: "{{ ansible_env.HOME }}/.wakatime.cfg"
     mode: 0600
 
 - name: create .docker directory
   file:
-    dest: "{{ ansible_env.HOME }}"/.docker
+    dest: "{{ ansible_env.HOME }}/.docker"
     state: directory
     mode: 0700
 
 - name: copy docker config
   copy:
     src: home/docker/config.json
-    dest: "{{ ansible_env.HOME }}"/.docker/config.json
+    dest: "{{ ansible_env.HOME }}/.docker/config.json"
     mode: 0600
