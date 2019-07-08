@@ -26,3 +26,10 @@
   loop:
     - systemd-rfkill.service
     - systemd-rfkill.socket
+
+- name: enable redshift
+  systemd:
+    name: redshift
+    scope: user
+    state: started
+    enabled: yes

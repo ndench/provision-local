@@ -31,6 +31,7 @@ $ make tags=foo,bar skip-tags=baz
 - check power management https://wiki.archlinux.org/index.php/Power_management
 - use nvm instead of nodejs https://wiki.archlinux.org/index.php/Node.js_
 - Configure tmux [example 1](https://github.com/gpakosz/.tmux), [example 2](https://peterforgacs.github.io/2017/04/25/Tmux/)
+- check ~/.config/mimeapps.list
 
 
 ## Secret files to put in syncret

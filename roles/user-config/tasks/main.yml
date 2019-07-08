@@ -24,18 +24,6 @@
 - name: run rcup
   command: rcup -t new-dotfiles
 
-- name: create .aws directory
-  file:
-    dest: "{{ ansible_env.HOME }}/.aws"
-    state: directory
-    mode: 0700
-
-- name: copy aws config
-  copy:
-    src: home/aws/config
-    dest: "{{ ansible_env.HOME }}/.aws/config"
-    mode: 0600
-
 - name: copy aws credentials
   copy:
     src: home/aws/credentials
@@ -52,10 +40,15 @@
   file:
     dest: "{{ ansible_env.HOME }}/.docker"
     state: directory
-    mode: 0700
 
 - name: copy docker config
   copy:
     src: home/docker/config.json
     dest: "{{ ansible_env.HOME }}/.docker/config.json"
+    mode: 0600
+
+- name: copy hub config
+  copy:
+    src: home/docker/hub
+    dest: "{{ ansible_env.HOME }}/.config/hub"
     mode: 0600

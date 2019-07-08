@@ -44,6 +44,7 @@
   notify:
     - enable tlp
     - mask systemd-rfkill
+    - enable redshift
 
 - name: create aur_builder user
   user:
