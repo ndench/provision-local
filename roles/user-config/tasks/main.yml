@@ -49,6 +49,6 @@
 
 - name: copy hub config
   copy:
-    src: home/docker/hub
+    src: home/config/hub
     dest: "{{ ansible_env.HOME }}/.config/hub"
     mode: 0600
