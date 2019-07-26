@@ -133,6 +133,7 @@ aur_packages:
   - phpstorm-jre
   - postman-bin
   - pycharm-professional
+  - slack-desktop
   - urxvt-resize-font-git
   - zoom
   - rcm
