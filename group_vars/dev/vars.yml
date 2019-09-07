@@ -86,7 +86,7 @@ pacman_packages:
   - packer
   #- pavucontrol
   - peek
-  #- pkgfile
+  - pkgfile
   #- pkgstats
   - playerctl
   - powertop
