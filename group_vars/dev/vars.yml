@@ -6,8 +6,7 @@ sudo_defaults:
 pacman_packages:
   # Packages installed by archlabs installed
   - archlabs-skel-base 
-  # Conflicts with existing files
-  #- archlabs-fonts
+  - archlabs-fonts
   - archlabs-themes 
   - archlabs-dARK 
   - archlabs-icons 
@@ -39,6 +38,7 @@ pacman_packages:
   - archlabs-skel-i3-gaps 
   - rofi 
   - archlabs-polybar
+  - noto-fonts-emoji
   # LOGIN_PKGS
   - lightdm 
   - lightdm-gtk-greeter 
@@ -61,6 +61,7 @@ pacman_packages:
   - espeak
   - feh
   - firefox
+  - firefox-developer-edition
   #- fish
   - fortune-mod
   - git
