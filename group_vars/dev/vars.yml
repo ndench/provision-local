@@ -122,6 +122,7 @@ pacman_packages:
   #- xscreensaver
   - xsel
   - zip
+  - fzf
   #- zsh
 
 aur_packages:
@@ -138,6 +139,7 @@ aur_packages:
   - urxvt-resize-font-git
   - zoom
   - rcm
+  - nvm
 
 github_token: "{{ vault_github_token }}"
 
