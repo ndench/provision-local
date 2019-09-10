@@ -123,6 +123,7 @@ pacman_packages:
   - xsel
   - zip
   - fzf
+  - xautolock
   #- zsh
 
 aur_packages:
