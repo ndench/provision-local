@@ -24,3 +24,8 @@
   copy:
     src: etc/X11/xorg.conf.d/00-keyboard.conf
     dest: /etc/X11/xorg.conf.d/00-keyboard.conf
+
+- name: configure pacman
+  copy:
+    src: etc/pacman.conf
+    dest: /etc/pacman.conf
