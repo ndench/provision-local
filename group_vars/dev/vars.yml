@@ -124,6 +124,7 @@ pacman_packages:
   - zip
   - fzf
   - xautolock
+  - unzip
   #- zsh
 
 aur_packages:
