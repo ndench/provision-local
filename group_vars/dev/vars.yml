@@ -142,6 +142,7 @@ aur_packages:
   - zoom
   - rcm
   - nvm
+  - ngrok
 
 github_token: "{{ vault_github_token }}"
 
