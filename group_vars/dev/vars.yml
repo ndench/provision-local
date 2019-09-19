@@ -126,6 +126,7 @@ pacman_packages:
   - xautolock
   - unzip
   - unclutter
+  - cloc
   #- zsh
 
 aur_packages:
