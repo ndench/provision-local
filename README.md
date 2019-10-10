@@ -57,31 +57,17 @@ $ make tags=foo,bar skip-tags=baz
     - lightdm-gtk-greeter-settings
     - accountservice
 
-## Video drivers that were installed
+## Video driver problems
+
+arch linux labs creates the following in `/etc/X11/xorg.conf.d/20-intel.conf`:
 ```
-└> % pacman -Ss xf86-video                                                                                                                                                                                 11:35:38
-extra/xf86-video-amdgpu 19.0.1-1 (xorg-drivers) [installed]
-    X.org amdgpu video driver
-extra/xf86-video-ati 1:19.0.1-1 (xorg-drivers) [installed]
-    X.org ati video driver
-extra/xf86-video-dummy 0.3.8-3 (xorg-drivers) [installed]
-    X.org dummy video driver
-extra/xf86-video-fbdev 0.5.0-1 (xorg-drivers) [installed]
-    X.org framebuffer video driver
-extra/xf86-video-intel 1:2.99.917+870+g6f4972d5-1 (xorg-drivers) [installed]
-    X.org Intel i810/i830/i915/945G/G965+ video drivers
-extra/xf86-video-nouveau 1.0.16-1 (xorg-drivers) [installed]
-    Open Source 3D acceleration driver for nVidia cards
-extra/xf86-video-openchrome 0.6.0-3 (xorg-drivers) [installed]
-    X.Org Openchrome drivers
-extra/xf86-video-sisusb 0.9.7-2
-    X.org SiS USB video driver
-extra/xf86-video-vesa 2.4.0-2 (xorg-drivers xorg) [installed]
-    X.org vesa video driver
-extra/xf86-video-vmware 13.3.0-1 (xorg-drivers) [installed]
-    X.org vmware video driver
-extra/xf86-video-voodoo 1.2.5-10 (xorg-drivers) [installed]
-    X.org 3dfx Voodoo1/Voodoo2 2D video driver
-community/xf86-video-qxl 0.1.5-7 (xorg-drivers) [installed]
-    Xorg X11 qxl video driver
+Section "Device"
+    Identifier  "Intel Graphics"
+    Driver      "intel"
+    Option      "TearFree" "true"
+EndSection
 ```
+
+I've tried using `nouveau` instead of `intel` except nouveau is for nvidia and not intel :(.
+Trying `modesetting` and `vesa` as well.
+Also installed `intel-media-driver` and `vulkan-intel` as recommended by the [wiki](https://wiki.archlinux.org/index.php/Intel_graphics).
