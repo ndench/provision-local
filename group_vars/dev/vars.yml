@@ -130,6 +130,8 @@ pacman_packages:
   - cloc
   - rofimoji
   - libqalculate
+  - thunar
+  - termite
   #- zsh
 
 aur_packages:

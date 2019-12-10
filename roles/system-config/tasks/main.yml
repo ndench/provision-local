@@ -29,3 +29,10 @@
   copy:
     src: etc/pacman.conf
     dest: /etc/pacman.conf
+
+- name: setup nginx reverse proxy
+  copy:
+    src: etc/nginx/nginx.conf
+    dest: /etc/nginx/nginx.conf
+    mode: 0644
+

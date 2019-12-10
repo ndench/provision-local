@@ -5,19 +5,19 @@
     - role: weareinteractive.sudo
       become: yes
       tags: 
-        - system
-        - sudo
+        - provision-system
+        - provision-sudo
     - role: arch
       become: yes
       tags: 
-        - system
-        - arch
+        - provision-system
+        - provision-arch
     - role: system-config
       become: yes
       tags: 
-        - system
-        - config
+        - provision-system
+        - provision-config
     - role: user-config
       tags: 
-        - user
-        - config
+        - provision-user
+        - provision-config
