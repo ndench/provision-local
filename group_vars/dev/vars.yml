@@ -133,6 +133,7 @@ pacman_packages:
   - thunar
   - termite
   #- zsh
+  - nss
 
 aur_packages:
   - amazon-ecr-credential-helper
