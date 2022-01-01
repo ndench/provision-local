@@ -37,6 +37,18 @@
     dest: /etc/pacman.d/hooks/mirrorupgrade.hook
     mode: 0644
 
+- name: create zsh hash directory
+  file:
+    path: /var/cache/zsh
+    state: directory
+    mode: 0755
+
+- name: configure zsh rehash hook
+  copy:
+    src: etc/pacman.d/hooks/zsh.hook
+    dest: /etc/pacman.d/hooks/zsh.hook
+    mode: 0644
+
 - name: install pacman packages
   pacman:
     name: "{{ pacman_packages }}"
