@@ -5,7 +5,7 @@ set -eu
 echo "Asking for sudo password upfront so that it's cached"
 sudo -v
 
-sudo pacman -S --noconfirm git
+sudo pacman -S --noconfirm git make
 
 # Clone this repo
 clone_path=~/git/ndench/provision-local
