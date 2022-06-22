@@ -5,44 +5,44 @@ sudo_defaults:
 
 pacman_packages:
   # Packages installed by archlabs installed
-  - archlabs-skel-base 
+  - archlabs-skel-base
   - archlabs-fonts
-  - archlabs-themes 
-  - archlabs-dARK 
-  - archlabs-icons 
-  - archlabs-wallpapers 
+  - archlabs-themes
+  - archlabs-dARK
+  - archlabs-icons
+  - archlabs-wallpapers
   - archlabs-scripts
   # WM_BASE_PKGS
   - i3-gaps
-  - arandr 
-  - archlabs-networkmanager-dmenu 
-  - xdg-user-dirs 
-  - nitrogen 
-  - polkit-gnome 
-  - volumeicon 
-  - xclip 
+  - arandr
+  - archlabs-networkmanager-dmenu
+  - xdg-user-dirs
+  - nitrogen
+  - polkit-gnome
+  - volumeicon
+  - xclip
   - exo
-  - xdotool 
-  - compton 
-  - wmctrl 
-  - gnome-keyring 
-  - dunst 
-  - feh 
-  - gsimplecal 
-  - xfce4-power-manager 
-  - xfce4-settings 
+  - xdotool
+  - compton
+  - wmctrl
+  - gnome-keyring
+  - dunst
+  - feh
+  - gsimplecal
+  - xfce4-power-manager
+  - xfce4-settings
   - laptop-detect
   # WM_EXT
-  - i3status 
-  - perl-anyevent-i3 
-  - archlabs-skel-i3-gaps 
-  - rofi 
+  - i3status
+  - perl-anyevent-i3
+  - archlabs-skel-i3-gaps
+  - rofi
   - polybar
   - noto-fonts-emoji
   # LOGIN_PKGS
-  - lightdm 
-  - lightdm-gtk-greeter 
-  - lightdm-gtk-greeter-settings 
+#  - lightdm
+#  - lightdm-gtk-greeter
+#  - lightdm-gtk-greeter-settings
   - accountsservice
   # Packages from old install
   #- acpi
