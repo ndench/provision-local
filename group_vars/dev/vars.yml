@@ -58,7 +58,6 @@ pacman_packages:
   #- dnsutils
   - docker
   - docker-compose
-  - espeak
   - feh
   - firefox
   - firefox-developer-edition
