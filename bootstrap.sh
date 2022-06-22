@@ -16,6 +16,7 @@ if [[ ! -d ${clone_path} ]]; then
 fi
 
 cd ${clone_path}
+git pull
 
 make
 
