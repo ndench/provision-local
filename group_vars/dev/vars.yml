@@ -131,6 +131,7 @@ pacman_packages:
   - thunar
   #- zsh
   - nss
+  - gcc
 
 aur_packages:
   - amazon-ecr-credential-helper

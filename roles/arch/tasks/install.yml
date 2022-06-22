@@ -58,7 +58,7 @@
     - mask systemd-rfkill
     - enable redshift
 
-- name: create aur_builder user
+- name: create aur_builder user (kewlifft/ansible-aui)
   user:
     name: aur_builder
     group: wheel
