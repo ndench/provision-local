@@ -23,6 +23,8 @@
 
 - name: run rcup
   command: rcup -t new-dotfiles
+  register: rcresult
+  failed_when: rcresult.stdout != ""
 
 - name: copy aws credentials
   copy:
