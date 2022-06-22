@@ -37,7 +37,7 @@ pacman_packages:
   - perl-anyevent-i3 
   - archlabs-skel-i3-gaps 
   - rofi 
-  - archlabs-polybar
+  - polybar
   - noto-fonts-emoji
   # LOGIN_PKGS
   - lightdm 
