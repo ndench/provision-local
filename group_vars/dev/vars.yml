@@ -132,6 +132,7 @@ pacman_packages:
   #- zsh
   - nss
   - gcc
+  - patch
 
 aur_packages:
   - amazon-ecr-credential-helper
