@@ -68,7 +68,7 @@
 - name: install yay
   aur: 
     name: yay
-    skip_installed: yes
+    state: present
     aur_only: yes
     use: makepkg
   become: yes
@@ -77,7 +77,7 @@
 - name: install aur packages
   aur:
     name: "{{ aur_packages }}"
-    skip_installed: yes
+    state: present
     aur_only: yes
     use: yay
   become: yes
