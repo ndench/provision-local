@@ -26,6 +26,11 @@
 #  register: rcresult
 #  failed_when: rcresult.stdout != ""
 
+- name: create .aws directory
+  file:
+    dest: "{{ ansible_env.HOME }}/.aws"
+    state: directory
+
 - name: copy aws credentials
   copy:
     src: home/aws/credentials
