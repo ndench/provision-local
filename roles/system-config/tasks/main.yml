@@ -20,29 +20,29 @@
     enabled: yes
     state: started
 
-#- name: configure X11 keymap
-#  copy:
-#    src: etc/X11/xorg.conf.d/00-keyboard.conf
-#    dest: /etc/X11/xorg.conf.d/00-keyboard.conf
-#
-#- name: configure X11 mouse config
-#  copy:
-#    src: etc/X11/xorg.conf.d/99-libinput-custom-config.conf
-#    dest: /etc/X11/xorg.conf.d/99-libinput-custom-config.conf
-#
+- name: configure X11 keymap
+  copy:
+    src: etc/X11/xorg.conf.d/00-keyboard.conf
+    dest: /etc/X11/xorg.conf.d/00-keyboard.conf
+
+- name: configure X11 mouse config
+  copy:
+    src: etc/X11/xorg.conf.d/99-libinput-custom-config.conf
+    dest: /etc/X11/xorg.conf.d/99-libinput-custom-config.conf
+
 #- name: configure pacman
 #  copy:
 #    src: etc/pacman.conf
 #    dest: /etc/pacman.conf
 
-#- name: setup nginx reverse proxy
-#  copy:
-#    src: etc/nginx/nginx.conf
-#    dest: /etc/nginx/nginx.conf
-#    mode: 0644
-#
-#- name: configure samba share
-#  copy:
-#    src: etc/samba/smb.conf
-#    dest: /etc/samba/smb.conf
-#    mode: 0644
+- name: setup nginx reverse proxy
+  copy:
+    src: etc/nginx/nginx.conf
+    dest: /etc/nginx/nginx.conf
+    mode: 0644
+
+- name: configure samba share
+  copy:
+    src: etc/samba/smb.conf
+    dest: /etc/samba/smb.conf
+    mode: 0644
