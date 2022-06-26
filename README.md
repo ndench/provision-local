@@ -33,6 +33,7 @@ $ make tags=foo,bar skip-tags=baz
 - Configure tmux [example 1](https://github.com/gpakosz/.tmux), [example 2](https://peterforgacs.github.io/2017/04/25/Tmux/)
 - check ~/.config/mimeapps.list
 - update /etc/mkinitcpio.conf to add `keyboard keymap consolefont` after `autodetect`
+- update /etc/default/grub to set GRUB_TIMEOUT=1
 - need to run `sudo rm /usr/share/fonts/TTF/AL\ *` before installing archlabs-fonts
 
 
