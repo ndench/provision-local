@@ -19,6 +19,6 @@
 #    enabled: yes
 
 - name: copy vconsole.conf
-   copy:
-     src: etc/vconsole.conf
-     dest: /etc/vconsole.conf
+  copy:
+    src: etc/vconsole.conf
+    dest: /etc/vconsole.conf
