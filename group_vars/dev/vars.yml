@@ -40,9 +40,9 @@ pacman_packages:
   - polybar
   - noto-fonts-emoji
   # LOGIN_PKGS
-  - lightdm
-  - lightdm-gtk-greeter
-  - lightdm-gtk-greeter-settings
+#  - lightdm
+#  - lightdm-gtk-greeter
+#  - lightdm-gtk-greeter-settings
   - accountsservice
   # Packages from old install
   #- acpi

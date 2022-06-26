@@ -8,15 +8,15 @@
   command: systemctl set-default graphical.target
   when: default_target.stdout != "graphical.target"
 
-- name: configure lightdm-greeter
-  copy:
-    src: etc/lightdm/lightdm-gtk-greeter.conf
-    dest: /etc/lightdm/lightdm-gtk-greeter.conf
+#- name: configure lightdm-greeter
+#  copy:
+#    src: etc/lightdm/lightdm-gtk-greeter.conf
+#    dest: /etc/lightdm/lightdm-gtk-greeter.conf
 
-- name: enable lightdm
-  systemd:
-    name: lightdm
-    enabled: yes
+#- name: enable lightdm
+#  systemd:
+#    name: lightdm
+#    enabled: yes
 
 - name: copy vconsole.conf
   copy:
