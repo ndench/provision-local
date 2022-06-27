@@ -20,6 +20,12 @@
     enabled: yes
     state: started
 
+- name: configure local hostname resolution
+  copy:
+    src: etc/nsswitch.conf
+    dest: /etc/nsswitch.conf
+  notify: enable avahi
+
 - name: configure X11 keymap
   copy:
     src: etc/X11/xorg.conf.d/00-keyboard.conf
@@ -46,3 +52,4 @@
     src: etc/samba/smb.conf
     dest: /etc/samba/smb.conf
     mode: 0644
+    notify: enable samba
