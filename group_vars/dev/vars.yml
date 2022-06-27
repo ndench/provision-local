@@ -150,6 +150,7 @@ aur_packages:
   - rcm
   - nvm
   - ngrok
+  - pop-bin
 
 github_token: "{{ vault_github_token }}"
 
