@@ -57,6 +57,7 @@
     - enable tlp
     - mask systemd-rfkill
     - enable redshift
+    - enable docker
 
 - name: create aur_builder user (kewlifft/ansible-aui)
   user:

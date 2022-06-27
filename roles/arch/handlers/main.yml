@@ -33,3 +33,9 @@
     scope: user
     state: started
     enabled: yes
+
+- name: enable docker
+  systemd:
+    name: docker
+    state: started
+    enabled: yes
