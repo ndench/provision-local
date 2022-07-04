@@ -133,6 +133,8 @@ pacman_packages:
   - nss
   - gcc
   - patch
+  - xcompmgr
+  - autoconf
 
 aur_packages:
   - amazon-ecr-credential-helper
