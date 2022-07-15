@@ -36,6 +36,10 @@ $ make tags=foo,bar skip-tags=baz
 - update /etc/default/grub to set GRUB_TIMEOUT=1
 - need to run `sudo rm /usr/share/fonts/TTF/AL\ *` before installing archlabs-fonts
 
+Do we need these:
+- dkms linux-headers nvidia-open nvtop mesa-utils iotop nvidia-prime
+- optimus-manager
+
 
 ## Secret files to put in syncret
 
