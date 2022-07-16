@@ -32,13 +32,24 @@ $ make tags=foo,bar skip-tags=baz
 - use nvm instead of nodejs https://wiki.archlinux.org/index.php/Node.js_
 - Configure tmux [example 1](https://github.com/gpakosz/.tmux), [example 2](https://peterforgacs.github.io/2017/04/25/Tmux/)
 - check ~/.config/mimeapps.list
-- update /etc/mkinitcpio.conf to add `keyboard keymap consolefont` after `autodetect`
-- update /etc/default/grub to set GRUB_TIMEOUT=1
-- need to run `sudo rm /usr/share/fonts/TTF/AL\ *` before installing archlabs-fonts
 
-Do we need these:
-- dkms linux-headers nvidia-open nvtop mesa-utils iotop nvidia-prime
-- optimus-manager
+
+
+- update /etc/mkinitcpio.conf to add `keyboard keymap consolefont` after `autodetect`
+- update /etc/mkinitcpio.conf to add `nvidia nvidia_modeset nvidia_uvm nvidia_drm i915` to MODULES
+- update /etc/default/grub to set GRUB_TIMEOUT=1
+- update /etc/default/grub to add nvidia-drm.modeset=1 kernel parameter
+- need to run `sudo rm /usr/share/fonts/TTF/AL\ *` before installing archlabs-fonts
+- Install dkms linux-headers nvidia nvtop mesa-utils iotop nvidia-prime nvidia-utils nvidia-settings vulkan-tools vulkan-intel xfce4-sensors-plugin
+- Ensure tpacpi-bat is removed
+- Add tlp settings from /etc/tlp.d/*.conf
+- Get nvidia udev rules for PRIME render offload: <https://wiki.archlinux.org/title/PRIME#PRIME_render_offload>
+- Add nvidia pacman hook
+- systemctl enable tlp avahi-daemon
+- systemctl mask systemd-rfkill.service systemd-rfkill.socket 
+- check pacman.conf differences with sighup
+- get /etc/modules-load.d/i2c-dev.conf
+- run sensors-detect
 
 
 ## Secret files to put in syncret
