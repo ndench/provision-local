@@ -25,16 +25,13 @@ $ make tags=foo,bar skip-tags=baz
 ```
 
 ## TODO:
-- install docd https://wiki.archlinux.org/index.php/ThinkPad_docks
-- check other thinkpad things https://wiki.archlinux.org/index.php/Lenovo_ThinkPad_T470
 - check other laptop things https://wiki.archlinux.org/index.php/Laptop
 - check power management https://wiki.archlinux.org/index.php/Power_management
-- use nvm instead of nodejs https://wiki.archlinux.org/index.php/Node.js_
 - Configure tmux [example 1](https://github.com/gpakosz/.tmux), [example 2](https://peterforgacs.github.io/2017/04/25/Tmux/)
 - check ~/.config/mimeapps.list
+- figure out why dockd isn't working
 
-
-
+## Update scripts
 - update /etc/mkinitcpio.conf to add `keyboard keymap consolefont` after `autodetect`
 - update /etc/mkinitcpio.conf to add `nvidia nvidia_modeset nvidia_uvm nvidia_drm i915` to MODULES
 - update /etc/default/grub to set GRUB_TIMEOUT=1
@@ -50,6 +47,9 @@ $ make tags=foo,bar skip-tags=baz
 - check pacman.conf differences with sighup
 - get /etc/modules-load.d/i2c-dev.conf
 - run sensors-detect
+- install bolt acpid dockd
+- start/enable acpid
+- configure dockd <https://wiki.archlinux.org/title/ThinkPad_docks>
 
 
 ## Secret files to put in syncret
