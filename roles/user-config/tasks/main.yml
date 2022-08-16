@@ -59,3 +59,14 @@
     src: home/config/hub
     dest: "{{ ansible_env.HOME }}/.config/hub"
     mode: 0600
+
+- name: create .ngrok2 directory
+  file:
+    dest: "{{ ansible_env.HOME }}/.ngrok2"
+    state: directory
+
+- name: copy ngrok config
+  copy:
+    src: home/ngrok2/ngrok.yml
+    dest: "{{ ansible_env.HOME }}/.ngrok2/ngrok.yml"
+    mode: 0600
