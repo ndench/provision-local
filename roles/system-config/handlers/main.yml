@@ -1,14 +1,5 @@
 ---
 
-- name: enable samba
-  systemd:
-    name: "{{ item }}"
-    enabled: yes
-    state: started
-  loop:
-    - smb
-    - nmb
-
 - name: enable avahi
   systemd:
     name: avahi-daemon

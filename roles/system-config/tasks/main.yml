@@ -48,8 +48,17 @@
     mode: 0644
 
 - name: configure samba share
-  copy:
+  ansible.builtin.copy:
     src: etc/samba/smb.conf
     dest: /etc/samba/smb.conf
     mode: 0644
-    notify: enable samba
+
+- name: enable samba
+  systemd:
+    name: "{{ item }}"
+    enabled: yes
+    state: started
+  loop:
+    - smb
+    - nmb
+
