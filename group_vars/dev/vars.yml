@@ -8,7 +8,6 @@ pacman_packages:
   - archlabs-skel-base
   - archlabs-fonts
   - archlabs-themes
-  - archlabs-dARK
   - archlabs-icons
   - archlabs-wallpapers
   - archlabs-scripts
