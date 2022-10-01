@@ -57,10 +57,10 @@ pacman_packages:
   - diff-so-fancy
   #- dnsutils
   - docker
-  #- docker-compose
+  - docker-compose
   - feh
   - firefox
-  #- firefox-developer-edition
+  - firefox-developer-edition
   #- fish
   - fortune-mod
   - git
@@ -154,7 +154,7 @@ aur_packages:
   - ngrok
   - pop-bin
   - avahi
-  #- nss-mdns
+  - nss-mdns
 
 github_token: "{{ vault_github_token }}"
 
