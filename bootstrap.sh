@@ -18,6 +18,4 @@ fi
 cd ${clone_path}
 git pull
 
-make
-
-git remote set-url origin git@github.com:ndench/provision-local.git
+make install git-remote

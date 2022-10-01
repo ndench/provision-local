@@ -27,3 +27,7 @@ $(AUR_HELPER):
 	tar -vxf ansible-aur-git.tar.gz
 	cd ansible-aur-git
 	makepkg -si --noconfirm
+
+.PHONY: git-remote
+git-remote:
+	git remote set-url origin git@github.com:ndench/provision-local.git
