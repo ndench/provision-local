@@ -89,7 +89,7 @@ pacman_packages:
   - pkgfile
   #- pkgstats
   - playerctl
-  - powertop
+  #- powertop
   - pv
   - redshift
   - rofi
