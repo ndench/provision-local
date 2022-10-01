@@ -8,14 +8,14 @@ pacman_packages:
   - archlabs-skel-base
   - archlabs-fonts
   - archlabs-themes
-  - archlabs-dARK
+  #- archlabs-dARK
   - archlabs-icons
   - archlabs-wallpapers
   - archlabs-scripts
   # WM_BASE_PKGS
   - i3-gaps
   - arandr
-  - archlabs-networkmanager-dmenu
+  #- archlabs-networkmanager-dmenu
   - xdg-user-dirs
   - nitrogen
   - polkit-gnome
