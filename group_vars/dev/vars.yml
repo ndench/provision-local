@@ -154,7 +154,7 @@ aur_packages:
   - ngrok
   - pop-bin
   - avahi
-  - nss-mdns
+  #- nss-mdns
 
 github_token: "{{ vault_github_token }}"
 
