@@ -24,7 +24,12 @@
   copy:
     src: etc/nsswitch.conf
     dest: /etc/nsswitch.conf
-  notify: enable avahi
+
+- name: enable avahi
+  systemd:
+    name: avahi-daemon
+    enabled: yes
+    state: started
 
 - name: configure X11 keymap
   copy:

@@ -21,7 +21,12 @@
     src: etc/systemd/system/reflector.service
     dest: /etc/systemd/system/reflector.service
     mode: 0644
-  notify: run reflector
+
+- name: run reflector
+  systemd:
+    name: reflector
+    state: started
+    daemon_reload: yes
 
 - meta: flush_handlers
 
@@ -53,11 +58,30 @@
   pacman:
     name: "{{ pacman_packages }}"
     state: present
-  notify:
-    - enable tlp
-    - mask systemd-rfkill
-    - enable redshift
-    - enable docker
+
+- name: enable tlp
+  systemd:
+    name: tlp
+    enabled: yes
+    state: started
+
+# systemd-rfkill conflicts with tlp
+# https://wiki.archlinux.org/index.php/TLP
+- name: mask systemd-rfkill
+  systemd:
+    name: "{{ item }}"
+    masked: yes
+    enabled: no
+    state: stopped
+  loop:
+    - systemd-rfkill.service
+    - systemd-rfkill.socket
+
+- name: enable docker
+  systemd:
+    name: docker
+    state: started
+    enabled: yes
 
 - name: create aur_builder user (kewlifft/ansible-aui)
   user:
