@@ -73,7 +73,10 @@
 
 - name: enable redshift
   systemd:
-    name: redshift
+    name: "{{ item }}"
     scope: user
     state: started
     enabled: yes
+  with_items:
+    - redshift
+    - redshift-gtk
