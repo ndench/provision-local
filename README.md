@@ -30,6 +30,7 @@ $ make tags=foo,bar skip-tags=baz
 - Configure tmux [example 1](https://github.com/gpakosz/.tmux), [example 2](https://peterforgacs.github.io/2017/04/25/Tmux/)
 - check ~/.config/mimeapps.list
 - figure out why dockd isn't working
+- [Add pritunl keys](https://client.pritunl.com/)
 
 ## Update scripts
 - update /etc/mkinitcpio.conf to add `keyboard keymap consolefont` after `autodetect`
