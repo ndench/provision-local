@@ -11,6 +11,9 @@ sudo pacman -S --noconfirm --needed git make
 clone_path=~/git/ndench/provision-local
 if [[ ! -d ${clone_path} ]]; then
   git clone https://github.com/ndench/provision-local.git ${clone_path}
+fi
+
+if [[ ! -f ${clone_path}/.ansible_vault.pass ]]; then
   read -sp "Enter vault password: " vault_password
   echo ${vault_password} > ${clone_path}/.ansible_vault.pass
 fi
@@ -18,4 +21,4 @@ fi
 cd ${clone_path}
 git pull
 
-make install git-remote
+make install git-remote rcup

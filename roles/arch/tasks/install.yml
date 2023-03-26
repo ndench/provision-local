@@ -21,6 +21,7 @@
     src: etc/systemd/system/reflector.service
     dest: /etc/systemd/system/reflector.service
     mode: 0644
+    backup: true
 
 - name: run reflector
   systemd:
@@ -41,18 +42,19 @@
     src: etc/pacman.d/hooks/mirrorupgrade.hook
     dest: /etc/pacman.d/hooks/mirrorupgrade.hook
     mode: 0644
+    backup: true
 
-- name: create zsh hash directory
-  file:
-    path: /var/cache/zsh
-    state: directory
-    mode: 0755
+#- name: create zsh hash directory
+#  file:
+#    path: /var/cache/zsh
+#    state: directory
+#    mode: 0755
 
-- name: configure zsh rehash hook
-  copy:
-    src: etc/pacman.d/hooks/zsh.hook
-    dest: /etc/pacman.d/hooks/zsh.hook
-    mode: 0644
+#- name: configure zsh rehash hook
+#  copy:
+#    src: etc/pacman.d/hooks/zsh.hook
+#    dest: /etc/pacman.d/hooks/zsh.hook
+#    mode: 0644
 
 - name: install pacman packages
   pacman:

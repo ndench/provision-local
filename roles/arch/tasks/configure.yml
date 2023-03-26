@@ -22,11 +22,13 @@
   copy:
     src: etc/vconsole.conf
     dest: /etc/vconsole.conf
+    backup: true
 
 - name: configure tlp
   copy:
     src: "{{ item }}"
     dest: /etc/tlp.d/
+    backup: true
   with_items:
     - etc/tlp.d/10-processor.conf
     - etc/tlp.d/20-battery-care.conf

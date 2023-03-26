@@ -14,17 +14,13 @@
   copy:
     src: home/rcrc
     dest: "{{ ansible_env.HOME }}/.rcrc"
+    backup: true
 
 - name: clone dotfiles repo
   git:
     repo: "{{ dotfiles_repo }}"
     dest: "{{ ansible_env.HOME }}/.dotfiles"
     accept_hostkey: yes
-
-- name: run rcup
-  command: rcup -t new-dotfiles
-  register: rcresult
-  failed_when: rcresult.stdout != ""
 
 - name: create .aws directory
   file:

@@ -24,6 +24,7 @@
   copy:
     src: etc/nsswitch.conf
     dest: /etc/nsswitch.conf
+    backup: true
 
 - name: enable avahi
   systemd:
@@ -35,22 +36,26 @@
   copy:
     src: etc/X11/xorg.conf.d/00-keyboard.conf
     dest: /etc/X11/xorg.conf.d/00-keyboard.conf
+    backup: true
 
-- name: configure X11 mouse config
-  copy:
-    src: etc/X11/xorg.conf.d/99-libinput-custom-config.conf
-    dest: /etc/X11/xorg.conf.d/99-libinput-custom-config.conf
+#- name: configure X11 mouse config
+#  copy:
+#    src: etc/X11/xorg.conf.d/99-libinput-custom-config.conf
+#    dest: /etc/X11/xorg.conf.d/99-libinput-custom-config.conf
+#    backup: true
 
 #- name: configure pacman
 #  copy:
 #    src: etc/pacman.conf
 #    dest: /etc/pacman.conf
+#    backup: true
 
-- name: setup nginx reverse proxy
-  copy:
-    src: etc/nginx/nginx.conf
-    dest: /etc/nginx/nginx.conf
-    mode: 0644
+#- name: setup nginx reverse proxy
+#  copy:
+#    src: etc/nginx/nginx.conf
+#    dest: /etc/nginx/nginx.conf
+#    mode: 0644
+#    backup: true
 
 - name: configure samba share
   ansible.builtin.copy:

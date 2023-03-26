@@ -31,3 +31,7 @@ $(AUR_HELPER):
 .PHONY: git-remote
 git-remote:
 	git remote set-url origin git@github.com:ndench/provision-local.git
+
+.PHONY: rcup
+rcup:
+	rcup -t new-dotfiles
