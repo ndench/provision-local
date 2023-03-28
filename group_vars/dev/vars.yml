@@ -10,7 +10,7 @@ pacman_packages:
   #- xfce4-settings
   #- laptop-detect
   #- polybar
-  #- noto-fonts-emoji
+  - noto-fonts-emoji
   # Packages from old install
   #- acpilight
   #- alsa-utils
@@ -18,7 +18,7 @@ pacman_packages:
   #- arc-icon-theme
   - aws-cli
   #- dconf-editor
-  #- diff-so-fancy
+  - diff-so-fancy
   #- dnsutils
   - docker
   - docker-compose
@@ -51,7 +51,7 @@ pacman_packages:
   - redshift
   - samba
   #- simplescreenrecorder
-  #- the_silver_searcher
+  - the_silver_searcher
   #- thefuck
   - time
   - tlp
@@ -75,7 +75,7 @@ pacman_packages:
   #- unclutter
   - flameshot
   #- cloc
-  #- rofimoji
+  - rofimoji
   #- libqalculate
   - thunar
   - nss
@@ -84,6 +84,11 @@ pacman_packages:
   - autoconf
   - avahi
   - nss-mdns
+  - gnome-keyring
+  - alacritty
+  - kitty
+  - xterm
+  - docker-buildx
 
 aur_packages:
   - amazon-ecr-credential-helper
@@ -102,6 +107,8 @@ aur_packages:
   - nvm
   - ngrok
   - pop-bin
+  - 1password
+  - authy
 
 github_token: "{{ vault_github_token }}"
 
