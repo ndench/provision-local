@@ -70,7 +70,6 @@ pacman_packages:
   - xsel
   - zip
   #- fzf
-  #- xautolock
   - unzip
   #- unclutter
   - flameshot
@@ -89,6 +88,8 @@ pacman_packages:
   - kitty
   - xterm
   - docker-buildx
+  - xautolock
+  - xss-lock
 
 aur_packages:
   - amazon-ecr-credential-helper
