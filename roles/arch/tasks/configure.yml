@@ -8,10 +8,24 @@
   command: systemctl set-default graphical.target
   when: default_target.stdout != "graphical.target"
 
-#- name: configure lightdm-greeter
-#  copy:
-#    src: etc/lightdm/lightdm-gtk-greeter.conf
-#    dest: /etc/lightdm/lightdm-gtk-greeter.conf
+- name: configure lightdm-greeter
+  copy:
+    src: etc/lightdm/lightdm-gtk-greeter.conf
+    dest: /etc/lightdm/lightdm-gtk-greeter.conf
+    backup: true
+
+- name: add lightdm display setup script
+  copy:
+    src: etc/lightdm/display_setup.sh
+    dest: /etc/lightdm/display_setup.sh
+    backup: true
+
+- name: configure lightdm display setup script
+  lineinfile:
+    path: /etc/lightdm/lightdm.conf
+    regexp: '^#display-setup-script='
+    line: display-setup-script=/etc/lightdm/display_setup.sh
+    backup: true
 
 #- name: enable lightdm
 #  systemd:
