@@ -69,13 +69,13 @@ pacman_packages:
   #- xscreensaver
   - xsel
   - zip
-  #- fzf
+  - fzf
   - unzip
   #- unclutter
   - flameshot
   #- cloc
   - rofimoji
-  #- libqalculate
+  - libqalculate
   - thunar
   - nss
   - gcc
