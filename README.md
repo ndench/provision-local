@@ -47,6 +47,11 @@ $ make tags=foo,bar skip-tags=baz
 - start/enable acpid
 - configure dockd <https://wiki.archlinux.org/title/ThinkPad_docks>
 
+## To make xbacklight work with nvidia
+- install `acpilight` (replaces xorg-xbacklight)
+- create `/etc/udev/rules.d/backlight.rules`
+    ACTION=="add", SUBSYSTEM=="backlight", RUN+="/bin/chgrp video $sys$devpath/brightness", RUN+="/bin/chmod g+w $sys$devpath/brightness"
+
 
 ## Secret files to put in syncret
 
