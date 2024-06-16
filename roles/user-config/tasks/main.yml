@@ -22,17 +22,6 @@
     dest: "{{ ansible_env.HOME }}/.dotfiles"
     accept_hostkey: yes
 
-- name: create .aws directory
-  file:
-    dest: "{{ ansible_env.HOME }}/.aws"
-    state: directory
-
-- name: copy aws credentials
-  copy:
-    src: home/aws/credentials
-    dest: "{{ ansible_env.HOME }}/.aws/credentials"
-    mode: 0600
-
 - name: copy wakatime config
   copy:
     src: home/wakatime.cfg
