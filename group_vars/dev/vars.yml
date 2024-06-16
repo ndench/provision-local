@@ -90,6 +90,7 @@ pacman_packages:
   - docker-buildx
   - xautolock
   - xss-lock
+  - github-cli
 
 aur_packages:
   - amazon-ecr-credential-helper
