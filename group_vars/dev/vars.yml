@@ -91,12 +91,16 @@ pacman_packages:
   - xautolock
   - xss-lock
   - github-cli
+  - bluez
+  - bluez-utils
+  - blueman
+  - nerd-fonts
+
 
 aur_packages:
   - amazon-ecr-credential-helper
   - google-chrome
   - icdiff
-  #- nerd-fonts-complete
   #- otf-san-francisco
   - phpstorm
   - phpstorm-jre

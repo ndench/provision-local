@@ -67,6 +67,12 @@
     enabled: yes
     state: started
 
+- name: enable bluetooth
+  systemd:
+    name: bluetooth
+    enabled: yes
+    state: started
+
 # systemd-rfkill conflicts with tlp
 # https://wiki.archlinux.org/index.php/TLP
 - name: mask systemd-rfkill
