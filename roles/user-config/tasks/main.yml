@@ -63,5 +63,4 @@
     state: started
     enabled: yes
   with_items:
-    - redshift
     - redshift-gtk
