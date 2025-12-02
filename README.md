@@ -74,3 +74,6 @@ $ make tags=foo,bar skip-tags=baz
     - lightdm-gtk-greeter-settings
     - accountservice
 
+## Handling disk usage
+
+Use `boabab` to visualise disk usage.
