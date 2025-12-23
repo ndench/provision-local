@@ -76,4 +76,6 @@ $ make tags=foo,bar skip-tags=baz
 
 ## Handling disk usage
 
-Use `boabab` to visualise disk usage.
+- Run `paccache -rk1` to clear pacman cache except for one past version
+- Run `paccache -ruk0` to clear pacman cache for uninstalled packages
+- Use `boabab` to visualise disk usage.
