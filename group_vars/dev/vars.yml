@@ -95,6 +95,7 @@ pacman_packages:
   - bluez-utils
   - blueman
   - nerd-fonts
+  - wsdd
 
 
 aur_packages:

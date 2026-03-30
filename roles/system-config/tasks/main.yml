@@ -26,6 +26,12 @@
     dest: /etc/nsswitch.conf
     backup: true
 
+- name: configure avahi
+  ansible.builtin.copy:
+    src: etc/avahi/avahi-daemon.conf
+    dest: /etc/avahi/avahi-daemon.conf
+    mode: 0644
+
 - name: enable avahi
   systemd:
     name: avahi-daemon
@@ -72,3 +78,8 @@
     - smb
     - nmb
 
+- name: enable wsdd
+  systemd:
+    name: wsdd
+    enabled: yes
+    state: started
