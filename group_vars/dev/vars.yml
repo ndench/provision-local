@@ -68,6 +68,7 @@ pacman_packages:
   - vlc
   #- xscreensaver
   - xsel
+  - xdotool # fallback paste tool for OpenWhispr dictation on X11
   - zip
   - fzf
   - unzip
