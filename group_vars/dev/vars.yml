@@ -16,7 +16,7 @@ pacman_packages:
   #- alsa-utils
   #- arc-gtk-theme
   #- arc-icon-theme
-  - aws-cli
+  - aws-cli-v2
   #- dconf-editor
   - diff-so-fancy
   #- dnsutils
@@ -96,6 +96,21 @@ pacman_packages:
   - blueman
   - nerd-fonts
   - wsdd
+  # Audio: PipeWire replaces PulseAudio (needed for OpenWhispr system audio capture)
+  - pipewire
+  - pipewire-audio
+  - pipewire-alsa
+  - pipewire-pulse
+  - pipewire-jack
+  - wireplumber
+  - pavucontrol
+
+# Removed before installing pacman_packages as they conflict with the PipeWire packages
+pacman_packages_absent:
+  - pulseaudio-bluetooth
+  - pulseaudio-alsa
+  - pulseaudio
+  - jack2
 
 
 aur_packages:
@@ -115,7 +130,7 @@ aur_packages:
   - ngrok
   - pop-bin
   - 1password
-  - authy
+  - openwhispr-bin
 
 github_token: "{{ vault_github_token }}"
 

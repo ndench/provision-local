@@ -56,6 +56,15 @@
 #    dest: /etc/pacman.d/hooks/zsh.hook
 #    mode: 0644
 
+# --nodeps twice skips dependency checks so packages that depend on these
+# (eg. ffmpeg -> jack) don't block removal; the PipeWire replacements
+# installed in the next task provide them again
+- name: remove conflicting pacman packages
+  pacman:
+    name: "{{ pacman_packages_absent }}"
+    state: absent
+    extra_args: --nodeps --nodeps
+
 - name: install pacman packages
   pacman:
     name: "{{ pacman_packages }}"

@@ -10,6 +10,16 @@
     token: "{{ github_token }}"
     pubkey: "{{ ssh_pub_key.stdout }}"
 
+- name: enable pipewire user services
+  systemd:
+    name: "{{ item }}"
+    scope: user
+    enabled: yes
+  loop:
+    - pipewire.socket
+    - pipewire-pulse.socket
+    - wireplumber.service
+
 - name: copy rcm config
   copy:
     src: home/rcrc
