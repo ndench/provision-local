@@ -69,6 +69,7 @@ pacman_packages:
   #- xscreensaver
   - xsel
   - xdotool # fallback paste tool for OpenWhispr dictation on X11
+  - xorg-xev # used by ~/bin/openwhispr-raise to keep the dictation pop-up on top
   - zip
   - fzf
   - unzip
