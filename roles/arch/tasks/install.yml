@@ -1,5 +1,35 @@
 ---
 
+- name: enable parallel downloads in pacman
+  lineinfile:
+    path: /etc/pacman.conf
+    regexp: '^#?ParallelDownloads'
+    line: 'ParallelDownloads = 5'
+
+- name: check for pritunl repo signing key
+  command: pacman-key --list-keys {{ pritunl_key_id }}
+  register: pritunl_key
+  changed_when: false
+  failed_when: false
+
+# https://client.pritunl.com/
+- name: add pritunl repo signing key
+  shell: >
+    curl -fsSL https://raw.githubusercontent.com/pritunl/pgp/master/pritunl_repo_pub.asc | pacman-key --add -
+    && pacman-key --lsign-key {{ pritunl_key_id }}
+  when: pritunl_key.rc != 0
+
+- name: add pritunl repo
+  lineinfile:
+    path: /etc/pacman.conf
+    line: '[pritunl]'
+
+- name: add pritunl repo server
+  lineinfile:
+    path: /etc/pacman.conf
+    line: 'Server = https://repo.pritunl.com/stable/pacman'
+    insertafter: '^\[pritunl\]'
+
 - name: run system upgrade
   pacman:
     update_cache: yes
@@ -100,6 +130,40 @@
     state: started
     enabled: yes
 
+# Weekly paccache run, keeps the last 3 versions of each package
+- name: enable paccache timer
+  systemd:
+    name: paccache.timer
+    enabled: yes
+    state: started
+
+- name: enable cron
+  systemd:
+    name: cronie
+    enabled: yes
+    state: started
+
+- name: enable pritunl client
+  systemd:
+    name: pritunl-client
+    enabled: yes
+    state: started
+
+- name: enable clamav signature updates
+  systemd:
+    name: clamav-freshclam-once.timer
+    enabled: yes
+    state: started
+
+# Only enabled, the daemon can't start until freshclam has downloaded the signatures
+- name: enable clamav daemon
+  systemd:
+    name: "{{ item }}"
+    enabled: yes
+  loop:
+    - clamav-daemon.service
+    - clamav-daemon.socket
+
 - name: create aur_builder user (kewlifft/ansible-aui)
   user:
     name: aur_builder
@@ -124,3 +188,39 @@
     use: yay
   become: yes
   become_user: aur_builder
+
+- name: create local PKGBUILD build directory
+  file:
+    path: /var/tmp/pkgbuilds
+    state: directory
+    owner: aur_builder
+    mode: 0755
+
+- name: copy local PKGBUILDs
+  copy:
+    src: "{{ playbook_dir }}/pkgbuilds/{{ item }}/"
+    dest: "/var/tmp/pkgbuilds/{{ item }}/"
+    owner: aur_builder
+  loop: "{{ local_packages }}"
+
+- name: install local PKGBUILD packages
+  aur:
+    name: "{{ item }}"
+    state: present
+    use: makepkg
+    local_pkgbuild: "/var/tmp/pkgbuilds/{{ item }}"
+  # Build on disk, phpstorm-light needs ~11G which doesn't fit in the /tmp tmpfs
+  environment:
+    TMPDIR: /var/tmp
+  become: yes
+  become_user: aur_builder
+  loop: "{{ local_packages }}"
+
+# AUR and local builds leave GBs of sources behind (eg. phpstorm-light is ~10G)
+- name: remove build caches
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /var/tmp/pkgbuilds
+    - /home/aur_builder/.cache/yay

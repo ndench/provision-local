@@ -1,0 +1,17 @@
+#!/bin/sh
+# Weekly cleanup of caches that otherwise grow without limit.
+# Run by cleanup-caches.timer, deployed by provision-local (roles/user-config).
+
+# Images not used by any container, and stopped containers, older than a week
+docker image prune --all --force --filter until=168h
+docker container prune --force --filter until=168h
+
+# yay build dirs that haven't been touched in a month
+if [ -d ~/.cache/yay ]; then
+  find ~/.cache/yay -mindepth 1 -maxdepth 1 -type d -mtime +30 -exec rm -rf {} +
+fi
+
+# Codex leaves a ~40M staging dir behind on every marketplace upgrade
+if [ -d ~/.codex/.tmp/marketplaces/.staging ]; then
+  find ~/.codex/.tmp/marketplaces/.staging -mindepth 1 -maxdepth 1 -mtime +1 -exec rm -rf {} +
+fi

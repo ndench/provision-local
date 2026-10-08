@@ -1,0 +1,6 @@
+[Unit]
+Description=Clean up docker, yay and codex caches
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/cleanup-caches

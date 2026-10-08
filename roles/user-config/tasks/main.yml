@@ -20,6 +20,46 @@
     - pipewire-pulse.socket
     - wireplumber.service
 
+- name: create user systemd and bin directories
+  file:
+    dest: "{{ ansible_env.HOME }}/{{ item }}"
+    state: directory
+  loop:
+    - .local/bin
+    - .config/systemd/user
+
+- name: copy cache cleanup script
+  copy:
+    src: home/local/bin/cleanup-caches
+    dest: "{{ ansible_env.HOME }}/.local/bin/cleanup-caches"
+    mode: 0755
+
+- name: copy cache cleanup units
+  copy:
+    src: "home/config/systemd/user/{{ item }}"
+    dest: "{{ ansible_env.HOME }}/.config/systemd/user/{{ item }}"
+  loop:
+    - cleanup-caches.service
+    - cleanup-caches.timer
+
+- name: enable cache cleanup timer
+  systemd:
+    name: cleanup-caches.timer
+    scope: user
+    enabled: yes
+    state: started
+    daemon_reload: yes
+
+# updates.sh comes from the dotfiles repo
+- name: check for updates on boot and hourly
+  cron:
+    name: "check for updates {{ item }}"
+    special_time: "{{ item }}"
+    job: "{{ ansible_env.HOME }}/bin/updates.sh"
+  loop:
+    - reboot
+    - hourly
+
 - name: copy rcm config
   copy:
     src: home/rcrc

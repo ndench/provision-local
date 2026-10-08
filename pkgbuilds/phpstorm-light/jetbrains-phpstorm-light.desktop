@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=PhpStorm Light
+Icon=phpstorm-light
+Exec="/opt/phpstorm-light/bin/phpstorm" %f
+Comment=Lightweight and Smart PHP IDE (Light mode)
+Categories=Development;IDE;
+Terminal=false
+StartupWMClass=jetbrains-phpstorm

@@ -27,10 +27,10 @@
     line: display-setup-script=/etc/lightdm/display_setup.sh
     backup: true
 
-#- name: enable lightdm
-#  systemd:
-#    name: lightdm
-#    enabled: yes
+- name: enable lightdm
+  systemd:
+    name: lightdm
+    enabled: yes
 
 - name: copy vconsole.conf
   copy:
@@ -46,3 +46,34 @@
   with_items:
     - etc/tlp.d/10-processor.conf
     - etc/tlp.d/20-battery-care.conf
+
+# Early KMS for nvidia: https://wiki.archlinux.org/title/NVIDIA#Early_loading
+# The nvidia firmware adds ~100M to the initramfs, so skip it if /boot is the old 260M partition
+- name: get /boot size
+  set_fact:
+    boot_size: "{{ (ansible_mounts | selectattr('mount', 'equalto', '/boot') | first).size_total }}"
+
+- name: load nvidia modules early
+  lineinfile:
+    path: /etc/mkinitcpio.conf
+    regexp: '^MODULES='
+    line: 'MODULES=(i915 nvidia nvidia_modeset nvidia_uvm nvidia_drm)'
+    backup: true
+  when: boot_size | int >= 1073741824
+  notify: rebuild initramfs
+
+# The kms hook adds nouveau to the initramfs
+- name: remove kms hook
+  replace:
+    path: /etc/mkinitcpio.conf
+    regexp: '^(HOOKS=\(.*?) kms\b'
+    replace: '\1'
+  when: boot_size | int >= 1073741824
+  notify: rebuild initramfs
+
+- name: rebuild initramfs when nvidia is upgraded
+  copy:
+    src: etc/pacman.d/hooks/nvidia.hook
+    dest: /etc/pacman.d/hooks/nvidia.hook
+    mode: 0644
+  when: boot_size | int >= 1073741824

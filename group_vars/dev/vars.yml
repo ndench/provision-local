@@ -40,7 +40,7 @@ pacman_packages:
   #- nginx
   #- nodejs
   - openssh
-  #- packer
+  - packer
   - peek
   - pkgfile
   #- pkgstats
@@ -55,7 +55,6 @@ pacman_packages:
   #- thefuck
   - time
   - tlp
-  - tpacpi-bat
   - tmux
   #- transmission-gtk
   - tree
@@ -75,7 +74,7 @@ pacman_packages:
   - unzip
   #- unclutter
   - flameshot
-  #- cloc
+  - cloc
   - rofimoji
   - libqalculate
   - thunar
@@ -90,8 +89,8 @@ pacman_packages:
   - kitty
   - xterm
   - docker-buildx
-  - xautolock
   - xss-lock
+  - nvm
   - github-cli
   - bluez
   - bluez-utils
@@ -106,6 +105,115 @@ pacman_packages:
   - pipewire-jack
   - wireplumber
   - pavucontrol
+  # Previously provided by the ArchLabs installer
+  - base-devel
+  - pacman-contrib
+  - man-db
+  - man-pages
+  - zsh
+  - zsh-completions
+  - bash-completion
+  - networkmanager
+  - network-manager-applet
+  - openvpn
+  - openconnect
+  - xorg-server
+  - xorg-xinput
+  - xorg-xrandr
+  - xorg-xrdb
+  - xorg-xset
+  - xorg-xsetroot
+  - xorg-setxkbmap
+  - xorg-xdpyinfo
+  - xorg-xkill
+  - xorg-xwininfo
+  - xf86-input-libinput
+  - lightdm
+  - lightdm-gtk-greeter
+  - lightdm-gtk-greeter-settings
+  - accountsservice
+  - i3-wm
+  - i3status
+  - perl-anyevent-i3
+  - rofi
+  - dmenu
+  - dunst
+  - picom
+  - feh
+  - arandr
+  - lxappearance
+  - gnome-themes-extra
+  - gtk3
+  - gvfs
+  - polkit-gnome
+  - volumeicon
+  - pamixer
+  - playerctl
+  - brightnessctl
+  - gsimplecal
+  - geoclue # location agent for redshift, started by the i3 config
+  - scrot
+  - xclip
+  - wmctrl
+  - xdg-user-dirs
+  - terminus-font
+  - ttf-dejavu
+  - lm_sensors
+  - acpi
+  - usbutils
+  - bind
+  - tcpdump
+  - rsync
+  - ffmpeg
+  - imagemagick
+  - gst-libav
+  - gst-plugins-base
+  - gst-plugins-good
+  - sof-firmware
+  - alsa-firmware
+  - alsa-plugins
+  # Nvidia (PRIME with the intel iGPU, see system-config xorg.conf.d)
+  - nvidia-open
+  - nvidia-utils
+  # Dev tools
+  - ruby
+  - kcachegrind
+  - graphviz
+  - wget
+  - mariadb-clients
+  - valkey
+  - just
+  - bun
+  - patchelf
+  - debugedit
+  - pkgconf
+  - python-dotenv
+  - perl-image-exiftool
+  - vim
+  - ex-vi-compat
+  - inetutils
+  - ncdu
+  # Editors / AI
+  - code
+  - zed
+  - ghostty
+  - openai-codex
+  # GUI / utilities
+  - baobab
+  - xarchiver
+  - viewnior
+  - 7zip
+  - trash-cli
+  - cronie
+  - wine
+  - wine-mono
+  - mono
+  - evtest
+  # Security / compliance
+  - clamav
+  - osquery
+  # VPN, from the [pritunl] repo added in the arch role
+  - pritunl-client-electron
 
 # Removed before installing pacman_packages as they conflict with the PipeWire packages
 pacman_packages_absent:
@@ -113,6 +221,8 @@ pacman_packages_absent:
   - pulseaudio-alsa
   - pulseaudio
   - jack2
+  - i3lock # replaced by i3lock-color from the AUR
+  - xorg-xbacklight # replaced by acpilight from the AUR
 
 
 aur_packages:
@@ -128,11 +238,40 @@ aur_packages:
   #- urxvt-resize-font-git
   - zoom
   - rcm
-  - nvm
   - ngrok
   - pop-bin
   - 1password
   - openwhispr-bin
+  - i3lock-color
+  - nitrogen
+  - acpilight # xbacklight that works with nvidia, see system-config backlight.rules
+  - drata-agent
+  - 1password-cli
+  - brave-bin
+  - claude-desktop
+  - losslesscut-bin
+  - powershell-bin
+  - herdr-bin
+  - bfg
+  - jiq-bin
+  - gnu-netcat
+  - tpacpi-bat
+  - xautolock
+
+# Built from the PKGBUILDs in pkgbuilds/<name>
+local_packages:
+  - cadence
+  - phpstorm-light
+
+# Resolved to localhost in /etc/hosts
+local_dev_hosts:
+  - topcat.local
+  - fakes3.local
+  - microsoft-entra.local
+  - agave.local
+  - tequila.local
+
+pritunl_key_id: 7568D9BB55FF9E5287D586017AE645C0CF8E292A
 
 github_token: "{{ vault_github_token }}"
 

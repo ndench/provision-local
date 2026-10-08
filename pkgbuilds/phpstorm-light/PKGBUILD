@@ -1,0 +1,58 @@
+# Maintainer: Nathan Dench <nathan.dench@procurepro.co>
+
+pkgname=phpstorm-light
+pkgver=263.6219
+pkgrel=1
+pkgdesc='Lightweight and Smart PHP IDE (PhpStorm Light mode, nightly EAP build)'
+arch=('x86_64')
+license=('custom:jetbrains')
+url='https://phpstorm.dev/light-mode'
+# Bundled JetBrains Runtime (jbr) is kept, so no external java-runtime is needed.
+# Deps below were derived by ldd-scanning the bundled jbr native libs:
+#   libxtst   -> pulls libXtst/libXi/libXext/libX11/libxcb/libXau/libXdmcp
+#                (needed by jbr/lib/libawt_xawt.so, the default X11 toolkit)
+#   libxrender-> jbr/lib/libawt_xawt.so
+#   freetype2 -> jbr/lib/libfontmanager.so (libfreetype.so.6)
+#   fontconfig-> dlopen'd by jbr/lib/libawt.so for font discovery
+#   alsa-lib  -> jbr/lib/libjsound.so
+# libffi/libpng/zlib/bzip2/brotli come transitively via glib2/freetype2/fontconfig.
+depends=('glib2' 'python' 'freetype2' 'fontconfig' 'libxtst' 'libxrender' 'alsa-lib')
+optdepends=('gnome-keyring: save login/deployment credentials safely'
+            'wayland: native Wayland rendering (JBR Wayland toolkit, jbr/lib/libawt_wlawt.so)'
+            'libxkbcommon: native Wayland rendering (JBR Wayland toolkit)')
+options=('!strip')
+# Installs to /opt/phpstorm-light with a /usr/bin/phpstorm-light launcher, so it
+# can coexist with the regular `phpstorm` package (dataDirectoryName is
+# "PhpStormLight2026.3", separate config from the stable IDE).
+#
+# NOTE: this is a nightly build with a build-number URL. On every new build you
+# must bump pkgver AND refresh the b2sums below (updpkgsums).
+source=("https://download.jetbrains.com/webide/nightly/PhpStorm-${pkgver}.tar.gz"
+        jetbrains-phpstorm-light.desktop
+        LICENSE)
+b2sums=('70161ff8cf521570ca1037e8385233d530139b10e17d353f567db172e1980574746b7c172fb4e805e9e8fb0051a53fe642722d01ab235bcbcd49e751a21b3c83'
+        '30f07cb310448771e30d16264cc4a5086dc2ea3b727a0ded00f3421000f6e8a7cabf7b6921d341e8291300e043203cfe973ee8cf657a0bccf7b601c2ddcf683c'
+        'dadaf0e67b598aa7a7a4bf8644943a7ee8ebf4412abb17cd307f5989e36caf9d0db529a0e717a9df5d9537b10c4b13e814b955ada6f0d445913c812b63804e77')
+
+package() {
+  local _srcdir="${srcdir}/PhpStorm-${pkgver}"
+  [ -d "${_srcdir}" ] || { echo "extracted dir ${_srcdir} not found"; return 1; }
+
+  install -dm755 "${pkgdir}"/opt/
+  install -dm755 "${pkgdir}"/usr/bin/
+  install -dm755 "${pkgdir}"/usr/share/applications/
+  install -dm755 "${pkgdir}"/usr/share/pixmaps/
+
+  # Whole IDE tree (including bundled jbr) -> /opt/phpstorm-light
+  cp -a "${_srcdir}/" "${pkgdir}"/opt/${pkgname}
+
+  # Launcher symlink. The bundled binary is still named `phpstorm`.
+  ln -s /opt/${pkgname}/bin/phpstorm "${pkgdir}"/usr/bin/${pkgname}
+
+  install -Dm644 "${srcdir}"/jetbrains-phpstorm-light.desktop \
+    "${pkgdir}"/usr/share/applications/jetbrains-${pkgname}.desktop
+  install -Dm644 "${pkgdir}"/opt/${pkgname}/bin/phpstorm.svg \
+    "${pkgdir}"/usr/share/pixmaps/${pkgname}.svg
+  install -Dm644 "${srcdir}"/LICENSE \
+    "${pkgdir}"/usr/share/licenses/${pkgname}/LICENSE.txt
+}

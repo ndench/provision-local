@@ -1,0 +1,9 @@
+[Unit]
+Description=Weekly cleanup of docker, yay and codex caches
+
+[Timer]
+OnCalendar=weekly
+Persistent=true
+
+[Install]
+WantedBy=timers.target

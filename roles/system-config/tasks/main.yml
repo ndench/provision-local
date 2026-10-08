@@ -11,6 +11,7 @@
     append: yes
     groups:
       - docker
+      - video # write access to the backlight, see backlight.rules
     generate_ssh_key: yes
     ssh_key_bits: 2048
 
@@ -44,16 +45,74 @@
     dest: /etc/X11/xorg.conf.d/00-keyboard.conf
     backup: true
 
+- name: configure X11 nvidia PRIME and touchpad
+  copy:
+    src: "{{ item }}"
+    dest: /etc/X11/xorg.conf.d/
+    backup: true
+  loop:
+    - etc/X11/xorg.conf.d/10-nvidia-drm-outputclass.conf
+    - etc/X11/xorg.conf.d/40-touchpad.conf
+
+# Lets acpilight's xbacklight work with nvidia
+- name: allow video group to set backlight
+  copy:
+    src: etc/udev/rules.d/backlight.rules
+    dest: /etc/udev/rules.d/backlight.rules
+    mode: 0644
+
+- name: configure global DNS servers
+  copy:
+    src: etc/NetworkManager/conf.d/dns-servers.conf
+    dest: /etc/NetworkManager/conf.d/dns-servers.conf
+    mode: 0644
+
+- name: disable ipv6
+  copy:
+    src: etc/sysctl.d/40-ipv6.conf
+    dest: /etc/sysctl.d/40-ipv6.conf
+    mode: 0644
+
+- name: add local dev hostnames
+  lineinfile:
+    path: /etc/hosts
+    regexp: '^{{ item[0] | regex_escape }}\s+{{ item[1] | regex_escape }}$'
+    line: "{{ item[0] }}   {{ item[1] }}"
+  loop: "{{ ['127.0.0.1', '::1'] | product(local_dev_hosts) | list }}"
+
+- name: create journald and coredump config directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+  loop:
+    - /etc/systemd/journald.conf.d
+    - /etc/systemd/coredump.conf.d
+
+- name: cap journal size
+  copy:
+    src: etc/systemd/journald.conf.d/size.conf
+    dest: /etc/systemd/journald.conf.d/size.conf
+    mode: 0644
+  notify: restart journald
+
+- name: cap coredump size
+  copy:
+    src: etc/systemd/coredump.conf.d/size.conf
+    dest: /etc/systemd/coredump.conf.d/size.conf
+    mode: 0644
+
+- name: configure docker log rotation
+  copy:
+    src: etc/docker/daemon.json
+    dest: /etc/docker/daemon.json
+    mode: 0644
+  notify: restart docker
+
 #- name: configure X11 mouse config
 #  copy:
 #    src: etc/X11/xorg.conf.d/99-libinput-custom-config.conf
 #    dest: /etc/X11/xorg.conf.d/99-libinput-custom-config.conf
-#    backup: true
-
-#- name: configure pacman
-#  copy:
-#    src: etc/pacman.conf
-#    dest: /etc/pacman.conf
 #    backup: true
 
 #- name: setup nginx reverse proxy

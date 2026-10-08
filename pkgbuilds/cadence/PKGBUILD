@@ -1,0 +1,33 @@
+# Maintainer: Nathan Dench <nathan.dench@procurepro.co>
+
+pkgname=cadence
+pkgver=1.14.0
+pkgrel=1
+pkgdesc="Cadence (teamcadence.ai) desktop app"
+arch=('x86_64')
+url="https://teamcadence.ai"
+license=('custom')
+# Tauri app (webkit2gtk backend). Runtime libs from the .deb Depends field:
+#   libwebkit2gtk-4.1-0 -> webkit2gtk-4.1
+#   libgtk-3-0          -> gtk3
+#   libayatana-appindicator3-1 -> libayatana-appindicator
+# (1.14.0 dropped the libxdo link, so xdotool is no longer needed.)
+depends=('webkit2gtk-4.1' 'gtk3' 'libayatana-appindicator')
+options=('!strip' '!debug')
+# NOTE: the upstream URL is unversioned ("latest"). On every new release you
+# must bump pkgver AND refresh the sha256sum below (updpkgsums).
+source=("${pkgname}-${pkgver}.deb::https://releases.teamcadence.ai/Cadence_amd64.deb")
+sha256sums=('032894252bf64313a9b8f4e14bd371c5b40e91c16e5ee1c713efb0ce2820ea8c')
+
+package() {
+	# .deb data payload -> pkgdir. Ships usr/bin/{cadence,cadence-app},
+	# the .desktop file and hicolor icons already laid out correctly.
+	bsdtar -O -xf "${pkgname}-${pkgver}.deb" data.tar.gz | bsdtar -C "${pkgdir}" -xzf -
+
+	# Normalise directory perms (dpkg archives sometimes carry odd modes).
+	find "${pkgdir}" -type d -exec chmod 755 {} +
+
+	# As of 1.14.0 no libxdo compat symlink or DMABUF wrapper is needed:
+	# cadence-app no longer links libxdo, and it sets
+	# WEBKIT_DISABLE_DMABUF_RENDERER itself when it detects an NVIDIA driver.
+}
