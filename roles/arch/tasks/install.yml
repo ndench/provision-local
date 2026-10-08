@@ -1,47 +1,26 @@
 ---
 
-- name: enable parallel downloads in pacman
-  lineinfile:
-    path: /etc/pacman.conf
-    regexp: '^#?ParallelDownloads'
-    line: 'ParallelDownloads = 5'
-
+# https://client.pritunl.com/
 - name: check for pritunl repo signing key
   command: pacman-key --list-keys {{ pritunl_key_id }}
   register: pritunl_key
   changed_when: false
   failed_when: false
 
-# https://client.pritunl.com/
 - name: add pritunl repo signing key
   shell: >
     curl -fsSL https://raw.githubusercontent.com/pritunl/pgp/master/pritunl_repo_pub.asc | pacman-key --add -
     && pacman-key --lsign-key {{ pritunl_key_id }}
   when: pritunl_key.rc != 0
 
-- name: add pritunl repo
-  lineinfile:
-    path: /etc/pacman.conf
-    line: '[pritunl]'
-
-- name: add pritunl repo server
-  lineinfile:
-    path: /etc/pacman.conf
-    line: 'Server = https://repo.pritunl.com/stable/pacman'
-    insertafter: '^\[pritunl\]'
-
-# pacman.conf only supports comments on their own line
-- name: hold back flameshot
-  lineinfile:
-    path: /etc/pacman.conf
-    regexp: '^#?IgnorePkg'
-    line: 'IgnorePkg   = flameshot'
-
-- name: explain why flameshot is held back
-  lineinfile:
-    path: /etc/pacman.conf
-    line: '# flameshot 14.0.0-1 is broken, only meant to skip that version. Remove once a newer version is out'
-    insertbefore: '^IgnorePkg'
+# Based on the upstream default. When pacman installs a pacman.conf.pacnew, merge it into
+# this copy (not /etc/pacman.conf), otherwise the next run overwrites the merge
+- name: configure pacman
+  copy:
+    src: etc/pacman.conf
+    dest: /etc/pacman.conf
+    mode: 0644
+    backup: true
 
 - name: run system upgrade
   pacman:

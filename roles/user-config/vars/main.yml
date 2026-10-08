@@ -1,0 +1,6 @@
+---
+
+# Scripts in files/home/local/bin with matching units in files/home/config/systemd/user
+user_timers:
+  - cleanup-caches
+  - pacnew-check

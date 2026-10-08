@@ -40,6 +40,29 @@ $ make tags=foo,bar skip-tags=baz
 # Will pass --tags foo,bar --skip-tags baz to ansible-playbook
 ```
 
+## Merging .pacnew files
+
+When a package ships a new default for a config file you've changed, pacman leaves it next to yours as
+`<file>.pacnew` instead of overwriting. These contain real upstream changes (new options, security
+defaults), so merge them. You'll get a desktop notification each day while any exist (`pacnew-check.timer`),
+and `make` lists them at the end of the run.
+
+```sh
+$ sudo DIFFPROG='nvim -d' pacdiff
+```
+
+For each file pacdiff lets you (v)iew the diff, (m)erge it in the diff tool, (r)emove the pacnew to keep
+your version, or (o)verwrite yours with the pacnew.
+
+Check whether this repo manages the file first:
+
+- **Copied whole** (from `roles/*/files/etc/`), eg. `pacman.conf`, `nsswitch.conf`, `samba/smb.conf`: merge the
+  pacnew into the repo copy, run `make`, then remove the pacnew. Merging only into `/etc` gets overwritten
+  on the next run.
+- **Edited line by line** (`lineinfile` tasks), eg. `mkinitcpio.conf`, `makepkg.conf`, `lightdm/lightdm.conf`,
+  `hosts`: overwrite with the pacnew, then run `make` to re-apply the edits.
+- **Not managed here**: merge in place.
+
 ## Reinstall plan (Oct 2026)
 
 Goal: remove the Windows partitions, give Linux the whole disk, and grow `/boot` from 260M to 2G so the

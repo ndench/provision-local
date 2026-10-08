@@ -1,0 +1,13 @@
+#!/bin/sh
+# Nag with a desktop notification while pacman has left .pacnew files to merge.
+# Run by pacnew-check.timer, deployed by provision-local (roles/user-config).
+
+pacnew=$(pacdiff --output)
+[ -z "$pacnew" ] && exit 0
+
+notify-send -u critical -i dialog-warning \
+  "$(echo "$pacnew" | wc -l) .pacnew files to merge" \
+  "$pacnew
+
+Review with: sudo DIFFPROG='nvim -d' pacdiff
+Merge files managed by provision-local into the repo copy instead"
