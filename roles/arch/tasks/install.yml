@@ -30,56 +30,18 @@
     line: 'Server = https://repo.pritunl.com/stable/pacman'
     insertafter: '^\[pritunl\]'
 
-# Hold back broken package versions (pacman_blocked_versions) until the repo has a newer one.
-# Tagged so it can be run on its own with `make tags=pacman-hold`
-- name: sync package databases
-  pacman:
-    update_cache: yes
-  tags: pacman-hold
-
-- name: get repo versions of blocked packages
-  shell: >
-    pacman -Si {{ item.name }} | awk -F' *: ' '/^Version/ {print $2; exit}'
-  register: blocked_repo_versions
-  changed_when: false
-  loop: "{{ pacman_blocked_versions }}"
-  tags: pacman-hold
-
-- name: get installed versions of blocked packages
-  shell: pacman -Q {{ item.name }} | awk '{print $2}'
-  register: blocked_installed_versions
-  changed_when: false
-  loop: "{{ pacman_blocked_versions }}"
-  tags: pacman-hold
-
-- name: reset held packages
-  set_fact:
-    held_packages: []
-  tags: pacman-hold
-
-- name: find packages whose repo version is blocked
-  set_fact:
-    held_packages: "{{ held_packages + [item.item.name] }}"
-  when: item.stdout == item.item.blocked
-  loop: "{{ blocked_repo_versions.results }}"
-  tags: pacman-hold
-
-- name: ignore upgrades to blocked versions
+# pacman.conf only supports comments on their own line
+- name: hold back flameshot
   lineinfile:
     path: /etc/pacman.conf
     regexp: '^#?IgnorePkg'
-    line: "{{ ('IgnorePkg   = ' ~ (held_packages | join(' '))) if held_packages else '#IgnorePkg   =' }}"
-  tags: pacman-hold
+    line: 'IgnorePkg   = flameshot'
 
-- name: install the last good version of blocked packages
-  command: >
-    pacman -U --noconfirm
-    https://archive.archlinux.org/packages/{{ item.0.item.name[0] }}/{{ item.0.item.name }}/{{ item.0.item.name }}-{{ item.0.item.fallback }}-x86_64.pkg.tar.zst
-  when:
-    - item.0.stdout == item.0.item.blocked
-    - item.1.stdout in ['', item.0.item.blocked]
-  loop: "{{ blocked_repo_versions.results | zip(blocked_installed_versions.results) | list }}"
-  tags: pacman-hold
+- name: explain why flameshot is held back
+  lineinfile:
+    path: /etc/pacman.conf
+    line: '# flameshot 14.0.0-1 is broken, only meant to skip that version. Remove once a newer version is out'
+    insertbefore: '^IgnorePkg'
 
 - name: run system upgrade
   pacman:

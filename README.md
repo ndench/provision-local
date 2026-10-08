@@ -40,13 +40,6 @@ $ make tags=foo,bar skip-tags=baz
 # Will pass --tags foo,bar --skip-tags baz to ansible-playbook
 ```
 
-## Blocking a broken package version
-
-Add the package to `pacman_blocked_versions` in `group_vars/dev/vars.yml` with the broken version and the
-last good one, then run `make tags=pacman-hold`. While the repo still has the broken version the package is
-in `IgnorePkg` (and the good version is installed from the Arch Linux Archive if needed). Once a newer version
-is released the next `make` lets it upgrade again, and the entry can be deleted.
-
 ## Reinstall plan (Oct 2026)
 
 Goal: remove the Windows partitions, give Linux the whole disk, and grow `/boot` from 260M to 2G so the
