@@ -215,6 +215,13 @@ pacman_packages:
   # VPN, from the [pritunl] repo added in the arch role
   - pritunl-client-electron
 
+# Package versions to skip. While the repo's version is `blocked`, the package is added to IgnorePkg
+# and `fallback` is installed from the Arch Linux Archive. Remove the entry once a newer version is out.
+pacman_blocked_versions:
+  - name: flameshot
+    blocked: 14.0.0-1
+    fallback: 13.3.0-2
+
 # Removed before installing pacman_packages as they conflict with the PipeWire packages
 pacman_packages_absent:
   - pulseaudio-bluetooth
