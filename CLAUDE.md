@@ -29,7 +29,7 @@ make rcup
 
 | Role | Privilege | Tags | Purpose |
 |------|-----------|------|---------|
-| `weareinteractive.sudo` | `become: yes` | `provision-system`, `provision-sudo` | Sudoers config (external Galaxy role) |
+| `weareinteractive.sudo` | `become: yes` | `provision-system`, `provision-sudo` | `/etc/sudoers.d/ansible` from `sudo_defaults`/`sudo_users` in vars.yml (external Galaxy role) |
 | `arch` | `become: yes` | `provision-system`, `provision-arch` | Package installation, services, AUR |
 | `system-config` | `become: yes` | `provision-system`, `provision-config` | LightDM, samba, X11 keyboard, systemd services |
 | `user-config` | no sudo | `provision-user`, `provision-config` | SSH keys, dotfiles, app configs (ngrok, wakatime, docker) |

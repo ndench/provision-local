@@ -61,6 +61,8 @@ Check whether this repo manages the file first:
   on the next run.
 - **Edited line by line** (`lineinfile` tasks), eg. `mkinitcpio.conf`, `makepkg.conf`, `lightdm/lightdm.conf`,
   `hosts`: overwrite with the pacnew, then run `make` to re-apply the edits.
+- **`sudoers`**: keep it stock and take the pacnew. Sudo rules live in `/etc/sudoers.d/ansible` (`sudo_users`
+  in `group_vars/dev/vars.yml`).
 - **Not managed here**: merge in place.
 
 ## Reinstall plan (Oct 2026)

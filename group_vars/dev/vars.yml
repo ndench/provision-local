@@ -3,6 +3,14 @@
 sudo_defaults:
   - defaults: 'insults,timestamp_timeout=30'
 
+# Written to /etc/sudoers.d/ansible, so /etc/sudoers can stay the stock file
+sudo_users:
+  - name: '%wheel'
+  # makepkg/yay run as aur_builder and call `sudo pacman` unattended
+  - name: aur_builder
+    commands: /usr/bin/pacman
+    nopasswd: yes
+
 pacman_packages:
   #- archlabs-networkmanager-dmenu
   #- wmctrl
