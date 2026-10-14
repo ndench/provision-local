@@ -20,6 +20,14 @@
     dest: /etc/lightdm/display_setup.sh
     backup: true
 
+- name: configure lightdm greeter
+  lineinfile:
+    path: /etc/lightdm/lightdm.conf
+    regexp: '^#?greeter-session='
+    line: greeter-session=lightdm-gtk-greeter
+    insertbefore: '^#?greeter-hide-users='
+    backup: true
+
 - name: configure lightdm display setup script
   lineinfile:
     path: /etc/lightdm/lightdm.conf
