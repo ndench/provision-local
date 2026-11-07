@@ -59,7 +59,7 @@
 # The nvidia firmware adds ~100M to the initramfs, so skip it if /boot is the old 260M partition
 - name: get /boot size
   set_fact:
-    boot_size: "{{ (ansible_mounts | selectattr('mount', 'equalto', '/boot') | first).size_total }}"
+    boot_size: "{{ (ansible_facts.mounts | selectattr('mount', 'equalto', '/boot') | first).size_total }}"
 
 - name: load nvidia modules early
   lineinfile:

@@ -1,12 +1,12 @@
 ---
 
 - name: read ssh public key for github
-  shell: cat "{{ ansible_env.HOME }}/.ssh/id_ed25519.pub"
+  shell: cat "{{ ansible_facts.env.HOME }}/.ssh/id_ed25519.pub"
   register: ssh_pub_key
 
 - name: add ssh public key to github
   github_key:
-    name: "{{ ansible_hostname }}"
+    name: "{{ ansible_facts.hostname }}"
     token: "{{ github_token }}"
     pubkey: "{{ ssh_pub_key.stdout }}"
 
@@ -22,7 +22,7 @@
 
 - name: create user systemd and bin directories
   file:
-    dest: "{{ ansible_env.HOME }}/{{ item }}"
+    dest: "{{ ansible_facts.env.HOME }}/{{ item }}"
     state: directory
   loop:
     - .local/bin
@@ -33,14 +33,14 @@
 - name: copy timer scripts
   copy:
     src: "home/local/bin/{{ item }}"
-    dest: "{{ ansible_env.HOME }}/.local/bin/{{ item }}"
+    dest: "{{ ansible_facts.env.HOME }}/.local/bin/{{ item }}"
     mode: 0755
   loop: "{{ user_timers }}"
 
 - name: copy timer units
   copy:
     src: "home/config/systemd/user/{{ item.0 }}.{{ item.1 }}"
-    dest: "{{ ansible_env.HOME }}/.config/systemd/user/{{ item.0 }}.{{ item.1 }}"
+    dest: "{{ ansible_facts.env.HOME }}/.config/systemd/user/{{ item.0 }}.{{ item.1 }}"
   loop: "{{ user_timers | product(['service', 'timer']) | list }}"
 
 - name: enable timers
@@ -57,7 +57,7 @@
   cron:
     name: "check for updates {{ item }}"
     special_time: "{{ item }}"
-    job: "{{ ansible_env.HOME }}/bin/updates.sh"
+    job: "{{ ansible_facts.env.HOME }}/bin/updates.sh"
   loop:
     - reboot
     - hourly
@@ -65,47 +65,47 @@
 - name: copy rcm config
   copy:
     src: home/rcrc
-    dest: "{{ ansible_env.HOME }}/.rcrc"
+    dest: "{{ ansible_facts.env.HOME }}/.rcrc"
     backup: true
 
 - name: clone dotfiles repo
   git:
     repo: "{{ dotfiles_repo }}"
-    dest: "{{ ansible_env.HOME }}/.dotfiles"
+    dest: "{{ ansible_facts.env.HOME }}/.dotfiles"
     accept_hostkey: yes
 
 - name: copy wakatime config
   copy:
     src: home/wakatime.cfg
-    dest: "{{ ansible_env.HOME }}/.wakatime.cfg"
+    dest: "{{ ansible_facts.env.HOME }}/.wakatime.cfg"
     mode: 0600
 
 - name: create .docker directory
   file:
-    dest: "{{ ansible_env.HOME }}/.docker"
+    dest: "{{ ansible_facts.env.HOME }}/.docker"
     state: directory
 
 - name: copy docker config
   copy:
     src: home/docker/config.json
-    dest: "{{ ansible_env.HOME }}/.docker/config.json"
+    dest: "{{ ansible_facts.env.HOME }}/.docker/config.json"
     mode: 0600
 
 - name: copy hub config
   copy:
     src: home/config/hub
-    dest: "{{ ansible_env.HOME }}/.config/hub"
+    dest: "{{ ansible_facts.env.HOME }}/.config/hub"
     mode: 0600
 
 - name: create .ngrok2 directory
   file:
-    dest: "{{ ansible_env.HOME }}/.ngrok2"
+    dest: "{{ ansible_facts.env.HOME }}/.ngrok2"
     state: directory
 
 - name: copy ngrok config
   copy:
     src: home/ngrok2/ngrok.yml
-    dest: "{{ ansible_env.HOME }}/.ngrok2/ngrok.yml"
+    dest: "{{ ansible_facts.env.HOME }}/.ngrok2/ngrok.yml"
     mode: 0600
 
 # Disable to see if it's causing kernel panics on boot
