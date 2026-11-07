@@ -93,12 +93,19 @@
     mode: 0644
   notify: apply tmpfiles
 
+# After a kernel upgrade the running kernel's modules are gone, so zram can't load until a reboot
+- name: check the running kernel's modules are installed
+  stat:
+    path: "/usr/lib/modules/{{ ansible_kernel }}"
+  register: running_kernel_modules
+
 # The generator creates the swap unit on daemon-reload; a changed size applies on reboot
 - name: enable zram swap
   systemd:
     name: dev-zram0.swap
     state: started
     daemon_reload: yes
+  when: running_kernel_modules.stat.exists
 
 - name: configure earlyoom
   copy:
