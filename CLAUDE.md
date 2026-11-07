@@ -46,6 +46,6 @@ make rcup
 - Config files live in `roles/*/files/` and are deployed via Ansible `copy` module
 - A dedicated `aur_builder` user is created for AUR package operations
 - Swap is zram only (zswap disabled), with earlyoom as the OOM killer; systemd-oomd is deliberately unused because it kills whole cgroups and i3 runs every app in one session scope
-- Nvidia early KMS (mkinitcpio `MODULES`) is only applied when `/boot` is at least 1 GiB
+- Nvidia early KMS (mkinitcpio `MODULES`, `kms` hook removed) is required: without it Xorg can start before nvidia-drm and come up intel-only (black screen / dead dock monitors). It fits the 260M `/boot` because dropping `kms` removes nouveau's firmware
 - Secrets are managed with Ansible Vault (password file: `.ansible_vault.pass`)
 - The Makefile auto-installs Ansible and the AUR helper module if missing

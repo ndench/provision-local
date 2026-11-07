@@ -8,8 +8,8 @@ install plain Arch with the official guided installer instead:
 
 1. Boot the [Arch ISO](https://archlinux.org/download/) and run `archinstall`
 2. Choose:
-    - **Disk layout**: wipe the disk, ext4 root, and a **2 GiB** `/boot` (EFI) partition so the nvidia
-      modules fit in the initramfs
+    - **Disk layout**: wipe the disk, ext4 root, and a **2 GiB** `/boot` (EFI) partition so there's room
+      for a fallback initramfs and extra kernels
     - **Disk encryption**: LUKS on the root partition
     - **Bootloader**: systemd-boot
     - **Profile**: Desktop → i3 (pulls in xorg, lightdm and lightdm-gtk-greeter), graphics driver: nvidia (open kernel modules)
@@ -67,8 +67,8 @@ Check whether this repo manages the file first:
 
 ## Reinstall plan (Oct 2026)
 
-Goal: remove the Windows partitions, give Linux the whole disk, and grow `/boot` from 260M to 2G so the
-nvidia modules can be loaded early from the initramfs.
+Goal: remove the Windows partitions, give Linux the whole disk, and grow `/boot` from 260M to 2G for
+headroom. (Nvidia early KMS doesn't need the bigger `/boot`, see [Nvidia early KMS](#nvidia-early-kms).)
 
 ### 1. Make sure this repo reproduces the current machine
 
@@ -148,8 +148,15 @@ repo. Things that can't live here:
 
 The `arch` role adds `i915 nvidia nvidia_modeset nvidia_uvm nvidia_drm` to `MODULES` in
 `/etc/mkinitcpio.conf`, removes the `kms` hook (so nouveau isn't added to the initramfs), and installs a
-pacman hook to rebuild the initramfs when `nvidia-open` is upgraded. It's skipped if `/boot` is smaller than
-1 GiB, because the nvidia firmware won't fit.
+pacman hook to rebuild the initramfs when `nvidia-open` is upgraded.
+
+This is required, not an optimisation. Without it `nvidia-drm` loads after the root fs is mounted and races
+lightdm. If Xorg starts first it only sees the intel GPU, `display_setup.sh` can't find `NVIDIA-0`, and you get
+a black screen after the LUKS prompt. Dock monitors (wired to the nvidia GPU) also stay off, because nvidia
+takes longer to initialise when the dock is connected.
+
+It fits on the old 260M `/boot`. The `kms` hook pulls in nouveau and all of `linux-firmware-nvidia`, so
+swapping it for the nvidia modules shrinks the initramfs (134M → 108M).
 
 ## Secret files to put in syncret
 
