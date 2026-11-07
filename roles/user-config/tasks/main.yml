@@ -75,6 +75,7 @@
     repo: "{{ dotfiles_repo }}"
     dest: "{{ ansible_facts.env.HOME }}/.dotfiles"
     accept_hostkey: true
+    update: false # only clone; never reset a working copy that has local or unpushed changes
 
 - name: copy wakatime config
   ansible.builtin.copy:

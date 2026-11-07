@@ -235,6 +235,19 @@ pacman_packages_absent:
   - archlabs-i3lock-color # dead ArchLabs repo, also replaced by i3lock-color from the AUR
   - xorg-xbacklight # replaced by acpilight from the AUR
   - ansible-aur-git # replaced by the kewlfft.aur collection in requirements.yml
+  - electron32-bin # orphaned
+  - electron33-bin # orphaned
+  # Dead ArchLabs repo; the dotfiles use Adwaita and i3-msg instead
+  - archlabs-baph
+  - archlabs-fonts
+  - archlabs-i3lock-fancy
+  - archlabs-icons
+  - archlabs-keyring
+  - archlabs-scripts
+  - archlabs-skel-base
+  - archlabs-skel-i3
+  - archlabs-themes
+  - archlabs-wallpapers
 
 
 aur_packages:
@@ -269,11 +282,13 @@ aur_packages:
   - gnu-netcat
   - tpacpi-bat
   - xautolock
+  - superset-bin
 
 # Built from the PKGBUILDs in pkgbuilds/<name>
 local_packages:
   - cadence
   - phpstorm-light
+  - openai-codex-desktop # removed from the AUR
 
 # Resolved to localhost in /etc/hosts
 local_dev_hosts:

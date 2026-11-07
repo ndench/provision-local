@@ -8,6 +8,7 @@
 - name: configure nathan
   ansible.builtin.user:
     name: nathan
+    shell: /bin/zsh # archinstall creates the user with bash
     append: true
     groups:
       - docker

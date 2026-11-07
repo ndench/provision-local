@@ -75,19 +75,15 @@ headroom. (Nvidia early KMS doesn't need the bigger `/boot`, see [Nvidia early K
 The packages, services, `/etc` config and cleanup timers that had been set up by hand are now in this
 repo. Things that can't live here:
 
-- [ ] Copy drifted/unmanaged configs into the dotfiles repo:
-    - real files (not symlinks): `~/.gtkrc-2.0`, `~/.config/gtk-3.0/settings.ini`,
-      `~/.config/mimeapps.list`, `~/.config/nitrogen/nitrogen.cfg`
-    - not in dotfiles at all: `~/.zshenv`, `~/.profile`, `~/.config/alacritty/`, `~/.config/i3status/`,
-      `~/.config/htop/`, `~/.config/zed/`, `~/.config/herdr/`, `~/.config/rofi/archlabs.rasi`,
-      `~/.config/git/ignore`, `~/.config/autostart/`, `~/.local/share/applications/`
-    - fix the broken `~/.zsh/settings/completion.zsh` symlink
-- [ ] Replace ArchLabs-only bits the dotfiles rely on:
-    - `session-logout` (from `archlabs-scripts`) is used by `bin/rofi_run`
-    - ArchLabs-Dark GTK theme and ArchLabs icons (`archlabs-themes`, `archlabs-icons`)
-    - `i3lock-color` now comes from the AUR instead of `archlabs-i3lock-color`
-    - `xfsettingsd` is started by the i3 config but isn't installed (drop it from the i3 config)
-- [ ] Move the `~/.local/bin` PATH line from `/etc/profile` into the dotfiles `zshenv`
+- [x] Copy drifted/unmanaged configs into the dotfiles repo (gtk, mimeapps, nitrogen, zshenv/profile,
+      i3status, htop, zed, herdr, git ignore, alacritty, autostart entries). Not tracked on purpose:
+      `~/.local/share/applications/` and `~/.config/autostart/electron.desktop` are written by apps
+      themselves, and `archlabs.rasi` is unused (rofi uses the built-in `arthur` theme)
+- [x] Replace ArchLabs-only bits: Adwaita-dark instead of the ArchLabs theme/icons, `i3-msg exit` instead of
+      `session-logout`, dropped `al-info` and `xfsettingsd`. The `archlabs-*` packages are now removed by the
+      `arch` role
+- [x] Move the `~/.local/bin` PATH line from `/etc/profile` into the dotfiles (`zshenv` and `profile`)
+- [ ] After reinstalling, pick a wallpaper with nitrogen (the old one came from `archlabs-wallpapers`)
 
 ### 2. Back up everything that only exists on this machine
 
@@ -104,7 +100,6 @@ repo. Things that can't live here:
       (`find ~/git \( -name '.env*' -o -name '*.tfvars' -o -name '*.key' -o -name '*.pem' \) -not -path '*/node_modules/*'`)
 - [ ] `~/Documents`, `~/Downloads`, `~/Pictures`, `~/Videos`, `~/Desktop`, `~/.factorio`, `~/.wine`, `~/.fonts`
 - [ ] `~/.claude/` (settings, hooks, skills) and `~/.codex/config.toml` + `~/.codex/AGENTS.md`
-- [ ] `~/.cache/yay/openai-codex-desktop/PKGBUILD`: the package has been removed from the AUR, so this is the only copy
 - [ ] Docker volumes with data you care about (`docker volume ls`), e.g. dump `app_db` and `foundry_db-data`
 - [ ] Browser profiles (or make sure sync is on): Brave, Chrome, Firefox
 - [ ] Note the samba password, you'll need to re-run `sudo smbpasswd -a nathan`

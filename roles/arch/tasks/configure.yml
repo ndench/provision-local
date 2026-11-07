@@ -42,6 +42,12 @@
     name: lightdm
     enabled: true
 
+# Updates the systemd-boot EFI binary after systemd upgrades (replaces ArchLabs' bootctl pacman hook)
+- name: enable systemd-boot updates
+  ansible.builtin.systemd:
+    name: systemd-boot-update.service
+    enabled: true
+
 - name: copy vconsole.conf
   ansible.builtin.copy:
     src: etc/vconsole.conf
