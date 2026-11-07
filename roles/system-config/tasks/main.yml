@@ -1,29 +1,29 @@
 ---
 
 - name: lock root
-  user:
+  ansible.builtin.user:
     name: root
-    password_lock: yes
+    password_lock: true
 
 - name: configure nathan
-  user:
+  ansible.builtin.user:
     name: nathan
-    append: yes
+    append: true
     groups:
       - docker
       - video # write access to the backlight, see backlight.rules
-    generate_ssh_key: yes
+    generate_ssh_key: true
     ssh_key_type: ed25519 # GitHub rejects new RSA keys under 3072 bits
     ssh_key_file: .ssh/id_ed25519
 
 - name: enable ntp
-  systemd:
+  ansible.builtin.systemd:
     name: systemd-timesyncd
-    enabled: yes
+    enabled: true
     state: started
 
 - name: configure local hostname resolution
-  copy:
+  ansible.builtin.copy:
     src: etc/nsswitch.conf
     dest: /etc/nsswitch.conf
     backup: true
@@ -32,22 +32,22 @@
   ansible.builtin.copy:
     src: etc/avahi/avahi-daemon.conf
     dest: /etc/avahi/avahi-daemon.conf
-    mode: 0644
+    mode: "0644"
 
 - name: enable avahi
-  systemd:
+  ansible.builtin.systemd:
     name: avahi-daemon
-    enabled: yes
+    enabled: true
     state: started
 
 - name: configure X11 keymap
-  copy:
+  ansible.builtin.copy:
     src: etc/X11/xorg.conf.d/00-keyboard.conf
     dest: /etc/X11/xorg.conf.d/00-keyboard.conf
     backup: true
 
 - name: configure X11 nvidia PRIME and touchpad
-  copy:
+  ansible.builtin.copy:
     src: "{{ item }}"
     dest: /etc/X11/xorg.conf.d/
     backup: true
@@ -57,105 +57,105 @@
 
 # Lets acpilight's xbacklight work with nvidia
 - name: allow video group to set backlight
-  copy:
+  ansible.builtin.copy:
     src: etc/udev/rules.d/backlight.rules
     dest: /etc/udev/rules.d/backlight.rules
-    mode: 0644
+    mode: "0644"
 
 - name: configure global DNS servers
-  copy:
+  ansible.builtin.copy:
     src: etc/NetworkManager/conf.d/dns-servers.conf
     dest: /etc/NetworkManager/conf.d/dns-servers.conf
-    mode: 0644
+    mode: "0644"
 
 - name: disable ipv6
-  copy:
+  ansible.builtin.copy:
     src: etc/sysctl.d/40-ipv6.conf
     dest: /etc/sysctl.d/40-ipv6.conf
-    mode: 0644
+    mode: "0644"
 
 - name: configure zram swap
-  copy:
+  ansible.builtin.copy:
     src: etc/systemd/zram-generator.conf
     dest: /etc/systemd/zram-generator.conf
-    mode: 0644
+    mode: "0644"
 
 - name: tune vm for swap on zram
-  copy:
+  ansible.builtin.copy:
     src: etc/sysctl.d/99-vm-zram-parameters.conf
     dest: /etc/sysctl.d/99-vm-zram-parameters.conf
-    mode: 0644
+    mode: "0644"
   notify: reload sysctl
 
 - name: disable zswap
-  copy:
+  ansible.builtin.copy:
     src: etc/tmpfiles.d/disable-zswap.conf
     dest: /etc/tmpfiles.d/disable-zswap.conf
-    mode: 0644
+    mode: "0644"
   notify: apply tmpfiles
 
 # After a kernel upgrade the running kernel's modules are gone, so zram can't load until a reboot
 - name: check the running kernel's modules are installed
-  stat:
+  ansible.builtin.stat:
     path: "/usr/lib/modules/{{ ansible_facts.kernel }}"
   register: running_kernel_modules
 
 # The generator creates the swap unit on daemon-reload; a changed size applies on reboot
 - name: enable zram swap
-  systemd:
+  ansible.builtin.systemd:
     name: dev-zram0.swap
     state: started
-    daemon_reload: yes
+    daemon_reload: true
   when: running_kernel_modules.stat.exists
 
 - name: configure earlyoom
-  copy:
+  ansible.builtin.copy:
     src: etc/default/earlyoom
     dest: /etc/default/earlyoom
-    mode: 0644
+    mode: "0644"
   notify: restart earlyoom
 
 - name: enable earlyoom
-  systemd:
+  ansible.builtin.systemd:
     name: earlyoom
-    enabled: yes
+    enabled: true
     state: started
 
 - name: add local dev hostnames
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/hosts
     regexp: '^{{ item[0] | regex_escape }}\s+{{ item[1] | regex_escape }}$'
     line: "{{ item[0] }}   {{ item[1] }}"
   loop: "{{ ['127.0.0.1', '::1'] | product(local_dev_hosts) | list }}"
 
 - name: create journald, coredump and docker config directories
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
-    mode: 0755
+    mode: "0755"
   loop:
     - /etc/systemd/journald.conf.d
     - /etc/systemd/coredump.conf.d
     - /etc/docker # not shipped by the docker package
 
 - name: cap journal size
-  copy:
+  ansible.builtin.copy:
     src: etc/systemd/journald.conf.d/size.conf
     dest: /etc/systemd/journald.conf.d/size.conf
-    mode: 0644
+    mode: "0644"
   notify: restart journald
 
 - name: cap coredump size
-  copy:
+  ansible.builtin.copy:
     src: etc/systemd/coredump.conf.d/size.conf
     dest: /etc/systemd/coredump.conf.d/size.conf
-    mode: 0644
+    mode: "0644"
 
 - name: configure docker log rotation
-  copy:
+  ansible.builtin.copy:
     src: etc/docker/daemon.json
     dest: /etc/docker/daemon.json
-    mode: 0644
+    mode: "0644"
   notify: restart docker
 
 #- name: configure X11 mouse config
@@ -175,19 +175,19 @@
   ansible.builtin.copy:
     src: etc/samba/smb.conf
     dest: /etc/samba/smb.conf
-    mode: 0644
+    mode: "0644"
 
 - name: enable samba
-  systemd:
+  ansible.builtin.systemd:
     name: "{{ item }}"
-    enabled: yes
+    enabled: true
     state: started
   loop:
     - smb
     - nmb
 
 - name: enable wsdd
-  systemd:
+  ansible.builtin.systemd:
     name: wsdd
-    enabled: yes
+    enabled: true
     state: started

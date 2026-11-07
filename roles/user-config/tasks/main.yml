@@ -1,27 +1,29 @@
 ---
 
 - name: read ssh public key for github
-  shell: cat "{{ ansible_facts.env.HOME }}/.ssh/id_ed25519.pub"
+  ansible.builtin.shell: cat "{{ ansible_facts.env.HOME }}/.ssh/id_ed25519.pub"
   register: ssh_pub_key
+  changed_when: false
+  check_mode: false # read-only, and the next task needs its output
 
 - name: add ssh public key to github
-  github_key:
+  community.general.github_key:
     name: "{{ ansible_facts.hostname }}"
     token: "{{ github_token }}"
     pubkey: "{{ ssh_pub_key.stdout }}"
 
 - name: enable pipewire user services
-  systemd:
+  ansible.builtin.systemd:
     name: "{{ item }}"
     scope: user
-    enabled: yes
+    enabled: true
   loop:
     - pipewire.socket
     - pipewire-pulse.socket
     - wireplumber.service
 
 - name: create user systemd and bin directories
-  file:
+  ansible.builtin.file:
     dest: "{{ ansible_facts.env.HOME }}/{{ item }}"
     state: directory
   loop:
@@ -31,30 +33,30 @@
 # cleanup-caches: weekly prune of docker, yay and codex caches
 # pacnew-check: daily notification while there are .pacnew files to merge
 - name: copy timer scripts
-  copy:
+  ansible.builtin.copy:
     src: "home/local/bin/{{ item }}"
     dest: "{{ ansible_facts.env.HOME }}/.local/bin/{{ item }}"
-    mode: 0755
+    mode: "0755"
   loop: "{{ user_timers }}"
 
 - name: copy timer units
-  copy:
+  ansible.builtin.copy:
     src: "home/config/systemd/user/{{ item.0 }}.{{ item.1 }}"
     dest: "{{ ansible_facts.env.HOME }}/.config/systemd/user/{{ item.0 }}.{{ item.1 }}"
   loop: "{{ user_timers | product(['service', 'timer']) | list }}"
 
 - name: enable timers
-  systemd:
+  ansible.builtin.systemd:
     name: "{{ item }}.timer"
     scope: user
-    enabled: yes
+    enabled: true
     state: started
-    daemon_reload: yes
+    daemon_reload: true
   loop: "{{ user_timers }}"
 
 # updates.sh comes from the dotfiles repo
 - name: check for updates on boot and hourly
-  cron:
+  ansible.builtin.cron:
     name: "check for updates {{ item }}"
     special_time: "{{ item }}"
     job: "{{ ansible_facts.env.HOME }}/bin/updates.sh"
@@ -63,50 +65,50 @@
     - hourly
 
 - name: copy rcm config
-  copy:
+  ansible.builtin.copy:
     src: home/rcrc
     dest: "{{ ansible_facts.env.HOME }}/.rcrc"
     backup: true
 
 - name: clone dotfiles repo
-  git:
+  ansible.builtin.git:
     repo: "{{ dotfiles_repo }}"
     dest: "{{ ansible_facts.env.HOME }}/.dotfiles"
-    accept_hostkey: yes
+    accept_hostkey: true
 
 - name: copy wakatime config
-  copy:
+  ansible.builtin.copy:
     src: home/wakatime.cfg
     dest: "{{ ansible_facts.env.HOME }}/.wakatime.cfg"
-    mode: 0600
+    mode: "0600"
 
 - name: create .docker directory
-  file:
+  ansible.builtin.file:
     dest: "{{ ansible_facts.env.HOME }}/.docker"
     state: directory
 
 - name: copy docker config
-  copy:
+  ansible.builtin.copy:
     src: home/docker/config.json
     dest: "{{ ansible_facts.env.HOME }}/.docker/config.json"
-    mode: 0600
+    mode: "0600"
 
 - name: copy hub config
-  copy:
+  ansible.builtin.copy:
     src: home/config/hub
     dest: "{{ ansible_facts.env.HOME }}/.config/hub"
-    mode: 0600
+    mode: "0600"
 
 - name: create .ngrok2 directory
-  file:
+  ansible.builtin.file:
     dest: "{{ ansible_facts.env.HOME }}/.ngrok2"
     state: directory
 
 - name: copy ngrok config
-  copy:
+  ansible.builtin.copy:
     src: home/ngrok2/ngrok.yml
     dest: "{{ ansible_facts.env.HOME }}/.ngrok2/ngrok.yml"
-    mode: 0600
+    mode: "0600"
 
 # Disable to see if it's causing kernel panics on boot
 #- name: enable redshift
@@ -120,12 +122,12 @@
 
 # Last task in the playbook so it's easy to spot. See "Merging .pacnew files" in the README
 - name: find .pacnew files
-  command: pacdiff --output
+  ansible.builtin.command: pacdiff --output
   register: pacnew_files
   changed_when: false
 
 - name: warn about .pacnew files
-  debug:
+  ansible.builtin.debug:
     msg:
       - ".pacnew files need merging, review with: sudo DIFFPROG='nvim -d' pacdiff"
       - "{{ pacnew_files.stdout_lines }}"

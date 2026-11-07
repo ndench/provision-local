@@ -2,13 +2,13 @@
 
 # https://client.pritunl.com/
 - name: check for pritunl repo signing key
-  command: pacman-key --list-keys {{ pritunl_key_id }}
+  ansible.builtin.command: pacman-key --list-keys {{ pritunl_key_id }}
   register: pritunl_key
   changed_when: false
   failed_when: false
 
 - name: add pritunl repo signing key
-  shell: >
+  ansible.builtin.shell: >
     curl -fsSL https://raw.githubusercontent.com/pritunl/pgp/master/pritunl_repo_pub.asc | pacman-key --add -
     && pacman-key --lsign-key {{ pritunl_key_id }}
   when: pritunl_key.rc != 0
@@ -16,54 +16,54 @@
 # Based on the upstream default. When pacman installs a pacman.conf.pacnew, merge it into
 # this copy (not /etc/pacman.conf), otherwise the next run overwrites the merge
 - name: configure pacman
-  copy:
+  ansible.builtin.copy:
     src: etc/pacman.conf
     dest: /etc/pacman.conf
-    mode: 0644
+    mode: "0644"
     backup: true
 
 - name: run system upgrade
-  pacman:
-    update_cache: yes
-    upgrade: yes
+  community.general.pacman:
+    update_cache: true
+    upgrade: true
 
 - name: enable parallel builds in makepkg
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/makepkg.conf
     regexp: '^#?MAKEFLAGS="-j2"'
     line: 'MAKEFLAGS="-j2"'
 
 - name: install reflector
-  pacman:
+  community.general.pacman:
     name: reflector
     state: present
 
 - name: configure reflector unit file
-  copy:
+  ansible.builtin.copy:
     src: etc/systemd/system/reflector.service
     dest: /etc/systemd/system/reflector.service
-    mode: 0644
+    mode: "0644"
     backup: true
 
 - name: run reflector
-  systemd:
+  ansible.builtin.systemd:
     name: reflector
     state: started
-    daemon_reload: yes
+    daemon_reload: true
 
-- meta: flush_handlers
+- ansible.builtin.meta: flush_handlers
 
 - name: create pacman hooks directory
-  file:
+  ansible.builtin.file:
     path: /etc/pacman.d/hooks
     state: directory
-    mode: 0755
+    mode: "0755"
 
 - name: configure reflector pacman hook
-  copy:
+  ansible.builtin.copy:
     src: etc/pacman.d/hooks/mirrorupgrade.hook
     dest: /etc/pacman.d/hooks/mirrorupgrade.hook
-    mode: 0644
+    mode: "0644"
     backup: true
 
 #- name: create zsh hash directory
@@ -82,121 +82,121 @@
 # (eg. ffmpeg -> jack) don't block removal; the PipeWire replacements
 # installed in the next task provide them again
 - name: remove conflicting pacman packages
-  pacman:
+  community.general.pacman:
     name: "{{ pacman_packages_absent }}"
     state: absent
     extra_args: --nodeps --nodeps
 
 - name: install pacman packages
-  pacman:
+  community.general.pacman:
     name: "{{ pacman_packages }}"
     state: present
 
 - name: enable tlp
-  systemd:
+  ansible.builtin.systemd:
     name: tlp
-    enabled: yes
+    enabled: true
     state: started
 
 - name: enable bluetooth
-  systemd:
+  ansible.builtin.systemd:
     name: bluetooth
-    enabled: yes
+    enabled: true
     state: started
 
 # systemd-rfkill conflicts with tlp
 # https://wiki.archlinux.org/index.php/TLP
 - name: mask systemd-rfkill
-  systemd:
+  ansible.builtin.systemd:
     name: "{{ item }}"
-    masked: yes
-    enabled: no
+    masked: true
+    enabled: false
     state: stopped
   loop:
     - systemd-rfkill.service
     - systemd-rfkill.socket
 
 - name: enable docker
-  systemd:
+  ansible.builtin.systemd:
     name: docker
     state: started
-    enabled: yes
+    enabled: true
 
 # Weekly paccache run, keeps the last 3 versions of each package
 - name: enable paccache timer
-  systemd:
+  ansible.builtin.systemd:
     name: paccache.timer
-    enabled: yes
+    enabled: true
     state: started
 
 - name: enable cron
-  systemd:
+  ansible.builtin.systemd:
     name: cronie
-    enabled: yes
+    enabled: true
     state: started
 
 - name: enable pritunl client
-  systemd:
+  ansible.builtin.systemd:
     name: pritunl-client
-    enabled: yes
+    enabled: true
     state: started
 
 - name: enable clamav signature updates
-  systemd:
+  ansible.builtin.systemd:
     name: clamav-freshclam-once.timer
-    enabled: yes
+    enabled: true
     state: started
 
 # Only enabled, the daemon can't start until freshclam has downloaded the signatures
 - name: enable clamav daemon
-  systemd:
+  ansible.builtin.systemd:
     name: "{{ item }}"
-    enabled: yes
+    enabled: true
   loop:
     - clamav-daemon.service
     - clamav-daemon.socket
 
 - name: create aur_builder user (kewlifft/ansible-aui)
-  user:
+  ansible.builtin.user:
     name: aur_builder
     group: wheel
-    system: yes
-    password_lock: yes
+    system: true
+    password_lock: true
 
 - name: install yay
-  aur: 
+  kewlfft.aur.aur:
     name: yay
     state: present
-    aur_only: yes
+    aur_only: true
     use: makepkg
-  become: yes
+  become: true
   become_user: aur_builder
 
 - name: install aur packages
-  aur:
+  kewlfft.aur.aur:
     name: "{{ aur_packages }}"
     state: present
-    aur_only: yes
+    aur_only: true
     use: yay
-  become: yes
+  become: true
   become_user: aur_builder
 
 - name: create local PKGBUILD build directory
-  file:
+  ansible.builtin.file:
     path: /var/tmp/pkgbuilds
     state: directory
     owner: aur_builder
-    mode: 0755
+    mode: "0755"
 
 - name: copy local PKGBUILDs
-  copy:
+  ansible.builtin.copy:
     src: "{{ playbook_dir }}/pkgbuilds/{{ item }}/"
     dest: "/var/tmp/pkgbuilds/{{ item }}/"
     owner: aur_builder
   loop: "{{ local_packages }}"
 
 - name: install local PKGBUILD packages
-  aur:
+  kewlfft.aur.aur:
     name: "{{ item }}"
     state: present
     use: makepkg
@@ -204,13 +204,13 @@
   # Build on disk, phpstorm-light needs ~11G which doesn't fit in the /tmp tmpfs
   environment:
     TMPDIR: /var/tmp
-  become: yes
+  become: true
   become_user: aur_builder
   loop: "{{ local_packages }}"
 
 # AUR and local builds leave GBs of sources behind (eg. phpstorm-light is ~10G)
 - name: remove build caches
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: absent
   loop:

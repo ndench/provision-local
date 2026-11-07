@@ -1,0 +1,9 @@
+---
+exclude_paths:
+  - .imported_roles/
+skip_list:
+  - name[casing] # task names are lowercase in this repo
+  - role-name # renaming the roles would break muscle memory for no gain
+  - var-naming[no-role-prefix]
+  - yaml[comments] # commented-out package lines
+  - risky-file-permissions # copied files keep the source file's mode on purpose

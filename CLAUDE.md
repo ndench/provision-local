@@ -38,7 +38,7 @@ make rcup
 - `group_vars/dev/vars.yml` — all package lists and configuration variables
 - `group_vars/dev/vault.yml` — encrypted secrets (GitHub token, etc.)
 - `ansible.cfg` — vault password file at `.ansible_vault.pass`, imported roles in `.imported_roles/`
-- `requirements.yml` — external Ansible Galaxy role dependencies
+- `requirements.yml` — external Ansible Galaxy role and collection dependencies (pinned versions)
 - `bootstrap.sh` — initial setup script (installs git/make, clones repo, runs provisioning)
 - `pkgbuilds/` — local PKGBUILDs (not on the AUR), built by the `arch` role from the `local_packages` var
 
@@ -48,4 +48,5 @@ make rcup
 - Swap is zram only (zswap disabled), with earlyoom as the OOM killer; systemd-oomd is deliberately unused because it kills whole cgroups and i3 runs every app in one session scope
 - Nvidia early KMS (mkinitcpio `MODULES`, `kms` hook removed) is required: without it Xorg can start before nvidia-drm and come up intel-only (black screen / dead dock monitors). It fits the 260M `/boot` because dropping `kms` removes nouveau's firmware
 - Secrets are managed with Ansible Vault (password file: `.ansible_vault.pass`)
-- The Makefile auto-installs Ansible and the AUR helper module if missing
+- The Makefile auto-installs Ansible (pacman) and `requirements.yml` (the sudo role and the `kewlfft.aur` collection, pinned, into `.imported_roles/`) when missing or changed
+- Modules use FQCNs (`ansible.builtin.*`, `community.general.*`, `kewlfft.aur.aur`); lint with `uvx ansible-lint` (config in `.ansible-lint`; the two `community.general` unknown-module errors are false positives from uvx's isolated env)

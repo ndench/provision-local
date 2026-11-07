@@ -9,7 +9,7 @@ sudo_users:
   # makepkg/yay run as aur_builder and call `sudo pacman` unattended
   - name: aur_builder
     commands: /usr/bin/pacman
-    nopasswd: yes
+    nopasswd: true
 
 pacman_packages:
   #- archlabs-networkmanager-dmenu
@@ -234,6 +234,7 @@ pacman_packages_absent:
   - i3lock # replaced by i3lock-color from the AUR
   - archlabs-i3lock-color # dead ArchLabs repo, also replaced by i3lock-color from the AUR
   - xorg-xbacklight # replaced by acpilight from the AUR
+  - ansible-aur-git # replaced by the kewlfft.aur collection in requirements.yml
 
 
 aur_packages:

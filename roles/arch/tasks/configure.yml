@@ -1,27 +1,29 @@
 ---
 
 - name: check default target
-  command: systemctl get-default
+  ansible.builtin.command: systemctl get-default
   register: default_target
+  changed_when: false
 
 - name: set default target
-  command: systemctl set-default graphical.target
+  ansible.builtin.command: systemctl set-default graphical.target
   when: default_target.stdout != "graphical.target"
+  changed_when: true
 
 - name: configure lightdm-greeter
-  copy:
+  ansible.builtin.copy:
     src: etc/lightdm/lightdm-gtk-greeter.conf
     dest: /etc/lightdm/lightdm-gtk-greeter.conf
     backup: true
 
 - name: add lightdm display setup script
-  copy:
+  ansible.builtin.copy:
     src: etc/lightdm/display_setup.sh
     dest: /etc/lightdm/display_setup.sh
     backup: true
 
 - name: configure lightdm greeter
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/lightdm/lightdm.conf
     regexp: '^#?greeter-session='
     line: greeter-session=lightdm-gtk-greeter
@@ -29,29 +31,29 @@
     backup: true
 
 - name: configure lightdm display setup script
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/lightdm/lightdm.conf
     regexp: '^#display-setup-script='
     line: display-setup-script=/etc/lightdm/display_setup.sh
     backup: true
 
 - name: enable lightdm
-  systemd:
+  ansible.builtin.systemd:
     name: lightdm
-    enabled: yes
+    enabled: true
 
 - name: copy vconsole.conf
-  copy:
+  ansible.builtin.copy:
     src: etc/vconsole.conf
     dest: /etc/vconsole.conf
     backup: true
 
 - name: configure tlp
-  copy:
+  ansible.builtin.copy:
     src: "{{ item }}"
     dest: /etc/tlp.d/
     backup: true
-  with_items:
+  loop:
     - etc/tlp.d/10-processor.conf
     - etc/tlp.d/20-battery-care.conf
 
@@ -60,7 +62,7 @@
 # intel GPU, display_setup.sh can't find NVIDIA-0, and the screen stays black (and dock monitors, which
 # are wired to the nvidia GPU, never come up).
 - name: load nvidia modules early
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/mkinitcpio.conf
     regexp: '^MODULES='
     line: 'MODULES=(i915 nvidia nvidia_modeset nvidia_uvm nvidia_drm)'
@@ -70,14 +72,14 @@
 # The kms hook adds nouveau and all of linux-firmware-nvidia (~660 files) to the initramfs. Dropping it
 # more than pays for the nvidia GSP firmware: the initramfs goes from 134M to 108M, so it fits the 260M /boot.
 - name: remove kms hook
-  replace:
+  ansible.builtin.replace:
     path: /etc/mkinitcpio.conf
     regexp: '^(HOOKS=\(.*?) kms\b'
     replace: '\1'
   notify: rebuild initramfs
 
 - name: rebuild initramfs when nvidia is upgraded
-  copy:
+  ansible.builtin.copy:
     src: etc/pacman.d/hooks/nvidia.hook
     dest: /etc/pacman.d/hooks/nvidia.hook
-    mode: 0644
+    mode: "0644"
