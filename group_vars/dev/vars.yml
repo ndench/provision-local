@@ -230,6 +230,7 @@ pacman_packages_absent:
   - pulseaudio
   - jack2
   - i3lock # replaced by i3lock-color from the AUR
+  - archlabs-i3lock-color # dead ArchLabs repo, also replaced by i3lock-color from the AUR
   - xorg-xbacklight # replaced by acpilight from the AUR
 
 
