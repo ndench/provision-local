@@ -201,6 +201,8 @@ pacman_packages:
   - ex-vi-compat
   - inetutils
   - ncdu
+  - zram-generator # compressed swap in RAM, see system-config
+  - earlyoom # userspace OOM killer, see system-config
   # Editors / AI
   - code
   - zed

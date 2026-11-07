@@ -73,6 +73,46 @@
     dest: /etc/sysctl.d/40-ipv6.conf
     mode: 0644
 
+- name: configure zram swap
+  copy:
+    src: etc/systemd/zram-generator.conf
+    dest: /etc/systemd/zram-generator.conf
+    mode: 0644
+
+- name: tune vm for swap on zram
+  copy:
+    src: etc/sysctl.d/99-vm-zram-parameters.conf
+    dest: /etc/sysctl.d/99-vm-zram-parameters.conf
+    mode: 0644
+  notify: reload sysctl
+
+- name: disable zswap
+  copy:
+    src: etc/tmpfiles.d/disable-zswap.conf
+    dest: /etc/tmpfiles.d/disable-zswap.conf
+    mode: 0644
+  notify: apply tmpfiles
+
+# The generator creates the swap unit on daemon-reload; a changed size applies on reboot
+- name: enable zram swap
+  systemd:
+    name: dev-zram0.swap
+    state: started
+    daemon_reload: yes
+
+- name: configure earlyoom
+  copy:
+    src: etc/default/earlyoom
+    dest: /etc/default/earlyoom
+    mode: 0644
+  notify: restart earlyoom
+
+- name: enable earlyoom
+  systemd:
+    name: earlyoom
+    enabled: yes
+    state: started
+
 - name: add local dev hostnames
   lineinfile:
     path: /etc/hosts

@@ -45,6 +45,7 @@ make rcup
 **Patterns:**
 - Config files live in `roles/*/files/` and are deployed via Ansible `copy` module
 - A dedicated `aur_builder` user is created for AUR package operations
+- Swap is zram only (zswap disabled), with earlyoom as the OOM killer; systemd-oomd is deliberately unused because it kills whole cgroups and i3 runs every app in one session scope
 - Nvidia early KMS (mkinitcpio `MODULES`) is only applied when `/boot` is at least 1 GiB
 - Secrets are managed with Ansible Vault (password file: `.ansible_vault.pass`)
 - The Makefile auto-installs Ansible and the AUR helper module if missing

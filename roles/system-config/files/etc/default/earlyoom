@@ -1,0 +1,5 @@
+# Arch's packaged defaults, plus: kill dev build processes (e.g. topcat's webpack
+# containers) before desktop apps, and never the session or docker itself.
+# systemd-oomd isn't used as it kills whole cgroups, and under i3 every app shares
+# the session scope.
+EARLYOOM_ARGS="-r 3600 -n --prefer '(^|/)(webpack|node)$' --avoid '(^|/)(init|systemd|Xorg|sshd|lightdm|i3|dockerd|containerd)$'"

@@ -5,6 +5,17 @@
     name: systemd-journald
     state: restarted
 
+- name: reload sysctl
+  command: sysctl --system
+
+- name: apply tmpfiles
+  command: systemd-tmpfiles --create /etc/tmpfiles.d/disable-zswap.conf
+
+- name: restart earlyoom
+  systemd:
+    name: earlyoom
+    state: restarted
+
 - name: restart docker
   systemd:
     name: docker
