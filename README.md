@@ -111,7 +111,7 @@ repo. Things that can't live here:
 
 ### 3. Boot into Windows one last time
 
-- [ ] Update BIOS/UEFI, embedded controller, Thunderbolt and SSD firmware with Lenovo Vantage. Windows drivers
+- [x] Update BIOS/UEFI, embedded controller, Thunderbolt and SSD firmware with Lenovo Vantage. Windows drivers
       don't matter once Windows is gone, firmware does. Afterwards `fwupdmgr update` can handle most updates
       from Linux.
 
@@ -130,19 +130,8 @@ repo. Things that can't live here:
 
 ## TODO:
 - check other laptop things https://wiki.archlinux.org/index.php/Laptop
-- check power management https://wiki.archlinux.org/index.php/Power_management
-- Configure tmux [example 1](https://github.com/gpakosz/.tmux), [example 2](https://peterforgacs.github.io/2017/04/25/Tmux/)
-- figure out why dockd isn't working
-
-## Update scripts
-- update /etc/mkinitcpio.conf to add `keyboard keymap consolefont` after `autodetect`
-- Install dkms linux-headers nvtop mesa-utils iotop nvidia-prime nvidia-settings vulkan-tools vulkan-intel xfce4-sensors-plugin
-- Ensure tpacpi-bat is removed
-- Get nvidia udev rules for PRIME render offload: <https://wiki.archlinux.org/title/PRIME#PRIME_render_offload>
-- run sensors-detect
-- install bolt acpid dockd
-- start/enable acpid
-- configure dockd <https://wiki.archlinux.org/title/ThinkPad_docks>
+- `tpacpi-bat` (in `aur_packages`) is unused: TLP sets the charge thresholds through natacpi
+  (`TPACPI_ENABLE=0`). Remove it, or switch TLP to it if natacpi stops working
 
 ## Nvidia early KMS
 
