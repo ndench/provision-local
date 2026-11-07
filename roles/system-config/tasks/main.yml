@@ -127,7 +127,7 @@
     line: "{{ item[0] }}   {{ item[1] }}"
   loop: "{{ ['127.0.0.1', '::1'] | product(local_dev_hosts) | list }}"
 
-- name: create journald and coredump config directories
+- name: create journald, coredump and docker config directories
   file:
     path: "{{ item }}"
     state: directory
@@ -135,6 +135,7 @@
   loop:
     - /etc/systemd/journald.conf.d
     - /etc/systemd/coredump.conf.d
+    - /etc/docker # not shipped by the docker package
 
 - name: cap journal size
   copy:
