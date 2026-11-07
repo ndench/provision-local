@@ -26,4 +26,4 @@ git-remote:
 
 .PHONY: rcup
 rcup:
-	rcup -t new-dotfiles
+	rcup
