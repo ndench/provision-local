@@ -1,7 +1,7 @@
 ---
 
 - name: read ssh public key for github
-  shell: cat "{{ ansible_env.HOME }}/.ssh/id_rsa.pub"
+  shell: cat "{{ ansible_env.HOME }}/.ssh/id_ed25519.pub"
   register: ssh_pub_key
 
 - name: add ssh public key to github
