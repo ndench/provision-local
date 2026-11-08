@@ -20,6 +20,8 @@
   ansible.builtin.copy:
     src: etc/lightdm/display_setup.sh
     dest: /etc/lightdm/display_setup.sh
+    # lightdm execs it directly; if it isn't executable lightdm stops the seat and crash-loops
+    mode: "0755"
     backup: true
 
 - name: configure lightdm greeter
