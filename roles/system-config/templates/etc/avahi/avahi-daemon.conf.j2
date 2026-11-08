@@ -25,8 +25,15 @@
 #browse-domains=0pointer.de, zeroconf.org
 use-ipv4=yes
 use-ipv6=yes
-# Only listen on LAN to prevent advertising on Docker bridge interfaces
-allow-interfaces=wlan0
+# Only listen on Wi-Fi so we don't advertise on Docker bridge interfaces. The interface is looked up
+# because its name depends on the kernel's naming scheme (wlan0 with net.ifnames=0, wlp0s20f3 without)
+{% set wifi = ansible_facts.interfaces | select('match', '^wl') | list %}
+{% if wifi %}
+allow-interfaces={{ wifi | join(',') }}
+{% else %}
+# No Wi-Fi interface found when this was provisioned, so avahi listens on everything
+#allow-interfaces=
+{% endif %}
 #deny-interfaces=eth1
 #check-response-ttl=no
 #use-iff-running=no

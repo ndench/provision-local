@@ -30,8 +30,8 @@
     backup: true
 
 - name: configure avahi
-  ansible.builtin.copy:
-    src: etc/avahi/avahi-daemon.conf
+  ansible.builtin.template:
+    src: etc/avahi/avahi-daemon.conf.j2
     dest: /etc/avahi/avahi-daemon.conf
     mode: "0644"
 

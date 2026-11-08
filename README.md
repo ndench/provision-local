@@ -6,8 +6,15 @@ Scripts to provision my PCs in the "one true way".
 [ArchLabs Linux](https://en.wikipedia.org/wiki/ArchLabs) is discontinued (last release June 2023), so
 install plain Arch with the official guided installer instead:
 
-1. Boot the [Arch ISO](https://archlinux.org/download/) and run `archinstall`
+1. Boot the [Arch ISO](https://archlinux.org/download/) and run `loadkeys dvorak`. Without a network cable,
+   connect to Wi-Fi with `iwctl` (`station wlan0 connect <SSID>`). Then run `archinstall`
 2. Choose:
+    - **Keyboard layout**: `dvorak`. This repo sets the console keymap to dvorak and rebuilds the initramfs,
+      so the LUKS prompt switches to dvorak on the next boot. A passphrase set with the US layout would no
+      longer unlock the disk
+    - **Locale**: `en_AU.UTF-8`, **Timezone**: `Australia/Brisbane` (this repo doesn't manage either)
+    - **Hostname**: `sigbus`. The bootstrap uploads the new SSH key to GitHub under the hostname, so keeping
+      it replaces the old key instead of adding another
     - **Disk layout**: wipe the disk, ext4 root, and a **2 GiB** `/boot` (EFI) partition so there's room
       for a fallback initramfs and extra kernels
     - **Disk encryption**: LUKS on the root partition
@@ -16,14 +23,18 @@ install plain Arch with the official guided installer instead:
     - **Network**: NetworkManager
     - **Audio**: pipewire
     - **User**: `nathan` with sudo
-3. Reboot into the new install and run the bootstrap one liner:
+3. Reboot into the new install, connect to Wi-Fi with `nmtui` if needed, and run the bootstrap one liner. It
+   asks for the vault password (`.ansible_vault.pass`, kept in 1Password):
 
 ```sh
 $ bash <( curl -s https://raw.githubusercontent.com/ndench/provision-local/master/bootstrap.sh )
 ```
 
-If you format the root filesystem by hand, use `mkfs.ext4 -m 1` so ext4 only reserves 1% (instead of 5%)
-for root.
+4. ext4 reserves 5% of the root filesystem for root, and archinstall can't change it. Drop it to 1%:
+
+```sh
+$ sudo tune2fs -m 1 "$(findmnt -no SOURCE /)"
+```
 
 ## Running on an existing machine
 
@@ -93,22 +104,23 @@ repo. Things that can't live here:
 
 ### 2. Back up everything that only exists on this machine
 
-- [ ] Push or back up unpushed git work (check with
-      `for d in ~/git/*/*/; do git -C "$d" log --branches --not --remotes --oneline 2>/dev/null | head -1 | sed "s|^|$d: |"; done`):
-    - `hyraiq/topcat`: ~124 local-only commits across 41 branches, 2 stashes, and worktrees in
-      `~/git/hyraiq/topcat-wt/` (especially `pla-794-trade-timeline-interface`)
-    - stashes / local branches in tequila, on-prem-proxy, prototypes, mobjack, trussle
-    - `~/git/hyraiq/bdd-metrics` (not a git repo)
-- [ ] Secrets:
-    - `.ansible_vault.pass` (this repo, gitignored; nothing in the vault can be decrypted without it)
-    - `~/.ssh/` (`id_rsa` and the `.pem` jump host keys)
+Reviewed on 8 Nov 2026. Everything not listed here was deliberately left behind.
+
+- [x] Git work. Unpushed commits are either on branches already squash-merged on GitHub or old spikes; not
+      kept. Gitignored files were checked too (`git status --ignored`), since `git status` hides them, e.g.
+      project-datum's `Data/`
+- [x] `~/Documents`: only `Biodiversity Offset Walaroi`, `Sandbox Test Project Drawings` and
+      `mcconaghy-dump-final` are kept, copied to a USB stick
+- [x] Not kept: other home folders, `~/bin`, `~/.claude`, `~/.codex`, Docker volumes, browser profiles
+- [x] `pkgbuilds/` matches the newest PKGBUILDs in `~/pkgs`
+- [ ] Check 1Password has:
+    - `.ansible_vault.pass` (this repo, gitignored; the bootstrap asks for it and nothing in the vault can
+      be decrypted without it)
+    - `~/.ssh/` keys (`id_rsa` and the `.pem` jump host keys)
     - gitignored `.env*`, `.Halite.key`, `terraform.tfvars` and certs across `~/git`
       (`find ~/git \( -name '.env*' -o -name '*.tfvars' -o -name '*.key' -o -name '*.pem' \) -not -path '*/node_modules/*'`)
-- [ ] `~/Documents`, `~/Downloads`, `~/Pictures`, `~/Videos`, `~/Desktop`, `~/.factorio`, `~/.wine`, `~/.fonts`
-- [ ] `~/.claude/` (settings, hooks, skills) and `~/.codex/config.toml` + `~/.codex/AGENTS.md`
-- [ ] Docker volumes with data you care about (`docker volume ls`), e.g. dump `app_db` and `foundry_db-data`
-- [ ] Browser profiles (or make sure sync is on): Brave, Chrome, Firefox
-- [ ] Note the samba password, you'll need to re-run `sudo smbpasswd -a nathan`
+    - the samba password, for `sudo smbpasswd -a nathan`
+- [x] The vault's GitHub token (used by the bootstrap to upload the SSH key) is valid until 2027-11-06
 
 ### 3. Boot into Windows one last time
 
@@ -119,7 +131,7 @@ repo. Things that can't live here:
 ### 4. Reinstall
 
 - [ ] Follow [Setup from scratch](#setup-from-scratch)
-- [ ] Restore backups, then `make rcup`
+- [ ] Restore the Documents backup (the bootstrap already ran `make rcup`)
 - [ ] Manual steps after provisioning:
     - sign in to 1Password and enable the SSH agent (`~/.ssh/config` uses `~/.1password/agent.sock`)
     - re-enrol `drata-agent`
