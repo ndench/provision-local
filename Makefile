@@ -9,9 +9,16 @@ ifdef skip-tags
 ANSIBLE_ARGS += --skip-tags $(skip-tags)
 endif
 
-.PHONY: install
-install: $(ANSIBLE) .imported_roles
-	ansible-playbook --ask-become-pass -i hosts playbook.yml -vv $(ANSIBLE_ARGS)
+PLAYBOOK = ansible-playbook --ask-become-pass -i hosts playbook.yml $(ANSIBLE_ARGS)
+
+# Default: show what would change without changing anything
+.PHONY: check
+check: $(ANSIBLE) .imported_roles
+	$(PLAYBOOK) --check --diff
+
+.PHONY: apply
+apply: $(ANSIBLE) .imported_roles
+	$(PLAYBOOK) -vv
 
 .imported_roles: $(ANSIBLE) requirements.yml
 	ansible-galaxy install -r requirements.yml --force

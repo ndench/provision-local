@@ -9,11 +9,14 @@ Ansible-based provisioning for Arch Linux personal workstations (installed with 
 ## Commands
 
 ```bash
-# Run full provisioning (prompts for sudo password)
+# Dry run: show what would change with diffs (default target, prompts for sudo password)
 make
 
-# Run with specific Ansible tags
-make tags=provision-user
+# Apply for real
+make apply
+
+# Limit to specific Ansible tags (works with both)
+make apply tags=provision-user
 make tags=provision-arch skip-tags=provision-config
 
 # Bootstrap on a fresh Arch install (one-liner)

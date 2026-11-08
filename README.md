@@ -27,16 +27,22 @@ for root.
 
 ## Running on an existing machine
 
-Just run:
+Preview what would change (a dry run with diffs; nothing is modified):
 
 ```sh
 $ make
 ```
 
+Then apply it:
+
+```sh
+$ make apply
+```
+
 You can speed up ansible execution by passing in `tags` and `skip-tags`
 
 ```sh
-$ make tags=foo,bar skip-tags=baz
+$ make apply tags=foo,bar skip-tags=baz
 # Will pass --tags foo,bar --skip-tags baz to ansible-playbook
 ```
 
@@ -57,10 +63,10 @@ your version, or (o)verwrite yours with the pacnew.
 Check whether this repo manages the file first:
 
 - **Copied whole** (from `roles/*/files/etc/`), eg. `pacman.conf`, `nsswitch.conf`, `samba/smb.conf`: merge the
-  pacnew into the repo copy, run `make`, then remove the pacnew. Merging only into `/etc` gets overwritten
+  pacnew into the repo copy, run `make apply`, then remove the pacnew. Merging only into `/etc` gets overwritten
   on the next run.
 - **Edited line by line** (`lineinfile` tasks), eg. `mkinitcpio.conf`, `makepkg.conf`, `lightdm/lightdm.conf`,
-  `hosts`: overwrite with the pacnew, then run `make` to re-apply the edits.
+  `hosts`: overwrite with the pacnew, then run `make apply` to re-apply the edits.
 - **`sudoers`**: keep it stock and take the pacnew. Sudo rules live in `/etc/sudoers.d/ansible` (`sudo_users`
   in `group_vars/dev/vars.yml`).
 - **Not managed here**: merge in place.

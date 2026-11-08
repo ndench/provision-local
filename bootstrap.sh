@@ -21,4 +21,4 @@ fi
 cd ${clone_path}
 git pull
 
-make install git-remote rcup
+make apply git-remote rcup
