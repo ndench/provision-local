@@ -1,7 +1,7 @@
 # Maintainer: Nathan Dench <nathan.dench@procurepro.co>
 
 pkgname=phpstorm-light
-pkgver=263.6219
+pkgver=263.6949
 pkgrel=1
 pkgdesc='Lightweight and Smart PHP IDE (PhpStorm Light mode, nightly EAP build)'
 arch=('x86_64')
@@ -30,7 +30,7 @@ options=('!strip')
 source=("https://download.jetbrains.com/webide/nightly/PhpStorm-${pkgver}.tar.gz"
         jetbrains-phpstorm-light.desktop
         LICENSE)
-b2sums=('70161ff8cf521570ca1037e8385233d530139b10e17d353f567db172e1980574746b7c172fb4e805e9e8fb0051a53fe642722d01ab235bcbcd49e751a21b3c83'
+b2sums=('668c66ce24851bc09289cb0a864e3e3935de96535e359e10ecb01dc6e85065456d4d865bad84ba6dcf0cdef07a895e080724a465db8cb67c9c2377d46ae2f4db'
         '30f07cb310448771e30d16264cc4a5086dc2ea3b727a0ded00f3421000f6e8a7cabf7b6921d341e8291300e043203cfe973ee8cf657a0bccf7b601c2ddcf683c'
         'dadaf0e67b598aa7a7a4bf8644943a7ee8ebf4412abb17cd307f5989e36caf9d0db529a0e717a9df5d9537b10c4b13e814b955ada6f0d445913c812b63804e77')
 
