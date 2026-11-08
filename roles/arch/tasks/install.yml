@@ -187,7 +187,7 @@
     state: directory
     owner: aur_builder
     mode: "0755"
-  check_mode: false # so `make` (--check) can see the PKGBUILDs; removed again by `make apply`
+  check_mode: false # so `make dry-run` (--check) can see the PKGBUILDs; removed again by `make apply`
 
 - name: copy local PKGBUILDs
   ansible.builtin.copy:

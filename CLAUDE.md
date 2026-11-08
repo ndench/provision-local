@@ -9,15 +9,18 @@ Ansible-based provisioning for Arch Linux personal workstations (installed with 
 ## Commands
 
 ```bash
-# Dry run: show what would change with diffs (default target, prompts for sudo password)
+# List the targets (default)
 make
+
+# Dry run: show what would change with diffs (prompts for sudo password)
+make dry-run
 
 # Apply for real
 make apply
 
 # Limit to specific Ansible tags (works with both)
 make apply tags=provision-user
-make tags=provision-arch skip-tags=provision-config
+make dry-run tags=provision-arch skip-tags=provision-config
 
 # Bootstrap on a fresh Arch install (one-liner)
 bash <( curl -s https://raw.githubusercontent.com/ndench/provision-local/master/bootstrap.sh )

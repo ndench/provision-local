@@ -27,10 +27,10 @@ for root.
 
 ## Running on an existing machine
 
-Preview what would change (a dry run with diffs; nothing is modified):
+Run `make` to list the commands. Preview what would change (a dry run with diffs; nothing is modified):
 
 ```sh
-$ make
+$ make dry-run
 ```
 
 Then apply it:
@@ -51,7 +51,7 @@ $ make apply tags=foo,bar skip-tags=baz
 When a package ships a new default for a config file you've changed, pacman leaves it next to yours as
 `<file>.pacnew` instead of overwriting. These contain real upstream changes (new options, security
 defaults), so merge them. You'll get a desktop notification each day while any exist (`pacnew-check.timer`),
-and `make` lists them at the end of the run.
+and `make apply` lists them at the end of the run.
 
 ```sh
 $ sudo DIFFPROG='nvim -d' pacdiff
