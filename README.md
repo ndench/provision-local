@@ -15,8 +15,14 @@ install plain Arch with the official guided installer instead:
     - **Locale**: `en_AU.UTF-8`, **Timezone**: `Australia/Brisbane` (this repo doesn't manage either)
     - **Hostname**: `sigbus`. The bootstrap uploads the new SSH key to GitHub under the hostname, so keeping
       it replaces the old key instead of adding another
-    - **Disk layout**: wipe the disk, ext4 root, and a **2 GiB** `/boot` (EFI) partition so there's room
-      for a fallback initramfs and extra kernels
+    - **Disk layout**: a **2 GiB** `/boot` (EFI) partition so there's room for a fallback initramfs and extra
+      kernels, and ext4 root on the rest. The best-effort layout hard-codes a 1 GiB `/boot` and partitions
+      can't be resized afterwards, so use **Manual Partitioning** on the NVMe:
+        1. Delete every existing partition
+        2. Free space → new partition: size `2GiB`, fat32, mountpoint `/boot`, mark bootable and ESP
+        3. Remaining free space → new partition: default size (all of it), ext4, mountpoint `/`
+
+      (If you ever use the best-effort layout, say no to a separate `/home`: it caps `/` at 10% of the disk)
     - **Disk encryption**: LUKS on the root partition
     - **Bootloader**: systemd-boot
     - **Profile**: Desktop → i3 (pulls in xorg, lightdm and lightdm-gtk-greeter), graphics driver: nvidia (open kernel modules)
