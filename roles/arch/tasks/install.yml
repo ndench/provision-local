@@ -187,12 +187,14 @@
     state: directory
     owner: aur_builder
     mode: "0755"
+  check_mode: false # so `make` (--check) can see the PKGBUILDs; removed again by `make apply`
 
 - name: copy local PKGBUILDs
   ansible.builtin.copy:
     src: "{{ playbook_dir }}/pkgbuilds/{{ item }}/"
     dest: "/var/tmp/pkgbuilds/{{ item }}/"
     owner: aur_builder
+  check_mode: false
   loop: "{{ local_packages }}"
 
 - name: install local PKGBUILD packages
