@@ -224,6 +224,8 @@ pacman_packages:
   - osquery
   # VPN, from the [pritunl] repo added in the arch role
   - pritunl-client-electron
+  # Added to make first setup work
+  - openbsd-netcat
 
 # Removed before installing pacman_packages as they conflict with the PipeWire packages
 pacman_packages_absent:
@@ -279,7 +281,7 @@ aur_packages:
   - herdr-bin
   - bfg
   - jiq-bin
-  - gnu-netcat
+  #- gnu-netcat
   - tpacpi-bat
   - xautolock
   - superset-bin
