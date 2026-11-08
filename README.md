@@ -119,7 +119,7 @@ Reviewed on 8 Nov 2026. Everything not listed here was deliberately left behind.
       `mcconaghy-dump-final` are kept, copied to a USB stick
 - [x] Not kept: other home folders, `~/bin`, `~/.claude`, `~/.codex`, Docker volumes, browser profiles
 - [x] `pkgbuilds/` matches the newest PKGBUILDs in `~/pkgs`
-- [ ] Check 1Password has:
+- [x] Check 1Password has:
     - `.ansible_vault.pass` (this repo, gitignored; the bootstrap asks for it and nothing in the vault can
       be decrypted without it)
     - `~/.ssh/` keys (`id_rsa` and the `.pem` jump host keys)
