@@ -42,6 +42,27 @@ $ bash <( curl -s https://raw.githubusercontent.com/ndench/provision-local/maste
 $ sudo tune2fs -m 1 "$(findmnt -no SOURCE /)"
 ```
 
+## When the new install is broken
+
+Get to a shell and run Claude Code there, so it debugs from the real logs. `rescue.sh` connects nothing
+and changes nothing on the system: it checks the network, installs Claude Code and dumps journal, lightdm,
+Xorg, GPU and initramfs info into `~/rescue-diag`.
+
+1. **Get a shell.**
+    - Black screen or broken desktop: press `Ctrl+Alt+F3` and log in as `nathan`
+    - Stuck before that (LUKS passphrase rejected, kernel panic): boot the Arch ISO, then
+      `cryptsetup open /dev/nvme0n1p2 root && mount /dev/mapper/root /mnt && mount /dev/nvme0n1p1 /mnt/boot && arch-chroot /mnt`
+      and `su - nathan`. A rejected passphrase is usually the keymap: try typing it as if the keyboard
+      were US (or dvorak) instead
+2. **Get online** if needed: `nmcli device wifi connect '<SSID>' --ask` (or `nmtui`)
+3. **Run the rescue script and Claude Code:**
+
+```sh
+$ bash ~/git/ndench/provision-local/rescue.sh   # if the bootstrap got as far as cloning
+$ bash <( curl -sL https://raw.githubusercontent.com/ndench/provision-local/master/rescue.sh )  # otherwise
+$ cd ~/git/ndench/provision-local && claude
+```
+
 ## Running on an existing machine
 
 Run `make` to list the commands. Preview what would change (a dry run with diffs; nothing is modified):
