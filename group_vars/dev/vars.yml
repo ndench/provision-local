@@ -152,6 +152,7 @@ pacman_packages:
   - lxappearance
   - gnome-themes-extra
   - gtk3
+  - python-gobject # for the dconf module that sets the dark theme in user-config
   - gvfs
   - polkit-gnome
   - volumeicon

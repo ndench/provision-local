@@ -22,6 +22,17 @@
     - pipewire-pulse.socket
     - wireplumber.service
 
+# Dark theme. ~/.config/gtk-3.0/settings.ini (from the dotfiles) covers plain GTK 3 apps,
+# but GTK 4/libadwaita apps, and browsers/Electron apps through xdg-desktop-portal, read
+# color-scheme from dconf instead
+- name: prefer the dark theme
+  community.general.dconf:
+    key: "/org/gnome/desktop/interface/{{ item.key }}"
+    value: "{{ item.value }}"
+  loop:
+    - { key: color-scheme, value: "'prefer-dark'" }
+    - { key: gtk-theme, value: "'Adwaita-dark'" }
+
 - name: create user systemd and bin directories
   ansible.builtin.file:
     dest: "{{ ansible_facts.env.HOME }}/{{ item }}"
