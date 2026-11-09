@@ -56,3 +56,7 @@ make rcup
 - Secrets are managed with Ansible Vault (password file: `.ansible_vault.pass`)
 - The Makefile auto-installs Ansible (pacman) and `requirements.yml` (the sudo role and the `kewlfft.aur` collection, pinned, into `.imported_roles/`) when missing or changed
 - Modules use FQCNs (`ansible.builtin.*`, `community.general.*`, `kewlfft.aur.aur`); lint with `uvx ansible-lint` (config in `.ansible-lint`; the two `community.general` unknown-module errors are false positives from uvx's isolated env)
+
+## Working on the live machine
+
+This repo provisions the machine you're running on, so commands act on the user's real desktop session. Never run session or power actions to test them: no `xautolock -locknow`, `i3lock`, `i3-msg exit`, `systemctl poweroff`/`reboot`/`suspend` (not even with `--dry-run`), and nothing a rofi/menu entry would trigger. Debug these by reading the scripts and checking state (`command -v`, `pacman -Q`, `fc-list`, `journalctl`). If a live test is really needed, give the user the command to run themselves.
