@@ -60,3 +60,7 @@ make rcup
 ## Working on the live machine
 
 This repo provisions the machine you're running on, so commands act on the user's real desktop session. Never run session or power actions to test them: no `xautolock -locknow`, `i3lock`, `i3-msg exit`, `systemctl poweroff`/`reboot`/`suspend` (not even with `--dry-run`), and nothing a rofi/menu entry would trigger. Debug these by reading the scripts and checking state (`command -v`, `pacman -Q`, `fc-list`, `journalctl`). If a live test is really needed, give the user the command to run themselves.
+
+## Git
+
+Commit straight to `master` and push; don't create feature branches or PRs. If you're in a worktree on another branch, push with `git push origin HEAD:master`.
