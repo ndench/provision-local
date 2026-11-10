@@ -351,10 +351,11 @@ for_window [class="Thunar"] floating enable
 for_window [class="Xarchiver"] floating enable
 for_window [class="flameshot"] floating enable
 # JetBrains dialogs (e.g. "Remove Recent Project") are plain NORMAL windows
-# with no transient_for or role, so the title is the only tell. The IDE window
-# is "project [path] – file" but maps first as just "project", so float titles
-# that have a space (a phrase) but no "[" or en dash
-for_window [class="^jetbrains-" title="^[^–[]* [^–[]*$"] floating enable
+# with no transient_for or role, so float every JetBrains window and tile the
+# IDE one back once its title gains "[path]" or " – file". i3 re-checks
+# for_window criteria on title changes, and the IDE window maps before then
+for_window [class="^jetbrains-"] floating enable
+for_window [class="^jetbrains-" title="[[]| – "] floating disable
 
 popup_during_fullscreen smart
 
