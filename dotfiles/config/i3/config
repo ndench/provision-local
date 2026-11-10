@@ -351,9 +351,10 @@ for_window [class="Thunar"] floating enable
 for_window [class="Xarchiver"] floating enable
 for_window [class="flameshot"] floating enable
 # JetBrains dialogs (e.g. "Remove Recent Project") are plain NORMAL windows
-# with no transient_for or role, so the title is the only tell: the IDE
-# window is always "project – file", dialogs never contain the en dash
-for_window [class="^jetbrains-" title="^[^–]*$"] floating enable
+# with no transient_for or role, so the title is the only tell. The IDE window
+# is "project [path] – file" but maps first as just "project", so float titles
+# that have a space (a phrase) but no "[" or en dash
+for_window [class="^jetbrains-" title="^[^–[]* [^–[]*$"] floating enable
 
 popup_during_fullscreen smart
 
