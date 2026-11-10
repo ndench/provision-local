@@ -148,6 +148,7 @@ pacman_packages:
   - dunst
   - picom
   - feh
+  - archlinux-wallpaper # random one per monitor on login, see i3 config in dotfiles
   - arandr
   - lxappearance
   - gnome-themes-extra
