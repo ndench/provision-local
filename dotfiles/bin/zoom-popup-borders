@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# Drop the i3 border from Zoom's pop-up cards ("Note-taking is available",
+# "Meeting security", ...). The border draws a stray rectangle around them.
+#
+# for_window can't single them out: they share the main windows' class, window
+# type and hints, and the note-taking card is even titled "Zoom Workplace" like
+# the main window. They're small though (419x82, 420x200), while the main,
+# meeting and settings windows are hundreds of pixels taller, so go by the
+# size the window asked for (i3's "geometry").
+
+# Only one instance (exec_always reruns this on every i3 restart)
+for pid in $(pgrep -f "^bash [^ ]*zoom-popup-borders$"); do
+    [ "$pid" != "$$" ] && kill "$pid" 2>/dev/null
+done
+trap 'kill 0' EXIT
+
+max_height=200
+
+i3-msg -t subscribe -m '["window"]' | jq --unbuffered -r --argjson h "$max_height" '
+    select(.change == "new"
+        and .container.window_properties.class == "zoom"
+        and .container.geometry.height <= $h)
+    | .container.id' |
+while read -r id; do
+    i3-msg -q "[con_id=$id] border none"
+done
