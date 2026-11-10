@@ -29,6 +29,11 @@ for_window [class="^.*"] border pixel 1, title_format "<b> %class >> %title </b>
 for_window [window_type="toolbar"] border none
 for_window [window_type="notification"] border none
 for_window [class="^open-whispr$" floating] border none
+# Zoom's popups ("Note-taking is available", "Meeting security", ...) are also
+# type normal with the same hints as its main windows, and every Zoom window
+# floats, so only the title tells them apart: strip all, re-add on the main ones
+for_window [class="^zoom$"] border none
+for_window [class="^zoom$" title="^(Zoom Workplace|Meeting)$"] border pixel 1
 
 # hide title bars
 default_border pixel 1
