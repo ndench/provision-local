@@ -1,0 +1,33 @@
+# CLAUDE.md
+
+Guidance for the `dotfiles/` directory of provision-local (merged in from the old `ndench/dotfiles` repo, now archived; look there for history before Nov 2026).
+
+## What this is
+
+Personal Linux dotfiles (Arch, i3 on X11) managed with [rcm](https://github.com/thoughtbot/rcm). There is no build or test step: files here are live config, symlinked into `$HOME`.
+
+## How rcm maps files
+
+- Files at the top of `dotfiles/` are linked into `~` with a leading dot: `config/i3/config` → `~/.config/i3/config`, `zshrc` → `~/.zshrc`. There are no rcm tags.
+- rcm links **individual files**, not directories. Editing an existing file here changes the live config immediately. A **new** file has no symlink until you run `rcup` (or `mkrc <path>` to move an existing `~` file into the repo and link it back).
+- `~/.rcrc` comes from `roles/user-config/templates/rcrc.j2` (it has to exist before the first `rcup`). It sets `DOTFILES_DIRS` to this directory, `EXCLUDES="CLAUDE.md README.md"` and `UNDOTTED="bin"`, so `bin/*` links to `~/bin/` without a dot. Any other new top-level file gets linked as `~/.<name>`, so add repo-only files to `EXCLUDES` there.
+
+## Commands
+
+Run these from the repo root:
+
+- `make rcup`: link new files.
+- `make mimeapps-check`: diff the live `~/.config/mimeapps.list` against the repo copy (apps rewrite this file, which replaces the symlink with a real file).
+- `make mimeapps-update`: pull the live `mimeapps.list` back into the repo via `mkrc`.
+- `lsrc`: list what rcm would link and where.
+- Apply changes: i3 `$Mod+Shift+c` (reload) or `$Mod+Shift+r` / `i3-msg restart`; polybar via `polybar-session`; zsh by opening a new shell; `xprofile` only on next login.
+
+## Desktop wiring (spans several files)
+
+- `xprofile` runs at login: starts picom, tray applets (nm-applet, blueman, volumeicon), polkit/keyring, and sets `xset` DPMS and key repeat.
+- `config/i3/config` is the window manager: keybindings, autostart `exec`s (xautolock running `bin/lock`, which runs i3lock then `xset s activate` so 1Password locks too; a random wallpaper per monitor with feh; drata-agent; cadence-app), and launchers that call scripts in `bin/` (`rofi_run -r/-l/-q` for run, logout and quit menus). Terminal is ghostty (`config/ghostty`).
+- Polybar isn't installed (i3bar + i3status is used); its config is kept but dead. `config/polybar/config` includes `master.conf` and `modules.conf` by **absolute path** (`/home/nathan/.config/polybar/...`); bars are chosen by `bin/polybar-session` using `config/polybar/sessions`.
+- `zshenv` and `profile` both set PATH (`~/bin` and `~/.local/bin`) and load nvm; keep them in sync. `profile` is what the lightdm X session reads, so it's what i3/rofi-launched apps see.
+- i3 doesn't start `xdg-desktop-autostart.target`, so nothing in `~/.config/autostart` (or `/etc/xdg/autostart`) runs. Those files belong to the apps' own "start at login" toggles and aren't tracked here; start apps at login with an `exec` in `config/i3/config` instead.
+- Zsh uses a small in-repo framework rather than oh-my-zsh: `zshrc` sources every `~/.zsh/{settings,plugins}/*.zsh` and loads the `simpl` prompt from `zsh/themes/`. Add aliases/functions to the matching file in `zsh/settings/`, not to `zshrc`.
+- Vim: `vimrc` + `vim/` for Vim, `config/nvim/init.vim` for Neovim, `ideavimrc` for JetBrains.

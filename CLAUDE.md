@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Ansible-based provisioning for Arch Linux personal workstations (installed with `archinstall`; previously ArchLabs, which is discontinued). Automates package installation, system configuration, and user setup to make a fresh machine ready for development.
+Ansible-based provisioning for Arch Linux personal workstations (installed with `archinstall`; previously ArchLabs, which is discontinued). Automates package installation, system configuration, and user setup to make a fresh machine ready for development. Also holds the dotfiles (`dotfiles/`, linked into `~` with rcm; see `dotfiles/CLAUDE.md`).
 
 ## Commands
 
@@ -25,7 +25,7 @@ make dry-run tags=provision-arch skip-tags=provision-config
 # Bootstrap on a fresh Arch install (one-liner)
 bash <( curl -s https://raw.githubusercontent.com/ndench/provision-local/master/bootstrap.sh )
 
-# After bootstrap, set up dotfiles
+# Link dotfiles/ into ~ (bootstrap runs this; rerun after adding a file)
 make rcup
 ```
 
@@ -38,7 +38,7 @@ make rcup
 | `weareinteractive.sudo` | `become: yes` | `provision-system`, `provision-sudo` | `/etc/sudoers.d/ansible` from `sudo_defaults`/`sudo_users` in vars.yml (external Galaxy role) |
 | `arch` | `become: yes` | `provision-system`, `provision-arch` | Package installation, services, AUR |
 | `system-config` | `become: yes` | `provision-system`, `provision-config` | LightDM, samba, X11 keyboard, systemd services |
-| `user-config` | no sudo | `provision-user`, `provision-config` | SSH keys, dotfiles, app configs (ngrok, wakatime, docker) |
+| `user-config` | no sudo | `provision-user`, `provision-config` | SSH keys, `~/.rcrc`, app configs (ngrok, wakatime, docker) |
 
 **Key files:**
 - `group_vars/dev/vars.yml` — all package lists and configuration variables
@@ -46,10 +46,11 @@ make rcup
 - `ansible.cfg` — vault password file at `.ansible_vault.pass`, imported roles in `.imported_roles/`
 - `requirements.yml` — external Ansible Galaxy role and collection dependencies (pinned versions)
 - `bootstrap.sh` — initial setup script (installs git/make, clones repo, runs provisioning)
+- `dotfiles/` — home directory config (i3, zsh, nvim, ...) symlinked into `~` by rcm, not Ansible
 - `pkgbuilds/` — local PKGBUILDs (not on the AUR), built by the `arch` role from the `local_packages` var
 
 **Patterns:**
-- Config files live in `roles/*/files/` and are deployed via Ansible `copy` module
+- System and secret config lives in `roles/*/files/` and is deployed via Ansible `copy`. Plain user config goes in `dotfiles/` instead, so edits are live without `make apply`
 - A dedicated `aur_builder` user is created for AUR package operations
 - Swap is zram only (zswap disabled), with earlyoom as the OOM killer; systemd-oomd is deliberately unused because it kills whole cgroups and i3 runs every app in one session scope
 - Nvidia early KMS (mkinitcpio `MODULES`, `kms` hook removed) is required: without it Xorg can start before nvidia-drm and come up intel-only (black screen / dead dock monitors). It fits the 260M `/boot` because dropping `kms` removes nouveau's firmware

@@ -305,5 +305,3 @@ local_dev_hosts:
 pritunl_key_id: 7568D9BB55FF9E5287D586017AE645C0CF8E292A
 
 github_token: "{{ vault_github_token }}"
-
-dotfiles_repo: git@github.com:ndench/dotfiles.git

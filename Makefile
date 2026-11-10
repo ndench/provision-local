@@ -17,7 +17,7 @@ PLAYBOOK = ansible-playbook --ask-become-pass -i hosts playbook.yml $(ANSIBLE_AR
 # @see https://www.thapaliya.com/en/writings/well-documented-makefiles/
 .PHONY: help
 help: ## Show this help
-	@awk 'BEGIN {FS = ":.*##"; printf "\n\033[1mUsage:\033[0m\n  make \033[36m<target>\033[0m [tags=a,b] [skip-tags=c]\n"} /^[a-zA-Z0-9_-]+:.*?##/ { printf "  \033[36m%-12s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
+	@awk 'BEGIN {FS = ":.*##"; printf "\n\033[1mUsage:\033[0m\n  make \033[36m<target>\033[0m [tags=a,b] [skip-tags=c]\n"} /^[a-zA-Z0-9_-]+:.*?##/ { printf "  \033[36m%-16s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
 	@printf "\n\033[1mTypical use:\033[0m\n  make \033[36mdry-run\033[0m, read the diff, then make \033[36mapply\033[0m\n\n"
 
 ##@ Provisioning
@@ -32,13 +32,23 @@ apply: $(ANSIBLE) .imported_roles ## Provision this machine for real
 
 ##@ Setup
 
-.PHONY: rcup
-rcup: ## Link the dotfiles into ~ (rcm)
-	rcup
-
 .PHONY: git-remote
 git-remote: ## Switch this repo's origin from https to ssh
 	git remote set-url origin git@github.com:ndench/provision-local.git
+
+##@ Dotfiles
+
+.PHONY: rcup
+rcup: ## Link dotfiles/ into ~ (rcm). Needed for new files; edits to existing ones are live
+	rcup
+
+.PHONY: mimeapps-check
+mimeapps-check: ## Diff the live mimeapps.list against dotfiles/ (apps replace the symlink)
+	diff ~/.config/mimeapps.list dotfiles/config/mimeapps.list
+
+.PHONY: mimeapps-update
+mimeapps-update: ## Pull the live mimeapps.list back into dotfiles/ and relink it
+	mkrc ~/.config/mimeapps.list
 
 .imported_roles: $(ANSIBLE) requirements.yml
 	ansible-galaxy install -r requirements.yml --force

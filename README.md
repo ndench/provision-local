@@ -63,6 +63,13 @@ $ make apply tags=foo,bar skip-tags=baz
 # Will pass --tags foo,bar --skip-tags baz to ansible-playbook
 ```
 
+## Dotfiles
+
+`dotfiles/` is linked into `~` with [rcm](https://github.com/thoughtbot/rcm): `dotfiles/zshrc` becomes
+`~/.zshrc`, `dotfiles/config/i3/config` becomes `~/.config/i3/config`, and `dotfiles/bin/*` goes to `~/bin/`.
+Edits to existing files take effect straight away. After adding a file, run `make rcup` to link it.
+(This used to be the separate `ndench/dotfiles` repo, which is archived with the older history.)
+
 ## Merging .pacnew files
 
 When a package ships a new default for a config file you've changed, pacman leaves it next to yours as

@@ -65,7 +65,7 @@
     daemon_reload: true
   loop: "{{ user_timers }}"
 
-# updates.sh comes from the dotfiles repo
+# updates.sh comes from dotfiles/bin
 - name: check for updates on boot and hourly
   ansible.builtin.cron:
     name: "check for updates {{ item }}"
@@ -75,18 +75,13 @@
     - reboot
     - hourly
 
+# Points rcm at dotfiles/ in this repo; `make rcup` does the linking
 - name: copy rcm config
-  ansible.builtin.copy:
-    src: home/rcrc
+  ansible.builtin.template:
+    src: rcrc.j2
     dest: "{{ ansible_facts.env.HOME }}/.rcrc"
+    mode: "0644"
     backup: true
-
-- name: clone dotfiles repo
-  ansible.builtin.git:
-    repo: "{{ dotfiles_repo }}"
-    dest: "{{ ansible_facts.env.HOME }}/.dotfiles"
-    accept_hostkey: true
-    update: false # only clone; never reset a working copy that has local or unpushed changes
 
 - name: copy wakatime config
   ansible.builtin.copy:

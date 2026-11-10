@@ -1,0 +1,64 @@
+[user]
+    email = ndenc2@gmail.com
+	name = Nathan Denchman
+[push]
+    default = simple
+    autoSetupRemote = true
+[core]
+    pager = diff-so-fancy | less --tabs=4 -RFXGJ
+[alias]
+    pl = pull --prune --ff-only
+    plr = pull --rebase --prune
+    pu = push
+    co = checkout
+    cob = checkout -b
+    sw = switch
+    swc = switch -c
+    br = branch
+    ci = commit
+    cm = commit --message
+    ca = commit --amend
+    can = commit --amend --no-edit
+    a = add
+    wd = diff --color-words="[^[:space:]]|([[:alnum:]]|UTF_8_GUARD)+"
+    d = diff
+    s = status --short --branch
+    l = log --pretty=tformat:'%C(green)%h %Creset%s%Cblue [%an %ad]' --date=relative --decorate
+    ll = log --pretty=tformat:'%C(green)%h%Cred%d %Creset%s%Cblue [%an %ad]' --date=relative --decorate --numstat
+    lb = log --pretty=tformat:'%C(green)%h %Creset%s%Cblue [%an %ad]' --date=relative --decorate main..
+    lg = log --graph --date=relative --pretty=tformat:'%Cgreen%h%Creset -%C(auto)%d%Creset %s %C(blue)[%an %ad]%Creset' --branches
+    pr = diff --shortstat main...
+    purge = "!git branch -vv | grep \\:\\ gone] | grep -v \\* | cut -c 3- | cut -d\\  -f 1"
+    purgef = "!git purge | xargs -n 1 git branch -D"
+    bump = "!git commit --allow-empty --message 'bumparoonie' && git pu"
+    rom = "rebase --onto main HEAD"
+    recent = for-each-ref --color=always --sort=-committerdate refs/heads/ --format='%(HEAD) %(color:green)%(objectname:short)%(color:reset) - %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:blue)[%(authorname) %(committerdate:relative)%(color:reset)]'
+[diff]
+    compactionHeuristic = true
+    tool = icdiff
+[difftool]
+    prompt = false
+[difftool "icdiff"]
+    cmd = /usr/bin/icdiff --line-numbers $LOCAL $REMOTE
+[color]
+    diff = auto
+    status = auto
+    branch = auto
+    interactive = auto
+    ui = true
+    pager = true
+[color "diff"]
+    commit = green
+    meta = yellow
+    frag = cyan
+    old = red
+    new = green
+    whitespace = red reverse
+[init]
+	defaultBranch = main
+[credential "https://github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
