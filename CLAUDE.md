@@ -64,6 +64,8 @@ This repo provisions the machine you're running on, so commands act on the user'
 
 sudo needs a password, so Claude can't run it. When something needs root (installing a package, `make apply`), give the user the command to run in their own terminal, and don't suggest running it in the session with the `!` prefix.
 
+Don't reach for a long-running watcher script (an `exec_always` loop on i3 IPC, `xev`, polling) to fix desktop behaviour. Find a static fix first: i3 criteria (including the less obvious ones like `floating_from`, `window_role`, `machine`), app settings, or picom rules. For example, Zoom's popups are told apart by `floating_from="auto"`, not a size-checking watcher. If a watcher really is the only option, explain why and ask before adding one.
+
 ## Git
 
 Commit straight to `master` and push; don't create feature branches or PRs. If you're in a worktree on another branch, push with `git push origin HEAD:master`.
