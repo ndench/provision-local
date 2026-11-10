@@ -24,6 +24,7 @@ pacman_packages:
   #- alsa-utils
   #- arc-gtk-theme
   #- arc-icon-theme
+  - ansible-lint # lints this repo
   - aws-cli-v2
   #- dconf-editor
   - diff-so-fancy
