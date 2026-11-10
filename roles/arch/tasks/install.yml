@@ -7,10 +7,19 @@
   changed_when: false
   failed_when: false
 
+- name: download pritunl repo signing key
+  ansible.builtin.get_url:
+    url: https://raw.githubusercontent.com/pritunl/pgp/master/pritunl_repo_pub.asc
+    dest: /tmp/pritunl_repo_pub.asc
+    mode: "0644"
+  when: pritunl_key.rc != 0
+
 - name: add pritunl repo signing key
-  ansible.builtin.shell: >
-    curl -fsSL https://raw.githubusercontent.com/pritunl/pgp/master/pritunl_repo_pub.asc | pacman-key --add -
-    && pacman-key --lsign-key {{ pritunl_key_id }}
+  ansible.builtin.command: "{{ item }}"
+  loop:
+    - pacman-key --add /tmp/pritunl_repo_pub.asc
+    - pacman-key --lsign-key {{ pritunl_key_id }}
+  changed_when: true # only runs when the key is missing
   when: pritunl_key.rc != 0
 
 # Based on the upstream default. When pacman installs a pacman.conf.pacnew, merge it into
@@ -51,7 +60,8 @@
     state: started
     daemon_reload: true
 
-- ansible.builtin.meta: flush_handlers
+- name: run handlers now
+  ansible.builtin.meta: flush_handlers
 
 - name: create pacman hooks directory
   ansible.builtin.file:

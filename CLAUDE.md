@@ -56,7 +56,7 @@ make rcup
 - Nvidia early KMS (mkinitcpio `MODULES`, `kms` hook removed) is required: without it Xorg can start before nvidia-drm and come up intel-only (black screen / dead dock monitors). It fits the 260M `/boot` because dropping `kms` removes nouveau's firmware
 - Secrets are managed with Ansible Vault (password file: `.ansible_vault.pass`)
 - The Makefile auto-installs Ansible (pacman) and `requirements.yml` (the sudo role and the `kewlfft.aur` collection, pinned, into `.imported_roles/`) when missing or changed
-- Modules use FQCNs (`ansible.builtin.*`, `community.general.*`, `kewlfft.aur.aur`); lint with `uvx ansible-lint` (config in `.ansible-lint`; the two `community.general` unknown-module errors are false positives from uvx's isolated env)
+- Modules use FQCNs (`ansible.builtin.*`, `community.general.*`, `kewlfft.aur.aur`); lint with `ansible-lint` (installed from pacman; config in `.ansible-lint`)
 
 ## Working on the live machine
 

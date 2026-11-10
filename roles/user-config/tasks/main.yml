@@ -1,7 +1,7 @@
 ---
 
 - name: read ssh public key for github
-  ansible.builtin.shell: cat "{{ ansible_facts.env.HOME }}/.ssh/id_ed25519.pub"
+  ansible.builtin.command: cat "{{ ansible_facts.env.HOME }}/.ssh/id_ed25519.pub"
   register: ssh_pub_key
   changed_when: false
   check_mode: false # read-only, and the next task needs its output
