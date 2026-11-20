@@ -149,7 +149,7 @@ Reviewed on 8 Nov 2026. Everything not listed here was deliberately left behind.
     - sign in to 1Password and enable the SSH agent (`~/.ssh/config` uses `~/.1password/agent.sock`)
     - re-enrol `drata-agent`
     - [add pritunl profiles](https://client.pritunl.com/)
-    - install Claude Code (`curl -fsSL https://claude.ai/install.sh | bash`) and the node versions you need with `nvm`
+    - install Claude Code (`curl -fsSL https://claude.ai/install.sh | bash`). Node comes from mise, which reads each repo's `.nvmrc`
     - `sudo smbpasswd -a nathan`
     - `sudo sensors-detect`
 - [ ] Check early KMS worked: `lsinitcpio /boot/initramfs-linux.img | grep nvidia`

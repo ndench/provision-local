@@ -99,7 +99,6 @@ pacman_packages:
   - xterm
   - docker-buildx
   - xss-lock
-  - nvm
   - github-cli
   - bluez
   - bluez-utils
@@ -194,6 +193,7 @@ pacman_packages:
   - mariadb-clients
   - valkey
   - just
+  - mise # ProcurePro tools, from ~/git/hyraiq/hyraiq-home/mise.toml
   - bun
   - patchelf
   - debugedit
@@ -242,6 +242,7 @@ pacman_packages_absent:
   - ansible-aur-git # replaced by the kewlfft.aur collection in requirements.yml
   - electron32-bin # orphaned
   - electron33-bin # orphaned
+  - nvm # replaced by mise, which reads .nvmrc
   # Dead ArchLabs repo; the dotfiles use Adwaita and i3-msg instead
   - archlabs-baph
   - archlabs-fonts

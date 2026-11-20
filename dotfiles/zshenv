@@ -11,8 +11,3 @@ for dir in "$HOME/.local/bin" "$HOME/bin"; do
 done
 unset dir
 export PATH
-
-# Node Version Manager (the nvm package installs it to /usr/share/nvm)
-export NVM_DIR="$HOME/.nvm"
-export NVM_SOURCE="/usr/share/nvm"
-[ -s "$NVM_SOURCE/nvm.sh" ] && . "$NVM_SOURCE/nvm.sh"

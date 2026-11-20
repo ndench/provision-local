@@ -40,16 +40,15 @@ prompt simpl
 # use neovim
 export EDITOR=nvim
 
-# Set up Node Version Manager
-export NVM_DIR="$HOME/.nvm"                            # You can change this if you want.
-export NVM_SOURCE="/usr/share/nvm"                     # The AUR package installs it to here.
-[ -s "$NVM_SOURCE/nvm.sh" ] && . "$NVM_SOURCE/nvm.sh"  # Load NVM
-
 #export GEM_HOME=$(ruby -e 'print Gem.user_dir')
 #export PATH=$PATH:~/.bin:$GEM_HOME/bin
 
 # enable topcat aliases
 export PATH=$HOME/git/hyraiq/topcat/.bin:$PATH
+
+# mise: tool versions per directory. ~/git/hyraiq/mise.toml links to hyraiq-home's
+# shared config (op, aws, varlock, just, ...), which its `mise run check` expects
+command -v mise >/dev/null && eval "$(mise activate zsh)"
 
 # Enable custom autocompletion
 autoload -Uz compinit
