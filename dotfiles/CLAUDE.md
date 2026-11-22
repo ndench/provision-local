@@ -25,7 +25,7 @@ Run these from the repo root:
 ## Desktop wiring (spans several files)
 
 - `xprofile` runs at login: starts picom, tray applets (nm-applet, blueman, volumeicon), polkit/keyring, and sets `xset` DPMS and key repeat.
-- `config/i3/config` is the window manager: keybindings, autostart `exec`s (xautolock running `bin/lock`, which runs i3lock then `xset s activate` so 1Password locks too; a random wallpaper per monitor with feh; drata-agent; cadence-app), and launchers that call scripts in `bin/` (`rofi_run -r/-l/-q` for run, logout and quit menus). Terminal is ghostty (`config/ghostty`).
+- `config/i3/config` is the window manager: keybindings, autostart `exec`s (xautolock running `bin/lock`, which runs i3lock then `xset s activate` so 1Password locks too; a random wallpaper per monitor via `bin/wallpaper`, which the `screenlayout/` scripts rerun after xrandr; drata-agent; cadence-app), and launchers that call scripts in `bin/` (`rofi_run -r/-l/-q` for run, logout and quit menus). Terminal is ghostty (`config/ghostty`).
 - Polybar isn't installed (i3bar + i3status is used); its config is kept but dead. `config/polybar/config` includes `master.conf` and `modules.conf` by **absolute path** (`/home/nathan/.config/polybar/...`); bars are chosen by `bin/polybar-session` using `config/polybar/sessions`.
 - `zshenv` and `profile` both set PATH (`~/bin` and `~/.local/bin`); keep them in sync. `profile` is what the lightdm X session reads, so it's what i3/rofi-launched apps see.
 - i3 doesn't start `xdg-desktop-autostart.target`, so nothing in `~/.config/autostart` (or `/etc/xdg/autostart`) runs. Those files belong to the apps' own "start at login" toggles and aren't tracked here; start apps at login with an `exec` in `config/i3/config` instead.

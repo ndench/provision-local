@@ -1,0 +1,6 @@
+#!/bin/sh
+# Random wallpaper from archlinux-wallpaper, a different one per monitor.
+# Run at login (i3) and after every xrandr change (screenlayout/*.sh): the
+# root pixmap is sized for the old layout, so it must be redrawn to match.
+cd /usr/share/backgrounds/archlinux || exit 1
+exec feh --no-fehbg --randomize --bg-fill archwave.png awesome.png conference.png geolanes.png geowaves.png landscape.jpg lone.jpg mountain.jpg reflected.jpg simple.png small.png snow.jpg split.png sunset.jpg svalbard.jpg wave.png wild.png
