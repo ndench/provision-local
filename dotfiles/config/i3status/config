@@ -8,6 +8,7 @@ general {
 
 order += "battery all"
 order += "disk /"
+order += "cpu_temperature 0"
 order += "load"
 order += "memory"
 order += "tztime local"
@@ -18,6 +19,13 @@ battery all {
 
 disk "/" {
         format = "%avail"
+}
+
+# CPU package temperature. hwmon numbers change between boots, so glob the coretemp path.
+cpu_temperature 0 {
+        format = "%degrees°C"
+        max_threshold = 90
+        path = "/sys/devices/platform/coretemp.0/hwmon/hwmon*/temp1_input"
 }
 
 load {
